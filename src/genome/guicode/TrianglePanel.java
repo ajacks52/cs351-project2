@@ -21,7 +21,7 @@ public class TrianglePanel extends JPanel
 {
   private int height;
   private int width;
-  private List<Triangle> triangles;
+  private List<Triangle> triangles = new ArrayList();
   private int count = 200;
   /**
    * @param height
@@ -86,8 +86,11 @@ public class TrianglePanel extends JPanel
   
   public void paintComponent(Graphics canvas)
   {
-    for (Triangle t : triangles.subList(0, this.count))
+    int i = 0;
+    for (Triangle t : triangles)
     {
+      if (i++ >= this.count) break;
+      if (t == null) continue;
       canvas.setColor(t.getColor());
       canvas.fillPolygon(t.getPolygon());
     }
