@@ -21,18 +21,42 @@ public class TrianglePanel extends JPanel
 {
   private int height;
   private int width;
-  private List<Triangle> triangles = new ArrayList();
+  private static List<Triangle> triangles = new ArrayList();
   private int count = 200;
   /**
    * @param height
    * @param width
+   * @param panel 
+   * @param panel 
    */
   public TrianglePanel(int width, int height)
   {
     this.width = width;
     this.height = height;
+    this.setPreferredSize(new Dimension(width+5,height+5));    
+        
+    ArrayList<Triangle> triangles = new ArrayList<Triangle>(200);
+    for (int i=0; i < 200; i++)
+    {
+      triangles.add(Triangle.randomTriangleIn(width, height));
+    }
+    
+    this.displayTriangles(triangles);
+    try
+    {
+      Thread.sleep(2000);
+    } catch (InterruptedException e)
+    {
+      e.printStackTrace();
+    }
+    this.setTriangleCount(20);
+    
+    this.setVisible(true);
     
   }
+    
+    
+  
   
   
   /**
@@ -62,30 +86,19 @@ public class TrianglePanel extends JPanel
   {
     int width = 512;
     int height = 413;
-    ArrayList<Triangle> triangles = new ArrayList<Triangle>(200);
-    for (int i=0; i < 200; i++)
-    {
-      triangles.add(Triangle.randomTriangleIn(width, height));
-    }
+ 
     
     JFrame frame = new JFrame();
     TrianglePanel panel = new TrianglePanel(width,height);
     frame.add(panel);
-    frame.setSize(new Dimension(width+20,height+40));
+    frame.setSize(new Dimension(width+75,height+85));
     panel.displayTriangles(triangles);
     frame.setVisible(true);
-    try
-    {
-      Thread.sleep(2000);
-    } catch (InterruptedException e)
-    {
-      e.printStackTrace();
-    }
-    panel.setTriangleCount(20);
   }
   
   public void paintComponent(Graphics canvas)
   {
+    canvas.drawRect (25, 25, 512, 413);  
     int i = 0;
     for (Triangle t : triangles)
     {

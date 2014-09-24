@@ -1,13 +1,24 @@
 package genome.guicode;
 
+import genome.types.Triangle;
+
 import java.io.File;
 import java.io.IOException;
+
 import javax.imageio.ImageIO;
+
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.BufferedImage;
+
 import javax.swing.*;
+import javax.swing.border.BevelBorder;
+import javax.swing.border.Border;
+import javax.swing.border.EtchedBorder;
+import javax.swing.border.SoftBevelBorder;
+
 import java.lang.*;
+import java.util.ArrayList;
 
 /***
  * 
@@ -23,9 +34,9 @@ public class MainFrame implements Runnable
   BufferedImage bImage3;
   BufferedImage bImage4 = null;
   JFrame mainFrame;
-  JPanel buttonPanel;
-  JPanel trianglePanel;
-  JPanel picturePanel;
+  ButtonPanel buttonPanel;
+  TrianglePanel trianglePanel;
+  PicturePanel picturePanel;
   private JPanel panel;
   private GridBagConstraints gbc;
   int maxPictSizeX;
@@ -70,14 +81,21 @@ public class MainFrame implements Runnable
     mainFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
     
     buttonPanel = new ButtonPanel();
-    picturePanel = new PicturePanel();
+    picturePanel = new PicturePanel(600,445,bImage1);
 //    trianglePanel = new PicturePanel();
 
-    trianglePanel = new TrianglePanel(550, maxPictSizeY);
+
+    
     
     panel = new JPanel(new BorderLayout());
-    gbc = new GridBagConstraints();
+   // gbc = new GridBagConstraints();
+    
+   // picturePanel.setBorder(new SoftBevelBorder(BevelBorder.LOWERED));
+    
+    
+    trianglePanel = new TrianglePanel(600, 445);
 
+    //picturePanel.setPicture(bImage1);
     panel.add(picturePanel,BorderLayout.WEST);
     panel.add(trianglePanel,BorderLayout.EAST);
     panel.add(buttonPanel,BorderLayout.PAGE_END);
