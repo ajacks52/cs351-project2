@@ -1,9 +1,18 @@
 package genome.guicode;
 
-public class MainFrame
+import javax.swing.JFrame;
+
+/***
+ * 
+ * @author Adam Mitchell
+ * 
+ * The main frame for our program
+ *
+ */
+public class MainFrame extends JFrame
 {
   public static void main(String[] args)
   {
-    // TODO Auto-generated method stub
+    
   }
 }

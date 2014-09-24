@@ -1,9 +1,17 @@
 package genome.guicode;
 
-public class GoalResultPanel
+import javax.swing.JPanel;
+
+/***
+ * 
+ * @author Adam Mitchell
+ * 
+ * Displays the pictures that our algorithms will try to emulate
+ */
+public class GoalResultPanel extends JPanel
 {
   public static void main(String[] args)
   {
-    // TODO Auto-generated method stub
+
   }
 }
