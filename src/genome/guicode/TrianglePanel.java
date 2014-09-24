@@ -38,7 +38,7 @@ public class TrianglePanel extends JPanel
     ArrayList<Triangle> triangles = new ArrayList<Triangle>(200);
     for (int i=0; i < 200; i++)
     {
-      triangles.add(Triangle.randomTriangleIn(width, height));
+      triangles.add(Triangle.randomTriangleIn(512, 413));
     }
     
     this.displayTriangles(triangles);
@@ -49,7 +49,7 @@ public class TrianglePanel extends JPanel
     {
       e.printStackTrace();
     }
-    this.setTriangleCount(20);
+    this.setTriangleCount(200);
     
     this.setVisible(true);
     

@@ -34,10 +34,19 @@ public class Triangle
   public static Triangle randomTriangleIn(int width, int height)
   {
     Random rand = Constants.random;
-    return new Triangle(rand.nextInt(width), rand.nextInt(height), 
-                        rand.nextInt(width), rand.nextInt(height), 
-                        rand.nextInt(width), rand.nextInt(height), 
-                        rand.nextInt());
+
+//    return new Triangle(rand.nextInt(width), rand.nextInt(height), 
+//                        rand.nextInt(width), rand.nextInt(height), 
+//                        rand.nextInt(width), rand.nextInt(height), 
+//                        rand.nextInt());
+    
+    /**
+     * my change so they draw them selves inside the box on our mainframe
+     */
+    return new Triangle((int)(Math.random()*width)+25, (int)(Math.random()*height)+25, 
+        (int)(Math.random()*width)+25, (int)(Math.random()*height)+25, 
+        (int)(Math.random()*width)+25, (int)(Math.random()*height)+25, 
+        rand.nextInt());
   }
   
   
