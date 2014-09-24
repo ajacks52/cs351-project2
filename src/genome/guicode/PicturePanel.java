@@ -18,11 +18,14 @@ public class PicturePanel extends JPanel
   {
     Dimension dim = new Dimension();
     dim.height = 400;
-    dim.width = 450;
+    dim.width = 550;
     
-    this.setMinimumSize(dim);
+    this.setPreferredSize(dim);
     this.setVisible(true);
-    this.setBackground(new Color(255, 255, 255));
+    this.setBackground(Color.BLUE);
+    
+
+
     
   }
   
