@@ -1,52 +1,47 @@
 package genome.guicode;
 
-import genome.types.Triangle;
-
 import java.io.File;
 import java.io.IOException;
-
 import javax.imageio.ImageIO;
-
 import java.awt.*;
-import java.awt.event.*;
 import java.awt.image.BufferedImage;
-
 import javax.swing.*;
-import javax.swing.border.BevelBorder;
-import javax.swing.border.Border;
-import javax.swing.border.EtchedBorder;
-import javax.swing.border.SoftBevelBorder;
-
-import java.lang.*;
-import java.util.ArrayList;
 
 /***
  * 
  * @author Adam Mitchell
  * 
- * The main frame for our program
+ *         The main frame for our program
  *
  */
 public class MainFrame implements Runnable
 {
-  BufferedImage bImage1;
-  BufferedImage bImage2;
-  BufferedImage bImage3;
-  BufferedImage bImage4 = null;
-  JFrame mainFrame;
-  ButtonPanel buttonPanel;
-  TrianglePanel trianglePanel;
-  PicturePanel picturePanel;
-  private JPanel panel;
-  private GridBagConstraints gbc;
-  int maxPictSizeX;
-  int maxPictSizeY;
+  public BufferedImage bImage1;
+  public BufferedImage bImage2;
+  public BufferedImage bImage3;
+  public BufferedImage bImage4;
+
+  private JFrame mainFrame;
+  private ButtonPanel buttonPanel;
+  private TrianglePanel trianglePanel;
+  private PicturePanel picturePanel;
+  private JPanel containerPanel;
+
+  final int FRAME_SIZE_X = 1100;
+  final int FRAME_SIZE_Y = 700;
+  int maxPicX;
+  int maxPicY;
+  private BufferedImage bImage6;
+  private BufferedImage bImage5;
+  private BufferedImage bImage7;
+  private BufferedImage bImage8;
 
   /**
    * constructor
    */
   public MainFrame()
-  {}
+  {
+  }
 
   /**
    * initializes the images and other set up info
@@ -56,54 +51,54 @@ public class MainFrame implements Runnable
    */
   public int init()
   {
+    
+    File f1 = new File("images/Leonardo_da_Vinci-Mona-Lisa-460x363.png");
+    File f2 = new File("images/Claude_Monet-Poppy_Fields-450x338.png");
+    File f3 = new File("images/Hokusai-Great_Wave_Off_Kanagawa-450x309.png");
+    File f4 = new File("images/Hokusai-Great_Wave_Off_Kanagawa-200x137.png");
+    File f5 = new File("images/Carson-408x369.png");
+    File f6 = new File("images/Gummi_Bears-299x339.png");
+    File f7 = new File("images/Old_House-300x331.png");
+    File f8 = new File("images/Hot_Air_Balloon-400x300.png");
+  
     try
     {
-      bImage1 = ImageIO.read(new File("resources/mona-lisa-cropted-512x413.png"));
-      bImage2 = ImageIO.read(new File("resources/poppyfields-512x384.png"));
-      bImage3 = ImageIO.read(new File("resources/the_great_wave_off_kanagawa-512x352.png"));
-      bImage4 = ImageIO.read(new File("resources/mona-lisa-cropted-512x413.png")); 
-
+      bImage1 = ImageIO.read(f1);
+      bImage2 = ImageIO.read(f2);
+      bImage3 = ImageIO.read(f3);
+      bImage4 = ImageIO.read(f4);
+      bImage5 = ImageIO.read(f5);
+      bImage6 = ImageIO.read(f6);
+      bImage7 = ImageIO.read(f7);
+      bImage8 = ImageIO.read(f8);
     }
     catch (IOException e)
     {
       e.printStackTrace();
       return -1;
     }
-    maxPictSizeY = Math.max(bImage1.getHeight(),
-        Math.max(bImage2.getHeight(), Math.max(bImage3.getHeight(), bImage4.getHeight())));
-    maxPictSizeX = Math.max(bImage1.getWidth(),
+    maxPicX = Math.max(bImage1.getWidth(),
         Math.max(bImage2.getWidth(), Math.max(bImage3.getWidth(), bImage4.getWidth())));
-    
-    System.out.println("x " + maxPictSizeX + " y " + maxPictSizeY );
-    
+    maxPicY = Math.max(bImage1.getHeight(),
+        Math.max(bImage2.getHeight(), Math.max(bImage3.getHeight(), bImage4.getHeight())));
+
+    System.out.println("max x: " + maxPicX + ", max y: " + maxPicY);
+
     mainFrame = new JFrame("Triangle Genome");
-    mainFrame.setPreferredSize(new Dimension(1200, 700));
+    mainFrame.setPreferredSize(new Dimension(FRAME_SIZE_X, FRAME_SIZE_Y));
     mainFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+   
+    buttonPanel = new ButtonPanel(f1, f2, f3, f4, f5, f6, f7, f8);
+    picturePanel = new PicturePanel(bImage1.getWidth(), bImage1.getHeight(), bImage1);
+    trianglePanel = new TrianglePanel(bImage1.getWidth(),  bImage1.getHeight());
+    containerPanel = new JPanel(new BorderLayout());
     
-    buttonPanel = new ButtonPanel();
-    picturePanel = new PicturePanel(600,445,bImage1);
-//    trianglePanel = new PicturePanel();
-
-
-    
-    
-    panel = new JPanel(new BorderLayout());
-   // gbc = new GridBagConstraints();
-    
-   // picturePanel.setBorder(new SoftBevelBorder(BevelBorder.LOWERED));
-    
-    
-    trianglePanel = new TrianglePanel(600, 445);
-
-    //picturePanel.setPicture(bImage1);
-    panel.add(picturePanel,BorderLayout.WEST);
-    panel.add(trianglePanel,BorderLayout.EAST);
-    panel.add(buttonPanel,BorderLayout.PAGE_END);
-    
-    mainFrame.getContentPane().add(panel);
+    containerPanel.add(picturePanel, BorderLayout.WEST);
+    containerPanel.add(trianglePanel, BorderLayout.EAST);
+    containerPanel.add(buttonPanel, BorderLayout.PAGE_END);
+    mainFrame.getContentPane().add(containerPanel);
     mainFrame.pack();
     mainFrame.setVisible(true);
-
     return 1;
   }
 
@@ -114,7 +109,6 @@ public class MainFrame implements Runnable
    */
   public static void main(String[] args)
   {
-    // MainFrame genomeGui = new MainFrame();
     SwingUtilities.invokeLater(new MainFrame());
   }
 
@@ -123,5 +117,4 @@ public class MainFrame implements Runnable
   {
     init();
   }
-
 }

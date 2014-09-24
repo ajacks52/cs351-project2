@@ -21,6 +21,8 @@ public class TrianglePanel extends JPanel
 {
   private int height;
   private int width;
+  private final static int PANEL_H = 445;
+  private final static int PANEL_W = 550;
   private static List<Triangle> triangles = new ArrayList();
   private int count = 200;
   /**
@@ -33,12 +35,12 @@ public class TrianglePanel extends JPanel
   {
     this.width = width;
     this.height = height;
-    this.setPreferredSize(new Dimension(width+5,height+5));    
+    this.setPreferredSize(new Dimension(PANEL_W,PANEL_H));    
         
     ArrayList<Triangle> triangles = new ArrayList<Triangle>(200);
     for (int i=0; i < 200; i++)
     {
-      triangles.add(Triangle.randomTriangleIn(512, 413));
+      triangles.add(Triangle.randomTriangleIn(width, height));
     }
     
     this.displayTriangles(triangles);
@@ -86,19 +88,18 @@ public class TrianglePanel extends JPanel
   {
     int width = 512;
     int height = 413;
- 
     
     JFrame frame = new JFrame();
     TrianglePanel panel = new TrianglePanel(width,height);
     frame.add(panel);
-    frame.setSize(new Dimension(width+75,height+85));
+    frame.setSize(new Dimension(PANEL_W,PANEL_H));
     panel.displayTriangles(triangles);
     frame.setVisible(true);
   }
   
   public void paintComponent(Graphics canvas)
   {
-    canvas.drawRect (25, 25, 512, 413);  
+    canvas.drawRect (25, 25, width, height);  
     int i = 0;
     for (Triangle t : triangles)
     {
