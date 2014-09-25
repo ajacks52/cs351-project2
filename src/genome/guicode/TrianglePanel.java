@@ -126,7 +126,7 @@ public class TrianglePanel extends JPanel
       // TODO Auto-generated catch block
       e.printStackTrace();
     }
-    panel.updateTriangles(triangles, width, height, 10);
+    panel.setTriangleCount(10);
   }
   
   public void paintComponent(Graphics canvas)
