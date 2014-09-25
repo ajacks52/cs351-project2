@@ -16,25 +16,26 @@ import javax.swing.*;
  */
 public class MainFrame implements Runnable
 {
-  public BufferedImage bImage1;
-  public BufferedImage bImage2;
-  public BufferedImage bImage3;
-  public BufferedImage bImage4;
+  public static BufferedImage bImage1;
+  public static BufferedImage bImage2;
+  public static BufferedImage bImage3;
+  public static BufferedImage bImage4;
+  public static BufferedImage bImage6;
+  public static BufferedImage bImage5;
+  public static BufferedImage bImage7;
+  public static BufferedImage bImage8;
+  public static BufferedImage bImage9;
+
+  final static int FRAME_SIZE_X = 1100;
+  final static int FRAME_SIZE_Y = 800;
+  public static int maxPicX;
+  public static int maxPicY;
+  public static PicturePanel picturePanel;
 
   private JFrame mainFrame;
   private ButtonPanel buttonPanel;
-  private TrianglePanel trianglePanel;
-  private PicturePanel picturePanel;
+  public static TrianglePanel trianglePanel;
   private JPanel containerPanel;
-
-  final int FRAME_SIZE_X = 1100;
-  final int FRAME_SIZE_Y = 700;
-  int maxPicX;
-  int maxPicY;
-  private BufferedImage bImage6;
-  private BufferedImage bImage5;
-  private BufferedImage bImage7;
-  private BufferedImage bImage8;
 
   /**
    * constructor
@@ -51,48 +52,36 @@ public class MainFrame implements Runnable
    */
   public int init()
   {
-    
-    File f1 = new File("images/Leonardo_da_Vinci-Mona-Lisa-460x363.png");
-    File f2 = new File("images/Claude_Monet-Poppy_Fields-450x338.png");
-    File f3 = new File("images/Hokusai-Great_Wave_Off_Kanagawa-450x309.png");
-    File f4 = new File("images/Hokusai-Great_Wave_Off_Kanagawa-200x137.png");
-    File f5 = new File("images/Carson-408x369.png");
-    File f6 = new File("images/Gummi_Bears-299x339.png");
-    File f7 = new File("images/Old_House-300x331.png");
-    File f8 = new File("images/Hot_Air_Balloon-400x300.png");
-  
+
     try
     {
-      bImage1 = ImageIO.read(f1);
-      bImage2 = ImageIO.read(f2);
-      bImage3 = ImageIO.read(f3);
-      bImage4 = ImageIO.read(f4);
-      bImage5 = ImageIO.read(f5);
-      bImage6 = ImageIO.read(f6);
-      bImage7 = ImageIO.read(f7);
-      bImage8 = ImageIO.read(f8);
+      bImage1 = ImageIO.read(LoadPictures.f1);
+      bImage2 = ImageIO.read(LoadPictures.f2);
+      bImage3 = ImageIO.read(LoadPictures.f3);
+      bImage4 = ImageIO.read(LoadPictures.f4);
+      bImage5 = ImageIO.read(LoadPictures.f5);
+      bImage6 = ImageIO.read(LoadPictures.f6);
+      bImage7 = ImageIO.read(LoadPictures.f7);
+      bImage8 = ImageIO.read(LoadPictures.f8);
+      bImage9 = ImageIO.read(LoadPictures.f9);
     }
     catch (IOException e)
     {
       e.printStackTrace();
       return -1;
     }
-    maxPicX = Math.max(bImage1.getWidth(),
-        Math.max(bImage2.getWidth(), Math.max(bImage3.getWidth(), bImage4.getWidth())));
-    maxPicY = Math.max(bImage1.getHeight(),
-        Math.max(bImage2.getHeight(), Math.max(bImage3.getHeight(), bImage4.getHeight())));
 
-    System.out.println("max x: " + maxPicX + ", max y: " + maxPicY);
+
 
     mainFrame = new JFrame("Triangle Genome");
     mainFrame.setPreferredSize(new Dimension(FRAME_SIZE_X, FRAME_SIZE_Y));
     mainFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-   
-    buttonPanel = new ButtonPanel(f1, f2, f3, f4, f5, f6, f7, f8);
+
+    buttonPanel = new ButtonPanel();
     picturePanel = new PicturePanel(bImage1.getWidth(), bImage1.getHeight(), bImage1);
-    trianglePanel = new TrianglePanel(bImage1.getWidth(),  bImage1.getHeight());
+    trianglePanel = new TrianglePanel(bImage1.getWidth(), bImage1.getHeight());
     containerPanel = new JPanel(new BorderLayout());
-    
+
     containerPanel.add(picturePanel, BorderLayout.WEST);
     containerPanel.add(trianglePanel, BorderLayout.EAST);
     containerPanel.add(buttonPanel, BorderLayout.PAGE_END);
