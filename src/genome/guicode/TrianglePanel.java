@@ -7,6 +7,7 @@ import genome.types.Triangle;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 
@@ -21,10 +22,11 @@ public class TrianglePanel extends JPanel
 {
   private int height;
   private int width;
-  private final static int PANEL_H = 445;
+  private final static int PANEL_H = 550;
   private final static int PANEL_W = 550;
   private static List<Triangle> triangles = new ArrayList();
   private int count = 200;
+  
   /**
    * @param height
    * @param width
@@ -58,7 +60,19 @@ public class TrianglePanel extends JPanel
   }
     
     
-  
+  public void updataPanel(int width, int height)
+  {
+    this.width = width; 
+    this.height = height;
+    
+    
+    ArrayList<Triangle> triangles = new ArrayList<Triangle>(200);
+    for (int i=0; i < 200; i++)
+    {
+      triangles.add(Triangle.randomTriangleIn(width, height));
+    }
+   displayTriangles(triangles); 
+  }
   
   
   /**
@@ -99,7 +113,7 @@ public class TrianglePanel extends JPanel
   
   public void paintComponent(Graphics canvas)
   {
-    canvas.drawRect (25, 25, width, height);  
+    canvas.drawRect (25, 25, width+1, height+1); 
     int i = 0;
     for (Triangle t : triangles)
     {
