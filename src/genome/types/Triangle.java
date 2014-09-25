@@ -41,6 +41,16 @@ public class Triangle
                         rand.nextInt());
   }
   
+  public static Triangle[] randomGenome(int count, int width, int height)
+  {
+    Triangle[] ts = new Triangle[count];
+    for (int i=0; i < count; i++)
+    {
+      ts[i] = randomTriangleIn(width,height);
+    }
+    return ts;
+  }
+  
   
   public Point getPoint1()
   {
