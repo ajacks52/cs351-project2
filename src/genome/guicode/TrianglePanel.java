@@ -11,6 +11,8 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 
+import java.awt.Polygon;
+
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
@@ -120,8 +122,11 @@ public class TrianglePanel extends JPanel
       if (i++ >= this.count) break;
       if (t == null) continue;
       canvas.setColor(t.getColor());
-      canvas.fillPolygon(t.getPolygon());
+      Polygon p = t.getPolygon();
+      p.translate(25, 25);
+      canvas.fillPolygon(p);
     }
   }
+  
 
 }
