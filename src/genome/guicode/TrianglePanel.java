@@ -90,6 +90,9 @@ public class TrianglePanel extends JPanel
 
   public void displayTriangles(Triangle[] triangles, int x, int y)
   {
+    /*
+     * added this buffered image
+     */
     paintCanvas = new BufferedImage(x, y, BufferedImage.TYPE_INT_RGB);
     Graphics2D graphics = paintCanvas.createGraphics();
 
