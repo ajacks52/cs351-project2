@@ -40,7 +40,7 @@ public class TrianglePanel extends JPanel
     this.height = height;
     this.setPreferredSize(new Dimension(PANEL_W,PANEL_H));    
    
-    this.triangles = Triangle.randomGenome(200, width, height);
+   // this.triangles = Triangle.randomGenome(200, width, height);
     this.repaint();
   }
     

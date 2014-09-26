@@ -1,5 +1,7 @@
 package genome.guicode;
 
+import genome.types.Triangle;
+
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -49,44 +51,43 @@ public class PicturePanel extends JPanel
     {
     case "Leonardo_da_Vinci-Mona-Lisa-460x363.png":
       currentImage = MainFrame.bImage1;
-      MainFrame.trianglePanel.updataPanel(MainFrame.bImage1.getWidth(), MainFrame.bImage1.getHeight());
-
+      MainFrame.trianglePanel.displayTriangles(Triangle.randomGenome(200, MainFrame.bImage1.getWidth(), MainFrame.bImage1.getHeight()));
       break;
     case "Claude_Monet-Poppy_Fields-450x338.png":
       currentImage = MainFrame.bImage2;
-      MainFrame.trianglePanel.updataPanel(MainFrame.bImage2.getWidth(), MainFrame.bImage2.getHeight());
+      MainFrame.trianglePanel.displayTriangles(Triangle.randomGenome(200, MainFrame.bImage2.getWidth(), MainFrame.bImage2.getHeight()));
       break;
     case "Hokusai-Great_Wave_Off_Kanagawa-450x309.png":
       currentImage = MainFrame.bImage3;
-      MainFrame.trianglePanel.updataPanel(MainFrame.bImage3.getWidth(), MainFrame.bImage3.getHeight());
+      MainFrame.trianglePanel.displayTriangles(Triangle.randomGenome(200, MainFrame.bImage3.getWidth(), MainFrame.bImage3.getHeight()));
       break;
     case "Hokusai-Great_Wave_Off_Kanagawa-200x137.png":
       currentImage = MainFrame.bImage4;
-      MainFrame.trianglePanel.updataPanel(MainFrame.bImage4.getWidth(), MainFrame.bImage4.getHeight());
+      MainFrame.trianglePanel.displayTriangles(Triangle.randomGenome(200, MainFrame.bImage4.getWidth(), MainFrame.bImage4.getHeight()));
       break;
     case "Carson-408x369.png":
       currentImage = MainFrame.bImage5;
-      MainFrame.trianglePanel.updataPanel(MainFrame.bImage5.getWidth(), MainFrame.bImage5.getHeight());
+      MainFrame.trianglePanel.displayTriangles(Triangle.randomGenome(200, MainFrame.bImage5.getWidth(), MainFrame.bImage5.getHeight()));
       break;
     case "Gummi_Bears-299x339.png":
       currentImage = MainFrame.bImage6;
-      MainFrame.trianglePanel.updataPanel(MainFrame.bImage6.getWidth(), MainFrame.bImage6.getHeight());
+      MainFrame.trianglePanel.displayTriangles(Triangle.randomGenome(200, MainFrame.bImage6.getWidth(), MainFrame.bImage6.getHeight()));
       break;
     case "Old_House-300x331.png":
       currentImage = MainFrame.bImage7;
-      MainFrame.trianglePanel.updataPanel(MainFrame.bImage7.getWidth(), MainFrame.bImage7.getHeight());
+      MainFrame.trianglePanel.displayTriangles(Triangle.randomGenome(200, MainFrame.bImage7.getWidth(), MainFrame.bImage7.getHeight()));
       break;
     case "Hot_Air_Balloon-400x300.png":
       currentImage = MainFrame.bImage8;
-      MainFrame.trianglePanel.updataPanel(MainFrame.bImage8.getWidth(), MainFrame.bImage8.getHeight());
+      MainFrame.trianglePanel.displayTriangles(Triangle.randomGenome(200, MainFrame.bImage8.getWidth(), MainFrame.bImage8.getHeight()));
       break;
     case "512x512.png":
       currentImage = MainFrame.bImage9;
-      MainFrame.trianglePanel.updataPanel(MainFrame.bImage9.getWidth(), MainFrame.bImage9.getHeight());
+      MainFrame.trianglePanel.displayTriangles(Triangle.randomGenome(200, MainFrame.bImage9.getWidth(), MainFrame.bImage9.getHeight()));
       break;
     default:
       currentImage = MainFrame.bImage1;
-      MainFrame.trianglePanel.updataPanel(MainFrame.bImage1.getWidth(), MainFrame.bImage1.getHeight());
+      MainFrame.trianglePanel.displayTriangles(Triangle.randomGenome(200, MainFrame.bImage1.getWidth(), MainFrame.bImage1.getHeight()));
       break;
     }
 

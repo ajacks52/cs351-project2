@@ -1,10 +1,15 @@
 package genome.guicode;
 
+import genome.types.Triangle;
+
 import java.io.File;
 import java.io.IOException;
+
 import javax.imageio.ImageIO;
+
 import java.awt.*;
 import java.awt.image.BufferedImage;
+
 import javax.swing.*;
 
 /***
@@ -27,7 +32,7 @@ public class MainFrame implements Runnable
   public static BufferedImage bImage9;
 
   final static int FRAME_SIZE_X = 1100;
-  final static int FRAME_SIZE_Y = 800;
+  final static int FRAME_SIZE_Y = 750;
   public static int maxPicX;
   public static int maxPicY;
   public static PicturePanel picturePanel;
@@ -76,10 +81,14 @@ public class MainFrame implements Runnable
     mainFrame = new JFrame("Triangle Genome");
     mainFrame.setPreferredSize(new Dimension(FRAME_SIZE_X, FRAME_SIZE_Y));
     mainFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+    mainFrame.setResizable(false);
 
     buttonPanel = new ButtonPanel();
     picturePanel = new PicturePanel(bImage1.getWidth(), bImage1.getHeight(), bImage1);
     trianglePanel = new TrianglePanel(bImage1.getWidth(), bImage1.getHeight());
+    trianglePanel.setTriangleCount(200);
+    trianglePanel.displayTriangles(Triangle.randomGenome(200, bImage1.getWidth(), bImage1.getHeight()));
+
     containerPanel = new JPanel(new BorderLayout());
 
     containerPanel.add(picturePanel, BorderLayout.WEST);
