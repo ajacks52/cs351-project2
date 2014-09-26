@@ -26,7 +26,6 @@ public class PicturePanel extends JPanel
   private int height;
   private int width;
   // private static Graphics2D canvas;
-  private BufferedImage offScreenImage;
   private static BufferedImage currentImage;
 
   public PicturePanel(int x, int y, BufferedImage bImage)
@@ -41,7 +40,7 @@ public class PicturePanel extends JPanel
   public void paint(Graphics g)
   {
     Graphics2D canvas = (Graphics2D) g;
-    this.setBorder(new CompoundBorder(new EtchedBorder(), new LineBorder(Color.BLACK)));
+    //this.setBorder(new CompoundBorder(new EtchedBorder(), new LineBorder(Color.BLACK)));
     canvas.drawImage(currentImage, 30, 25, currentImage.getWidth(), currentImage.getHeight(), this);
   }
 
@@ -117,6 +116,13 @@ public class PicturePanel extends JPanel
     }
 
     repaint();
+  }
+  
+  
+  public static BufferedImage getCurrentPicture()
+  {
+    return currentImage;
+    
   }
 
   public static void main(String[] args)

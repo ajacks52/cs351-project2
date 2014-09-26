@@ -1,9 +1,13 @@
 package genome.guicode;
 
+import genome.types.Triangle;
+
 import java.awt.Dimension;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.InputMethodEvent;
+import java.awt.event.InputMethodListener;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -14,17 +18,19 @@ import javax.swing.JSpinner;
 import javax.swing.JTextField;
 import javax.swing.SpinnerModel;
 import javax.swing.SpinnerNumberModel;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 /***
  * 
  * @author Adam Mitchell
  * 
- *         The control button for our program Pause, Next, Show Genome Table,
- *         Read Genome File, Write Genome File, Append Stats File, Other control
- *         elements including sliders
+ * The control button for our program Pause, Next, Show Genome Table, Read
+ * Genome File, Write Genome File, Append Stats File, Other control elements
+ * including sliders
  * */
 @SuppressWarnings("serial")
-public class ButtonPanel extends JPanel implements ActionListener
+public class ButtonPanel extends JPanel
 {
 
   JButton pause = new JButton("Pause");
@@ -48,9 +54,9 @@ public class ButtonPanel extends JPanel implements ActionListener
   int gen = 0;
   int genPerSec = 0;
 
-  JLabel triangleAmountL = new JLabel("Triangle #: ");
+  JLabel triangleAmountL = new JLabel("Triangle #: 200");
   JLabel bestTribeL = new JLabel("Best Tribe # " + bestTribe + ", fit # " + fit);
-  JLabel tribeNumL = new JLabel("Tribe " + tribeNum);
+  JLabel tribeNumL = new JLabel("Tribe " + 1);
   JLabel timeL = new JLabel("min:sec ");
   JLabel genNumL = new JLabel("gen ");
   JLabel genPerSecL = new JLabel("gen/sec ");
@@ -64,20 +70,85 @@ public class ButtonPanel extends JPanel implements ActionListener
 
   private void setUpPanel()
   {
+    this.setLayout(null);
+
     String[] pictures = new String[] { LoadPictures.f1.getName(), LoadPictures.f2.getName(),
         LoadPictures.f3.getName(), LoadPictures.f4.getName(), LoadPictures.f5.getName(),
         LoadPictures.f6.getName(), LoadPictures.f7.getName(), LoadPictures.f8.getName(),
         LoadPictures.f9.getName() };
+
     pictureSelector = new JComboBox<String>(pictures);
-
     String[] genomes = new String[2000];
-
     genomePicker = new JComboBox<String>(genomes);
-
-    this.setLayout(null);
-
     pictureSelector.setSelectedIndex(0);
-    pictureSelector.addActionListener(this);
+    genomePicker.setSelectedIndex(0);
+
+    /***
+     * pictureSelector
+     */
+    pictureSelector.addActionListener(new java.awt.event.ActionListener() {
+      public void actionPerformed(ActionEvent e)
+      {
+        JComboBox<String> cb = (JComboBox<String>) e.getSource();
+        String pictName = (String) cb.getSelectedItem();
+        MainFrame.picturePanel.setPicture(pictName);
+        System.out.println(pictName);
+      }
+    });
+
+    /**
+     * genomePicker
+     */
+    genomePicker.addActionListener(new java.awt.event.ActionListener() {
+      public void actionPerformed(ActionEvent e)
+      {
+        System.out.println("action");
+      }
+    });
+
+    /**
+     * tribeSelectorListener
+     */
+    ChangeListener tribeSelectorListener = new ChangeListener() {
+      public void stateChanged(ChangeEvent e)
+      {
+
+        int value = (int) tribeSelector.getValue();
+        tribeNumL.setText(("Tribe #: " + value));
+        MainFrame.trianglePanel.displayTriangles(
+            Triangle.randomGenome(200, PicturePanel.getCurrentPicture().getWidth(), PicturePanel.getCurrentPicture().getHeight()),
+            PicturePanel.getCurrentPicture().getWidth(), PicturePanel.getCurrentPicture().getHeight());
+      }
+    };
+
+    /**
+     * triangleSelectorListener
+     */
+    ChangeListener triangleSelectorListener = new ChangeListener() {
+      public void stateChanged(ChangeEvent e)
+      {
+
+        int value = (int) triangleSelector.getValue();
+        triangleAmountL.setText(("Triangle #: " + value));
+        MainFrame.trianglePanel.setTriangleCount(value);
+
+      }
+    };
+
+    /**
+     * Next button
+     */
+    next.addActionListener(new java.awt.event.ActionListener() {
+      public void actionPerformed(ActionEvent e)
+      {
+        MainFrame.trianglePanel.displayTriangles(
+            Triangle.randomGenome(200, PicturePanel.getCurrentPicture().getWidth(), PicturePanel.getCurrentPicture().getHeight()),
+            PicturePanel.getCurrentPicture().getWidth(), PicturePanel.getCurrentPicture().getHeight());
+      }
+    });
+
+    tribeSelector.addChangeListener(tribeSelectorListener);
+    triangleSelector.addChangeListener(triangleSelectorListener);
 
     int row1 = 5;
     int row2 = 70;
@@ -92,10 +163,10 @@ public class ButtonPanel extends JPanel implements ActionListener
     pictureSelector.setBounds(25 + insets.left, row1 + insets.top, size.width + 5, size.height + 15);
 
     size = tribeSelector.getPreferredSize();
-    tribeSelector.setBounds(425 + insets.left, row1 + insets.top, size.width + 5, size.height + 15);
+    tribeSelector.setBounds(445 + insets.left, row1 + insets.top, size.width + 5, size.height + 15);
 
     size = triangleSelector.getPreferredSize();
-    triangleSelector.setBounds(600 + insets.left, row1 + insets.top, size.width + 60, size.height + 20);
+    triangleSelector.setBounds(620 + insets.left, row1 + insets.top, size.width + 60, size.height + 20);
 
     size = bsize;
     pause.setBounds(25 + insets.left, row2 + insets.top, size.width, size.height);
@@ -108,18 +179,18 @@ public class ButtonPanel extends JPanel implements ActionListener
         size.height);
     statsFile.setBounds(bsizeX * 5 + 30 + insets.left, row3 + insets.top, size.width, size.height);
 
-    triangleAmountL.setBounds(525 + insets.left, row1 + insets.top, size.width, size.height);
+    triangleAmountL.setBounds(535 + insets.left, row1 + insets.top, size.width, size.height);
     tribeNumL.setBounds(370 + insets.left, row1 + insets.top, size.width, size.height);
-    bestTribeL.setBounds(880 + insets.left, row1 + insets.top, size.width, size.height);
+    bestTribeL.setBounds(905 + insets.left, row1 + insets.top, size.width, size.height);
     timeL.setBounds(50 + insets.left, row3 + insets.top, size.width, size.height);
     genNumL.setBounds(200 + insets.left, row3 + insets.top, size.width, size.height);
     genPerSecL.setBounds(350 + insets.left, row3 + insets.top, size.width, size.height);
 
-    triangleSelector.setMajorTickSpacing(50);
+    triangleSelector.setMinorTickSpacing(1);
     triangleSelector.setPaintTicks(true);
     triangleSelector.setSnapToTicks(true);
 
-    statsFile.setText("");
+    statsFile.setText("Type Text Here");
     statsFile.addActionListener(new java.awt.event.ActionListener() {
       public void actionPerformed(ActionEvent e)
       {
@@ -146,7 +217,11 @@ public class ButtonPanel extends JPanel implements ActionListener
     add(appendStats);
 
     this.setPreferredSize(new Dimension(1200, 150));
-    this.setVisible(true);
+    if (this.isBackgroundSet() && this.isForegroundSet())
+    {
+      this.setVisible(true);
+    }
+
   }
 
   /**
@@ -154,20 +229,6 @@ public class ButtonPanel extends JPanel implements ActionListener
    * 
    * @param args
    */
-
-  @Override
-  public void actionPerformed(ActionEvent e)
-  {
-    @SuppressWarnings("unchecked")
-    JComboBox<String> cb = (JComboBox<String>) e.getSource();
-
-    String pictName = (String) cb.getSelectedItem();
-    MainFrame.picturePanel.setPicture(pictName);
-
-    System.out.println(pictName);
-
-  }
-
   public static void main(String[] args)
   {
   }

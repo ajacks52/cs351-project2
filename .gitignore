@@ -15,6 +15,7 @@ tmp/**/*
 *.bak
 *.swp
 *~.nib
+doc/**
 local.properties
 .classpath
 .settings/
@@ -26,5 +27,6 @@ local.properties
 # Locally stored "Eclipse launch configurations"
 *.launch
 /bin/
+/doc/
 
 

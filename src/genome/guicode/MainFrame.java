@@ -16,14 +16,12 @@ public class MainFrame implements Runnable
 
   final static int FRAME_SIZE_X = 1100;
   final static int FRAME_SIZE_Y = 750;
-  public static int maxPicX;
-  public static int maxPicY;
-  public static PicturePanel picturePanel;
 
-  private JFrame mainFrame;
-  private ButtonPanel buttonPanel;
+  public static PicturePanel picturePanel;
+  private static JFrame mainFrame;
+  private static ButtonPanel buttonPanel;
   public static TrianglePanel trianglePanel;
-  private JPanel containerPanel;
+  private static JPanel containerPanel;
 
   /**
    * constructor
@@ -62,6 +60,7 @@ public class MainFrame implements Runnable
     containerPanel.add(trianglePanel, BorderLayout.EAST);
     containerPanel.add(buttonPanel, BorderLayout.PAGE_END);
     mainFrame.getContentPane().add(containerPanel);
+
     mainFrame.pack();
     mainFrame.setVisible(true);
     return 1;
