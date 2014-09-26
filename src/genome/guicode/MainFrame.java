@@ -1,15 +1,7 @@
 package genome.guicode;
 
 import genome.types.Triangle;
-
-import java.io.File;
-import java.io.IOException;
-
-import javax.imageio.ImageIO;
-
 import java.awt.*;
-import java.awt.image.BufferedImage;
-
 import javax.swing.*;
 
 /***
@@ -21,15 +13,6 @@ import javax.swing.*;
  */
 public class MainFrame implements Runnable
 {
-  public static BufferedImage bImage1;
-  public static BufferedImage bImage2;
-  public static BufferedImage bImage3;
-  public static BufferedImage bImage4;
-  public static BufferedImage bImage6;
-  public static BufferedImage bImage5;
-  public static BufferedImage bImage7;
-  public static BufferedImage bImage8;
-  public static BufferedImage bImage9;
 
   final static int FRAME_SIZE_X = 1100;
   final static int FRAME_SIZE_Y = 750;
@@ -58,36 +41,20 @@ public class MainFrame implements Runnable
   public int init()
   {
 
-    try
-    {
-      bImage1 = ImageIO.read(LoadPictures.f1);
-      bImage2 = ImageIO.read(LoadPictures.f2);
-      bImage3 = ImageIO.read(LoadPictures.f3);
-      bImage4 = ImageIO.read(LoadPictures.f4);
-      bImage5 = ImageIO.read(LoadPictures.f5);
-      bImage6 = ImageIO.read(LoadPictures.f6);
-      bImage7 = ImageIO.read(LoadPictures.f7);
-      bImage8 = ImageIO.read(LoadPictures.f8);
-      bImage9 = ImageIO.read(LoadPictures.f9);
-    }
-    catch (IOException e)
-    {
-      e.printStackTrace();
-      return -1;
-    }
-
-
-
     mainFrame = new JFrame("Triangle Genome");
     mainFrame.setPreferredSize(new Dimension(FRAME_SIZE_X, FRAME_SIZE_Y));
     mainFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
     mainFrame.setResizable(false);
 
+    new LoadPictures();
     buttonPanel = new ButtonPanel();
-    picturePanel = new PicturePanel(bImage1.getWidth(), bImage1.getHeight(), bImage1);
-    trianglePanel = new TrianglePanel(bImage1.getWidth(), bImage1.getHeight());
+    picturePanel = new PicturePanel(LoadPictures.bImage1.getWidth(), LoadPictures.bImage1.getHeight(),
+        LoadPictures.bImage1);
+    trianglePanel = new TrianglePanel(LoadPictures.bImage1.getWidth(), LoadPictures.bImage1.getHeight());
     trianglePanel.setTriangleCount(200);
-    trianglePanel.displayTriangles(Triangle.randomGenome(200, bImage1.getWidth(), bImage1.getHeight()));
+    trianglePanel.displayTriangles(
+        Triangle.randomGenome(200, LoadPictures.bImage1.getWidth(), LoadPictures.bImage1.getHeight()),
+        LoadPictures.bImage1.getWidth(), LoadPictures.bImage1.getHeight());
 
     containerPanel = new JPanel(new BorderLayout());
 

@@ -6,6 +6,11 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
+/**
+ * 
+ * @author Adam
+ *
+ */
 public class LoadPictures
 {
   public static BufferedImage bImage1;
@@ -17,7 +22,7 @@ public class LoadPictures
   public static BufferedImage bImage7;
   public static BufferedImage bImage8;
   public static BufferedImage bImage9;
-  
+
   public static File f1 = new File("images/Leonardo_da_Vinci-Mona-Lisa-460x363.png");
   public static File f2 = new File("images/Claude_Monet-Poppy_Fields-450x338.png");
   public static File f3 = new File("images/Hokusai-Great_Wave_Off_Kanagawa-450x309.png");
@@ -30,7 +35,6 @@ public class LoadPictures
   int maxPicX;
   int maxPicY;
 
-  
   LoadPictures()
   {
     try
@@ -49,14 +53,14 @@ public class LoadPictures
     {
       e.printStackTrace();
     }
-    
+
     maxPicX = Math.max(bImage1.getWidth(),
         Math.max(bImage2.getWidth(), Math.max(bImage3.getWidth(), bImage4.getWidth())));
     maxPicY = Math.max(bImage1.getHeight(),
         Math.max(bImage2.getHeight(), Math.max(bImage3.getHeight(), bImage4.getHeight())));
-    
+
   }
-  
+
   public static void main(String[] args)
   {
 
