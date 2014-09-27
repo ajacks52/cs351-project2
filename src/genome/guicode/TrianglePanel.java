@@ -144,6 +144,7 @@ public class TrianglePanel extends JPanel
 
   public void paintComponent(Graphics canvas)
   {
+    super.paintComponent(canvas);
     canvas.drawImage(paintCanvas, 25, 25, null);
     int i = 0;
     if (triangles == null)

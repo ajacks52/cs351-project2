@@ -42,6 +42,7 @@ public class PicturePanel extends JPanel
     Graphics2D canvas = (Graphics2D) g;
     //this.setBorder(new CompoundBorder(new EtchedBorder(), new LineBorder(Color.BLACK)));
     canvas.drawImage(currentImage, 30, 25, currentImage.getWidth(), currentImage.getHeight(), this);
+    
   }
 
   /**
