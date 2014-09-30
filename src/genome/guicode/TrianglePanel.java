@@ -56,18 +56,6 @@ public class TrianglePanel extends JPanel
     this.repaint();
   }
 
-  public void updataPanel(int width, int height)
-  {
-    this.width = width;
-    this.height = height;
-
-    ArrayList<Triangle> triangles = new ArrayList<Triangle>(200);
-    for (int i = 0; i < 200; i++)
-    {
-      triangles.add(Triangle.randomTriangleIn(width, height));
-    }
-    displayTriangles(triangles);
-  }
 
   public void updateTriangles(Triangle[] triangles, int width, int height, int count)
   {
@@ -160,7 +148,10 @@ public class TrianglePanel extends JPanel
 
   public void paintComponent(Graphics canvas)
   {
-    paintCanvas = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
+    if (paintCanvas == null || paintCanvas.getHeight() != height || paintCanvas.getWidth() != width) 
+    {
+      paintCanvas = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
+    }
     Graphics2D graphics = paintCanvas.createGraphics();
 
     graphics.setPaint(new Color(255, 255, 255));

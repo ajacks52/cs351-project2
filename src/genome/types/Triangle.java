@@ -236,4 +236,9 @@ public class Triangle
   {
     return new Color(getRed(), getGreen(), getBlue(), getAlpha());
   }
+  
+  public Triangle copy()
+  {
+    return new Triangle(point1,point2,point3,rgba);
+  }
 }
