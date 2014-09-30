@@ -176,8 +176,8 @@ public class ButtonPanel extends JPanel
     // Layout the components
     
     int row1 = 5;
-    int row2 = 70;
-    int row3 = 120;
+    int row2 = 60;
+    int row3 = 110;
 
     Insets insets = this.getInsets();
     Dimension bsize = showTable.getPreferredSize();

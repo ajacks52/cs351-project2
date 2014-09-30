@@ -15,7 +15,7 @@ public class MainFrame implements Runnable
 {
 
   final static int FRAME_SIZE_X = 1100;
-  final static int FRAME_SIZE_Y = 750;
+  final static int FRAME_SIZE_Y = 740;
 
   public static PicturePanel picturePanel;
   private static JFrame mainFrame;
