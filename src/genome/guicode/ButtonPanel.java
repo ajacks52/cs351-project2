@@ -1,5 +1,6 @@
 package genome.guicode;
 
+import genome.logic.Fitness;
 import genome.types.Triangle;
 
 import java.awt.Dimension;
@@ -48,7 +49,7 @@ public class ButtonPanel extends JPanel
 
   int triangleAmount = 0;
   int bestTribe = 0;
-  int fit = 0;
+  long fit = 0;
   int tribeNum = 0;
   int time = 0;
   int gen = 0;
@@ -134,7 +135,7 @@ public class ButtonPanel extends JPanel
 
       }
     };
-
+    
     /**
      * Next button
      */
@@ -144,9 +145,12 @@ public class ButtonPanel extends JPanel
         MainFrame.trianglePanel.displayTriangles(
             Triangle.randomGenome(200, PicturePanel.getCurrentPicture().getWidth(), PicturePanel.getCurrentPicture().getHeight()),
             PicturePanel.getCurrentPicture().getWidth(), PicturePanel.getCurrentPicture().getHeight());
+        fit = Fitness.getFitness(PicturePanel.getCurrentPicture(), MainFrame.trianglePanel.getBufferedImage());
+        bestTribeL.setText("Best Tribe # " + bestTribe + ", fit # " + fit);
       }
     });
 
+    
     tribeSelector.addChangeListener(tribeSelectorListener);
     triangleSelector.addChangeListener(triangleSelectorListener);
 
@@ -181,7 +185,7 @@ public class ButtonPanel extends JPanel
 
     triangleAmountL.setBounds(535 + insets.left, row1 + insets.top, size.width, size.height);
     tribeNumL.setBounds(370 + insets.left, row1 + insets.top, size.width, size.height);
-    bestTribeL.setBounds(905 + insets.left, row1 + insets.top, size.width, size.height);
+    bestTribeL.setBounds(880 + insets.left, row1 + insets.top, size.width+20, size.height);
     timeL.setBounds(50 + insets.left, row3 + insets.top, size.width, size.height);
     genNumL.setBounds(200 + insets.left, row3 + insets.top, size.width, size.height);
     genPerSecL.setBounds(350 + insets.left, row3 + insets.top, size.width, size.height);

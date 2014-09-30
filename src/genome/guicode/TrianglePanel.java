@@ -31,7 +31,6 @@ public class TrianglePanel extends JPanel
   private Triangle[] triangles;
   private int count = 200;
   private BufferedImage paintCanvas;
-
   /**
    * @param height
    * @param width
@@ -88,19 +87,36 @@ public class TrianglePanel extends JPanel
     this.repaint();
   }
 
-  public void displayTriangles(Triangle[] triangles, int x, int y)
+  /**
+   * gets the triangles and displays them 
+   */
+  public void displayTriangles(Triangle[] triangles, int width, int height)
   {
-    /*
-     * added this buffered image
-     */
-    paintCanvas = new BufferedImage(x, y, BufferedImage.TYPE_INT_RGB);
-    Graphics2D graphics = paintCanvas.createGraphics();
-
-    graphics.setPaint(new Color(255, 255, 255));
-    graphics.fillRect(0, 0, paintCanvas.getWidth(), paintCanvas.getHeight());
-
+    this.width = width;
+    this.height = height;
     this.triangles = triangles;
     this.repaint();
+  }
+  /**
+   * just to draw the image
+   * @param graphics
+   */
+  private void drawGraphics(Graphics2D graphics)
+  {
+    int i = 0;
+    if (triangles == null)
+      return;
+    for (Triangle t : triangles)
+    {
+      if (i++ >= this.count)
+        break;
+      if (t == null)
+        continue;
+      graphics.setColor(t.getColor());
+
+      Polygon p = t.getPolygon();
+      graphics.fillPolygon(p);
+    }
   }
 
   /**
@@ -144,23 +160,22 @@ public class TrianglePanel extends JPanel
 
   public void paintComponent(Graphics canvas)
   {
+    paintCanvas = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
+    Graphics2D graphics = paintCanvas.createGraphics();
+
+    graphics.setPaint(new Color(255, 255, 255));
+    graphics.fillRect(0, 0, paintCanvas.getWidth(), paintCanvas.getHeight());
+    this.drawGraphics(graphics);
     super.paintComponent(canvas);
     canvas.drawImage(paintCanvas, 25, 25, null);
-    int i = 0;
-    if (triangles == null)
-      return;
-    for (Triangle t : triangles)
-    {
-      if (i++ >= this.count)
-        break;
-      if (t == null)
-        continue;
-      canvas.setColor(t.getColor());
-
-      Polygon p = t.getPolygon();
-      p.translate(25, 25);
-      canvas.fillPolygon(p);
-    }
+    
+  }
+  /**
+   * @return the current image
+   */
+  public BufferedImage getBufferedImage()
+  {
+    return this.paintCanvas;
   }
 
 }
