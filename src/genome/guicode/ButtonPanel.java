@@ -150,7 +150,6 @@ public class ButtonPanel extends JPanel
         int value = (int) triangleSelector.getValue();
         triangleAmountL.setText(("Triangle #: " + value));
         MainFrame.trianglePanel.setTriangleCount(value);
-
       }
     };
     

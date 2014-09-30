@@ -12,4 +12,5 @@ public class Constants
    * Random variable for the whole project
    */
   public static final Random random = new Random();
+  public static final int GENOME_SIZE = 200;
 }
