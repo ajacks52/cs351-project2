@@ -3,8 +3,11 @@ package genome.guicode;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.Map;
+import java.util.TreeMap;
 
 import javax.imageio.ImageIO;
+
 
 /**
  * 
@@ -32,6 +35,9 @@ public class LoadPictures
   public static File f7 = new File("images/Old_House-300x331.png");
   public static File f8 = new File("images/Hot_Air_Balloon-400x300.png");
   public static File f9 = new File("images/512x512.png");
+  
+  public static Map<String,BufferedImage> picturesMap = new TreeMap<String,BufferedImage>();
+  
   int maxPicX;
   int maxPicY;
 
@@ -59,6 +65,15 @@ public class LoadPictures
     maxPicY = Math.max(bImage1.getHeight(),
         Math.max(bImage2.getHeight(), Math.max(bImage3.getHeight(), bImage4.getHeight())));
 
+    picturesMap.put(f1.getName(), bImage1);
+    picturesMap.put(f2.getName(), bImage2);
+    picturesMap.put(f3.getName(), bImage3);
+    picturesMap.put(f4.getName(), bImage4);
+    picturesMap.put(f5.getName(), bImage5);
+    picturesMap.put(f6.getName(), bImage6);
+    picturesMap.put(f7.getName(), bImage7);
+    picturesMap.put(f8.getName(), bImage8);
+    picturesMap.put(f9.getName(), bImage9);
   }
 
   public static void main(String[] args)

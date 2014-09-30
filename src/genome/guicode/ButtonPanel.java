@@ -9,6 +9,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.InputMethodEvent;
 import java.awt.event.InputMethodListener;
+import java.util.Set;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -34,34 +35,45 @@ import javax.swing.event.ChangeListener;
 public class ButtonPanel extends JPanel
 {
 
-  JButton pause = new JButton("Pause");
-  JButton next = new JButton("Next");
-  JButton showTable = new JButton("Show Genome Table");
-  JButton readGenome = new JButton("Read Genome File");
-  JButton writeGenome = new JButton("Write Genome File");
-  JButton appendStats = new JButton("Append Stats File");
-  SpinnerModel spinnerModel = new SpinnerNumberModel(1, 1, 2000, 1);
-  JSpinner tribeSelector = new JSpinner(spinnerModel);
-  JSlider triangleSelector = new JSlider(JSlider.HORIZONTAL, 0, 200, 200);
-  JComboBox<String> pictureSelector;
-  JComboBox<String> genomePicker;
-  JTextField statsFile = new JTextField();
+  /**
+   * All of the components to be displayed within the ButtonPanel
+   */
+  private JButton pause = new JButton("Pause");
+  private JButton next = new JButton("Next");
+  private JButton showTable = new JButton("Show Genome Table");
+  private JButton readGenome = new JButton("Read Genome File");
+  private JButton writeGenome = new JButton("Write Genome File");
+  private JButton appendStats = new JButton("Append Stats File");
+  private SpinnerModel spinnerModel = new SpinnerNumberModel(1, 1, 2000, 1);
+  private JSpinner tribeSelector = new JSpinner(spinnerModel);
+  private JSlider triangleSelector = new JSlider(JSlider.HORIZONTAL, 0, 200, 200);
+  private JComboBox<String> pictureSelector;
+  private JComboBox<String> genomePicker;
+  private JTextField statsFile = new JTextField();
 
-  int triangleAmount = 0;
-  int bestTribe = 0;
-  long fit = 0;
-  int tribeNum = 0;
-  int time = 0;
-  int gen = 0;
-  int genPerSec = 0;
+  private JLabel triangleAmountL = new JLabel("Triangle #: 200");
+  private JLabel bestTribeL = new JLabel("Best Tribe # 0, fit # 0");
+  private JLabel tribeNumL = new JLabel("Tribe #: 1");
+  private JLabel timeL = new JLabel("min:sec ");
+  private JLabel genNumL = new JLabel("gen ");
+  private JLabel genPerSecL = new JLabel("gen/sec ");
+  
+  /**
+   * All of the values that need to be stored for information about the triangles
+   */
+  private int triangleAmount = 0;
+  private int bestTribe = 0;
+  private long fit = 0;
+  private int tribeNum = 0;
+  private int time = 0;
+  private int gen = 0;
+  private int genPerSec = 0;
 
-  JLabel triangleAmountL = new JLabel("Triangle #: 200");
-  JLabel bestTribeL = new JLabel("Best Tribe # " + bestTribe + ", fit # " + fit);
-  JLabel tribeNumL = new JLabel("Tribe " + 1);
-  JLabel timeL = new JLabel("min:sec ");
-  JLabel genNumL = new JLabel("gen ");
-  JLabel genPerSecL = new JLabel("gen/sec ");
 
+  /**
+   * Constructor
+   * Just sets up the panels
+   */
   public ButtonPanel()
   {
 
@@ -69,21 +81,27 @@ public class ButtonPanel extends JPanel
 
   }
 
+  /**
+   * To be called in the constructor
+   * creates all the components and displays them at the end
+   */
   private void setUpPanel()
   {
-    this.setLayout(null);
+    this.setLayout(null); // Hand created layout
 
-    String[] pictures = new String[] { LoadPictures.f1.getName(), LoadPictures.f2.getName(),
-        LoadPictures.f3.getName(), LoadPictures.f4.getName(), LoadPictures.f5.getName(),
-        LoadPictures.f6.getName(), LoadPictures.f7.getName(), LoadPictures.f8.getName(),
-        LoadPictures.f9.getName() };
+    Set<String> keys = LoadPictures.picturesMap.keySet();
+    String[] pictures = (String[]) keys.toArray(new String[keys.size()]);
 
     pictureSelector = new JComboBox<String>(pictures);
+    pictureSelector.setSelectedIndex(7);
     String[] genomes = new String[2000];
     genomePicker = new JComboBox<String>(genomes);
     pictureSelector.setSelectedIndex(0);
     genomePicker.setSelectedIndex(0);
 
+    
+    // ActionListeners
+    
     /***
      * pictureSelector
      */
@@ -154,6 +172,9 @@ public class ButtonPanel extends JPanel
     tribeSelector.addChangeListener(tribeSelectorListener);
     triangleSelector.addChangeListener(triangleSelectorListener);
 
+    
+    // Layout the components
+    
     int row1 = 5;
     int row2 = 70;
     int row3 = 120;
@@ -164,7 +185,8 @@ public class ButtonPanel extends JPanel
     int bsizeX = (int) bsize.getWidth() + 15;
 
     size = pictureSelector.getPreferredSize();
-    pictureSelector.setBounds(25 + insets.left, row1 + insets.top, size.width + 5, size.height + 15);
+    pictureSelector.setBounds(25 + insets.left, row1 + insets.top, size.width - 30, size.height + 15);
+    pictureSelector.setSelectedIndex(7);
 
     size = tribeSelector.getPreferredSize();
     tribeSelector.setBounds(445 + insets.left, row1 + insets.top, size.width + 5, size.height + 15);
@@ -183,12 +205,12 @@ public class ButtonPanel extends JPanel
         size.height);
     statsFile.setBounds(bsizeX * 5 + 30 + insets.left, row3 + insets.top, size.width, size.height);
 
-    triangleAmountL.setBounds(535 + insets.left, row1 + insets.top, size.width, size.height);
-    tribeNumL.setBounds(370 + insets.left, row1 + insets.top, size.width, size.height);
-    bestTribeL.setBounds(880 + insets.left, row1 + insets.top, size.width+20, size.height);
-    timeL.setBounds(50 + insets.left, row3 + insets.top, size.width, size.height);
-    genNumL.setBounds(200 + insets.left, row3 + insets.top, size.width, size.height);
-    genPerSecL.setBounds(350 + insets.left, row3 + insets.top, size.width, size.height);
+    triangleAmountL.setBounds(  535 + insets.left,  row1 + insets.top+5, size.width,    size.height);
+    tribeNumL.setBounds(        370 + insets.left,  row1 + insets.top+5, size.width,    size.height);
+    bestTribeL.setBounds(       880 + insets.left,  row1 + insets.top+5, size.width+20, size.height);
+    timeL.setBounds(            50 + insets.left,   row3 + insets.top+5, size.width,    size.height);
+    genNumL.setBounds(          200 + insets.left,  row3 + insets.top+5, size.width,    size.height);
+    genPerSecL.setBounds(       350 + insets.left,  row3 + insets.top+5, size.width,    size.height);
 
     triangleSelector.setMinorTickSpacing(1);
     triangleSelector.setPaintTicks(true);

@@ -45,7 +45,6 @@ public class MainFrame implements Runnable
     mainFrame.setResizable(false);
 
     new LoadPictures();
-    buttonPanel = new ButtonPanel();
     picturePanel = new PicturePanel(LoadPictures.bImage1.getWidth(), LoadPictures.bImage1.getHeight(),
         LoadPictures.bImage1);
     trianglePanel = new TrianglePanel(LoadPictures.bImage1.getWidth(), LoadPictures.bImage1.getHeight());
@@ -55,7 +54,8 @@ public class MainFrame implements Runnable
         LoadPictures.bImage1.getWidth(), LoadPictures.bImage1.getHeight());
 
     containerPanel = new JPanel(new BorderLayout());
-
+    buttonPanel = new ButtonPanel();
+    
     containerPanel.add(picturePanel, BorderLayout.WEST);
     containerPanel.add(trianglePanel, BorderLayout.EAST);
     containerPanel.add(buttonPanel, BorderLayout.PAGE_END);
