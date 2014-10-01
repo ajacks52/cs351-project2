@@ -64,8 +64,19 @@ public class Triangle
   {
     Random rand = Constants.random;
 
-    return new Triangle(rand.nextInt(width), rand.nextInt(height), rand.nextInt(width),
-        rand.nextInt(height), rand.nextInt(width), rand.nextInt(height), rand.nextInt());
+    return new Triangle(scaledRandom(width), scaledRandom(height), scaledRandom(width),
+        scaledRandom(height), scaledRandom(width), scaledRandom(height), rand.nextInt());
+  }
+  
+  private static int scaledRandom(int width)
+  {
+    double x = Constants.random.nextInt(width) / (double) width;
+    x = x - 0.5;
+    x *= x * (Constants.random.nextInt()%2==0? -1.0: 1.0);
+    x *= 4.0;
+    x += (x < 0? 1.0 : 0.0);
+    x *= width;
+    return (int)x;
   }
 
   /**
