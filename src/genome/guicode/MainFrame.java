@@ -11,7 +11,7 @@ import javax.swing.*;
  *         The main frame for our program
  *
  ********************************************************************************/
-public class MainFrame implements Runnable
+public class MainFrame extends Thread
 {
 
   final static int FRAME_SIZE_X = 1100;
@@ -48,10 +48,11 @@ public class MainFrame implements Runnable
     picturePanel = new PicturePanel(LoadPictures.bImage1.getWidth(), LoadPictures.bImage1.getHeight(),
         LoadPictures.bImage1);
     trianglePanel = new TrianglePanel(LoadPictures.bImage1.getWidth(), LoadPictures.bImage1.getHeight());
+    
     trianglePanel.setTriangleCount(200);
-    trianglePanel.displayTriangles(
-        Triangle.randomGenome(200, LoadPictures.bImage1.getWidth(), LoadPictures.bImage1.getHeight()),
-        LoadPictures.bImage1.getWidth(), LoadPictures.bImage1.getHeight());
+//    trianglePanel.displayTriangles(
+//        Triangle.randomGenome(200, LoadPictures.bImage1.getWidth(), LoadPictures.bImage1.getHeight()),
+//        LoadPictures.bImage1.getWidth(), LoadPictures.bImage1.getHeight());
 
     containerPanel = new JPanel(new BorderLayout());
     buttonPanel = new ButtonPanel();

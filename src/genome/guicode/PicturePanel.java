@@ -4,6 +4,9 @@ import genome.types.Triangle;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.awt.image.ColorModel;
+import java.util.ArrayList;
+
 import javax.swing.*;
 
 
@@ -21,6 +24,7 @@ public class PicturePanel extends JPanel
   private int width;
   // private static Graphics2D canvas;
   private static BufferedImage currentImage;
+  private static ArrayList<Integer> colorList = new ArrayList<Integer>();
 
   public PicturePanel(int x, int y, BufferedImage bImage)
   {
@@ -51,10 +55,59 @@ public class PicturePanel extends JPanel
   public void setPicture(String imageName)
   {
     currentImage = LoadPictures.picturesMap.get(imageName);
+    pictureColorValues(currentImage);
+
+    try
+    {
+      Thread.sleep(100);
+    }
+    catch (InterruptedException e)
+    {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
     MainFrame.trianglePanel.displayTriangles(
         Triangle.randomGenome(200, currentImage.getWidth(), currentImage.getHeight()),
         currentImage.getWidth(), currentImage.getHeight());
+    
     repaint();
+  }
+  
+  /**
+   * 
+   * @param bImage
+   */
+  private void pictureColorValues(BufferedImage bImage)
+  {
+    colorList = new ArrayList<Integer>();
+    for(int x = 0; x < bImage.getWidth(); x++)
+    {
+      for(int y = 0; y < bImage.getHeight(); y++)
+      {
+        colorList.add(bImage.getRGB(x, y));
+      }
+    }
+  }
+  
+  public static ColorModel getColorModelCurrentImage()
+  {
+    return currentImage.getColorModel();
+  }
+  
+  /**
+   * 
+   */
+  public static ArrayList<Integer> getColorList()
+  {
+    return colorList;
+  }
+  
+  /***
+   * 
+   */
+  public static int getColorListSize()
+  {
+    return colorList.size();
   }
   
   /********************************************************************************

@@ -34,7 +34,7 @@ public class LoadPictures
   public static File f6 = new File("images/Gummi_Bears-299x339.png");
   public static File f7 = new File("images/Old_House-300x331.png");
   public static File f8 = new File("images/Hot_Air_Balloon-400x300.png");
-  public static File f9 = new File("images/512x512.png");
+  public static File f9 = new File("images/triangles.png");
   
   public static Map<String,BufferedImage> picturesMap = new TreeMap<String,BufferedImage>();
   

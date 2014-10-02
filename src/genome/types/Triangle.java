@@ -1,10 +1,13 @@
 package genome.types;
 
 import genome.Constants;
+import genome.guicode.PicturePanel;
 
 import java.awt.Color;
 import java.awt.Point;
 import java.awt.Polygon;
+import java.awt.image.ColorModel;
+import java.util.ArrayList;
 import java.util.Random;
 
 /**********************************************************************************
@@ -63,9 +66,22 @@ public class Triangle
   public static Triangle randomTriangleIn(int width, int height)
   {
     Random rand = Constants.random;
-
-    return new Triangle(scaledRandom(width), scaledRandom(height), scaledRandom(width),
+    
+    ArrayList<Integer> colorList = PicturePanel.getColorList();
+    int size = PicturePanel.getColorListSize();    
+    int rgb = colorList.get(rand.nextInt(size));
+    Color c = new Color(rgb);
+    int red = c.getRed();
+    int green = c.getGreen();
+    int blue = c.getBlue();
+    
+    
+    Triangle t = new Triangle(scaledRandom(width), scaledRandom(height), scaledRandom(width),
         scaledRandom(height), scaledRandom(width), scaledRandom(height), rand.nextInt());
+    t.setRed(red);
+    t.setGreen(green);
+    t.setBlue(blue);
+    return t;
   }
   
   /************************************************************************************
@@ -164,7 +180,7 @@ public class Triangle
    ************************************************************************************/
   public int getRed()
   {
-    return (rgba >> 12) & 0xFF;
+    return (rgba >> 24) & 0xFF;
   }
 
   /************************************************************************************
@@ -174,7 +190,7 @@ public class Triangle
   public void setRed(int red)
   {
     rgba = rgba & 0x00FFFFFF;
-    rgba = rgba | ((red & 0xFF) << 12);
+    rgba = rgba | ((red & 0xFF) << 24);
   }
 
   /************************************************************************************
@@ -183,7 +199,7 @@ public class Triangle
    ************************************************************************************/
   public int getGreen()
   {
-    return (rgba >> 8) & 0xFF;
+    return (rgba >> 6) & 0xFF;
   }
 
   /************************************************************************************
@@ -193,7 +209,7 @@ public class Triangle
   public void setGreen(int green)
   {
     rgba = rgba & 0xFF00FFFF;
-    rgba = rgba | ((green & 0xFF) << 8);
+    rgba = rgba | ((green & 0xFF) << 16);
   }
 
   /************************************************************************************
@@ -202,7 +218,7 @@ public class Triangle
    ************************************************************************************/
   public int getBlue()
   {
-    return (rgba >> 4) & 0xFF;
+    return (rgba >> 8) & 0xFF;
   }
 
   /************************************************************************************
@@ -212,7 +228,7 @@ public class Triangle
   public void setBlue(int blue)
   {
     rgba = rgba & 0xFFFF00FF;
-    rgba = rgba | ((blue & 0xFF) << 4);
+    rgba = rgba | ((blue & 0xFF) << 8);
   }
 
   /************************************************************************************
