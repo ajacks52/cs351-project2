@@ -4,13 +4,13 @@ import genome.types.Triangle;
 import java.awt.*;
 import javax.swing.*;
 
-/***
+/********************************************************************************
  * 
  * @author Adam Mitchell
  * 
  *         The main frame for our program
  *
- */
+ ********************************************************************************/
 public class MainFrame implements Runnable
 {
 
@@ -30,12 +30,12 @@ public class MainFrame implements Runnable
   {
   }
 
-  /**
+  /********************************************************************************
    * initializes the images and other set up info
    * 
    * @return an int for testing purposes 1 means everything ran smoothly -1 mean
    *         an image didn't load
-   */
+   ********************************************************************************/
   public int init()
   {
 
@@ -66,11 +66,11 @@ public class MainFrame implements Runnable
     return 1;
   }
 
-  /**
+  /********************************************************************************
    * Main for unit testing
    * 
    * @param args
-   */
+   ********************************************************************************/
   public static void main(String[] args)
   {
     SwingUtilities.invokeLater(new MainFrame());

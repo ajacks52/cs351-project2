@@ -1,27 +1,18 @@
-/**
- * 
- */
 package genome.guicode;
 
 import genome.types.Triangle;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.Polygon;
-
+import java.awt.*;
+import java.awt.image.BufferedImage;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-import java.awt.image.BufferedImage;
-
-/**
+/************************************************************************************
  * @author jem
  *
- */
+ ************************************************************************************/
 public class TrianglePanel extends JPanel
 {
   private int height;
@@ -31,12 +22,12 @@ public class TrianglePanel extends JPanel
   private Triangle[] triangles;
   private int count = 200;
   private BufferedImage paintCanvas;
-  /**
+
+  /*******************************************************************************
+   * * @param width
+   * 
    * @param height
-   * @param width
-   * @param panel
-   * @param panel
-   */
+   *******************************************************************************/
   public TrianglePanel(int width, int height)
   {
     this.width = width;
@@ -47,6 +38,13 @@ public class TrianglePanel extends JPanel
     this.repaint();
   }
 
+  /*******************************************************************************
+   * 
+   * @param triangles
+   * @param width
+   * @param height
+   * @param count
+   */
   public void updateTriangles(List<Triangle> triangles, int width, int height, int count)
   {
     this.width = width;
@@ -56,7 +54,13 @@ public class TrianglePanel extends JPanel
     this.repaint();
   }
 
-
+  /*******************************************************************************
+ * 
+ * @param triangles
+ * @param width
+ * @param height
+ * @param count
+ */
   public void updateTriangles(Triangle[] triangles, int width, int height, int count)
   {
     this.width = width;
@@ -66,18 +70,18 @@ public class TrianglePanel extends JPanel
     this.repaint();
   }
 
-  /**
+  /********************************************************************************
    * @param triangles
-   */
+   *********************************************************************************/
   public void displayTriangles(List<Triangle> triangles)
   {
     this.triangles = (Triangle[]) triangles.toArray();
     this.repaint();
   }
 
-  /**
-   * gets the triangles and displays them 
-   */
+  /*********************************************************************************
+   * gets the triangles and displays them
+   ********************************************************************************/
   public void displayTriangles(Triangle[] triangles, int width, int height)
   {
     this.width = width;
@@ -85,10 +89,12 @@ public class TrianglePanel extends JPanel
     this.triangles = triangles;
     this.repaint();
   }
-  /**
+
+  /********************************************************************************
    * just to draw the image
+   * 
    * @param graphics
-   */
+   *******************************************************************************/
   private void drawGraphics(Graphics2D graphics)
   {
     int i = 0;
@@ -107,20 +113,20 @@ public class TrianglePanel extends JPanel
     }
   }
 
-  /**
+  /********************************************************************************
    * setTriangleCount used to change the level of the number of triangles
    * 
    * @param count
-   */
+   *******************************************************************************/
   public void setTriangleCount(int count)
   {
     this.count = count;
     this.repaint();
   }
 
-  /**
+  /********************************************************************************
    * @param args
-   */
+   *******************************************************************************/
   public static void main(String[] args)
   {
     int width = 512;
@@ -146,9 +152,12 @@ public class TrianglePanel extends JPanel
     panel.setTriangleCount(10);
   }
 
+  /********************************************************************************
+   * 
+   *******************************************************************************/
   public void paintComponent(Graphics canvas)
   {
-    if (paintCanvas == null || paintCanvas.getHeight() != height || paintCanvas.getWidth() != width) 
+    if (paintCanvas == null || paintCanvas.getHeight() != height || paintCanvas.getWidth() != width)
     {
       paintCanvas = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
     }
@@ -157,13 +166,14 @@ public class TrianglePanel extends JPanel
     graphics.setPaint(new Color(255, 255, 255));
     graphics.fillRect(0, 0, paintCanvas.getWidth(), paintCanvas.getHeight());
     this.drawGraphics(graphics);
-    //super.paintComponent(canvas);
+    super.paintComponent(canvas);
     canvas.drawImage(paintCanvas, 25, 25, null);
-    
+
   }
-  /**
+
+  /********************************************************************************
    * @return the current image
-   */
+   ********************************************************************************/
   public BufferedImage getBufferedImage()
   {
     return this.paintCanvas;

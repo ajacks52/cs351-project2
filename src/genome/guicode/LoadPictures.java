@@ -9,11 +9,11 @@ import java.util.TreeMap;
 import javax.imageio.ImageIO;
 
 
-/**
+/************************************************************************************
  * 
  * @author Adam
  *
- */
+ ************************************************************************************/
 public class LoadPictures
 {
   public static BufferedImage bImage1;
@@ -40,6 +40,7 @@ public class LoadPictures
   
   int maxPicX;
   int maxPicY;
+
 
   LoadPictures()
   {
@@ -76,6 +77,10 @@ public class LoadPictures
     picturesMap.put(f9.getName(), bImage9);
   }
 
+  /************************************************************************************
+   * 
+   * @param args
+   ************************************************************************************/
   public static void main(String[] args)
   {
 

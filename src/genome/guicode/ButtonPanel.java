@@ -3,34 +3,21 @@ package genome.guicode;
 import genome.logic.Fitness;
 import genome.types.Triangle;
 
-import java.awt.Dimension;
-import java.awt.Insets;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.InputMethodEvent;
-import java.awt.event.InputMethodListener;
+import java.awt.*;
+import java.awt.event.*;
 import java.util.Set;
+import javax.swing.*;
+import javax.swing.event.*;
 
-import javax.swing.JButton;
-import javax.swing.JComboBox;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JSlider;
-import javax.swing.JSpinner;
-import javax.swing.JTextField;
-import javax.swing.SpinnerModel;
-import javax.swing.SpinnerNumberModel;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 
-/***
+/*******************************************************************************
  * 
  * @author Adam Mitchell
  * 
  * The control button for our program Pause, Next, Show Genome Table, Read
  * Genome File, Write Genome File, Append Stats File, Other control elements
  * including sliders
- * */
+ * ********************************************************************************/
 @SuppressWarnings("serial")
 public class ButtonPanel extends JPanel
 {
@@ -108,6 +95,7 @@ public class ButtonPanel extends JPanel
     pictureSelector.addActionListener(new java.awt.event.ActionListener() {
       public void actionPerformed(ActionEvent e)
       {
+        @SuppressWarnings("unchecked")
         JComboBox<String> cb = (JComboBox<String>) e.getSource();
         String pictName = (String) cb.getSelectedItem();
         MainFrame.picturePanel.setPicture(pictName);
@@ -188,10 +176,10 @@ public class ButtonPanel extends JPanel
     pictureSelector.setSelectedIndex(7);
 
     size = tribeSelector.getPreferredSize();
-    tribeSelector.setBounds(445 + insets.left, row1 + insets.top, size.width + 5, size.height + 15);
+    tribeSelector.setBounds(445 + insets.left, row1 + insets.top, size.width - 15, size.height + 15);
 
     size = triangleSelector.getPreferredSize();
-    triangleSelector.setBounds(620 + insets.left, row1 + insets.top, size.width + 60, size.height + 20);
+    triangleSelector.setBounds(610 + insets.left, row1 + insets.top, size.width + 60, size.height + 20);
 
     size = bsize;
     pause.setBounds(25 + insets.left, row2 + insets.top, size.width, size.height);
@@ -204,15 +192,14 @@ public class ButtonPanel extends JPanel
         size.height);
     statsFile.setBounds(bsizeX * 5 + 30 + insets.left, row3 + insets.top, size.width, size.height);
 
-    triangleAmountL.setBounds(  535 + insets.left,  row1 + insets.top+5, size.width,    size.height);
+    triangleAmountL.setBounds(  525 + insets.left,  row1 + insets.top+5, size.width,    size.height);
     tribeNumL.setBounds(        370 + insets.left,  row1 + insets.top+5, size.width,    size.height);
-    bestTribeL.setBounds(       880 + insets.left,  row1 + insets.top+5, size.width+20, size.height);
+    bestTribeL.setBounds(       880 + insets.left,  row1 + insets.top+5, size.width+25, size.height);
     timeL.setBounds(            50 + insets.left,   row3 + insets.top+5, size.width,    size.height);
     genNumL.setBounds(          200 + insets.left,  row3 + insets.top+5, size.width,    size.height);
     genPerSecL.setBounds(       350 + insets.left,  row3 + insets.top+5, size.width,    size.height);
 
     triangleSelector.setMinorTickSpacing(1);
-    triangleSelector.setPaintTicks(true);
     triangleSelector.setSnapToTicks(true);
 
     statsFile.setText("Type Text Here");
@@ -249,11 +236,11 @@ public class ButtonPanel extends JPanel
 
   }
 
-  /**
+  /********************************************************************************
    * Main for unit testing..
    * 
    * @param args
-   */
+   ********************************************************************************/
   public static void main(String[] args)
   {
   }

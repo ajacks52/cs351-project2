@@ -2,23 +2,17 @@ package genome.guicode;
 
 import genome.types.Triangle;
 
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
+import java.awt.*;
 import java.awt.image.BufferedImage;
+import javax.swing.*;
 
-import javax.swing.JPanel;
-import javax.swing.border.CompoundBorder;
-import javax.swing.border.EtchedBorder;
-import javax.swing.border.LineBorder;
 
-/***
+/********************************************************************************
  * 
  * @author Adam Mitchell
  * 
  *         Displays the pictures that our algorithms will try to emulate
- */
+ ********************************************************************************/
 public class PicturePanel extends JPanel
 {
   private final static int PANEL_H = 550;
@@ -37,6 +31,9 @@ public class PicturePanel extends JPanel
 
   }
 
+ /********************************************************************************
+  *  
+  ********************************************************************************/
   public void paint(Graphics g)
   {
     Graphics2D canvas = (Graphics2D) g;
@@ -45,11 +42,11 @@ public class PicturePanel extends JPanel
     
   }
 
-  /**
+  /********************************************************************************
    * Controls what picture will be drawn next
    * 
    * @param imageName
-   */
+   ********************************************************************************/
   public void setPicture(String imageName)
   {
     currentImage = LoadPictures.picturesMap.get(imageName);
@@ -59,13 +56,19 @@ public class PicturePanel extends JPanel
     repaint();
   }
   
-  
+  /********************************************************************************
+   * 
+   * @return
+   ********************************************************************************/
   public static BufferedImage getCurrentPicture()
   {
     return currentImage;
     
   }
 
+  /********************************************************************************
+   * 
+   ********************************************************************************/
   public static void main(String[] args)
   {
   }
