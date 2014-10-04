@@ -38,10 +38,7 @@ public class LoadPictures
   
   public static Map<String,BufferedImage> picturesMap = new TreeMap<String,BufferedImage>();
   
-  int maxPicX;
-  int maxPicY;
-
-
+  
   LoadPictures()
   {
     try
@@ -61,10 +58,6 @@ public class LoadPictures
       e.printStackTrace();
     }
 
-    maxPicX = Math.max(bImage1.getWidth(),
-        Math.max(bImage2.getWidth(), Math.max(bImage3.getWidth(), bImage4.getWidth())));
-    maxPicY = Math.max(bImage1.getHeight(),
-        Math.max(bImage2.getHeight(), Math.max(bImage3.getHeight(), bImage4.getHeight())));
 
     picturesMap.put(f1.getName(), bImage1);
     picturesMap.put(f2.getName(), bImage2);
@@ -78,12 +71,10 @@ public class LoadPictures
   }
 
   /************************************************************************************
-   * 
-   * @param args
+   * main for unit testing 
    ************************************************************************************/
   public static void main(String[] args)
   {
-
   }
 
 }

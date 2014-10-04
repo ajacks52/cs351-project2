@@ -122,6 +122,17 @@ public class PicturePanel extends JPanel
 
   /********************************************************************************
    * 
+   * @return
+   ********************************************************************************/
+  public static Point getCurrentPictureSize()
+  {
+    Point p = new Point(currentImage.getWidth(), currentImage.getHeight());
+    return p;
+    
+  }
+  
+  /********************************************************************************
+   * 
    ********************************************************************************/
   public static void main(String[] args)
   {
