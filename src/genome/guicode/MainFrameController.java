@@ -20,18 +20,17 @@ import javax.swing.event.ChangeListener;
  ***********************************************************************************/
 public class MainFrameController
 {
-  public static void main(String[] args)
+  private MainFrame frame;
+  
+  public MainFrameController()
   {
-    //SwingUtilities.invokeLater(new MainFrame());
-    MainFrame frame = new MainFrame();
+  //SwingUtilities.invokeLater(new MainFrame());
+    frame = new MainFrame();
     
     frame.start();  // needs to be changed so it'll sleep 
     
-//    while (frame.buttonPanel == null); // wait until its setup
-    
     synchronized (frame) 
     {
-      System.out.println("in synchronized");
       /**
        * picturePicker
        */
@@ -119,9 +118,11 @@ public class MainFrameController
       long fitness = Fitness.getFitness(frame.picturePanel.getCurrentPicture(), frame.trianglePanel.getBufferedImage());
       frame.buttonPanel.setFitness(fitness);
     }
-    
-    
-    
-    
+  }
+  
+  
+  public static void main(String[] args)
+  {
+    new MainFrameController(); 
   }
 }
