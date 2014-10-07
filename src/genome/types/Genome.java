@@ -42,7 +42,7 @@ public class Genome
     g.dimension.height = height;
     for (int i=0; i < Constants.GENOME_SIZE; i++)
     {
-      g.triangles[i] = Triangle.randomTriangleIn(width, height);
+      g.triangles[i] = Triangle.randomTriangleIn(width, height, new ArrayList());
     }
     return g;
   }

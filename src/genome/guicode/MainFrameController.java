@@ -71,7 +71,7 @@ public class MainFrameController
         @Override
         public void stateChanged(ChangeEvent e)
         {
-          System.out.println("tribeSelector");
+//          System.out.println("tribeSelector");
           int value = (int) ((JSpinner) e.getSource()).getValue();
           frame.buttonPanel.setTribeNumber(value);
           frame.trianglePanel.displayTriangles(

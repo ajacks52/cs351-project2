@@ -166,9 +166,9 @@ public class TrianglePanel extends JPanel
     graphics.setPaint(new Color(255, 255, 255));
     graphics.fillRect(0, 0, paintCanvas.getWidth(), paintCanvas.getHeight());
     this.drawGraphics(graphics);
-    super.paintComponent(canvas);
     if (canvas != null)
     {
+      super.paintComponent(canvas);
       canvas.drawImage(paintCanvas, 25, 25, null);
     }
   }
