@@ -63,13 +63,20 @@ public class Triangle
    * @param height
    * @return
    *************************************************************************************/
-  public static Triangle randomTriangleIn(int width, int height)
+  public static Triangle randomTriangleIn(int width, int height, ArrayList<Integer> colorList)
   {
     Random rand = Constants.random;
     
-    ArrayList<Integer> colorList = PicturePanel.getColorList();
-    int size = PicturePanel.getColorListSize();    
-    int rgb = colorList.get(rand.nextInt(size));
+//    System.out.println(colorList.size());
+    int rgb;
+    if (colorList.size() == 0) 
+    {
+      rgb = Constants.random.nextInt();
+    } 
+    else 
+    {
+      rgb = colorList.get(rand.nextInt(colorList.size()));
+    }
     Color c = new Color(rgb);
     int red = c.getRed();
     int green = c.getGreen();
@@ -107,12 +114,12 @@ public class Triangle
    * @param height
    * @return
    *************************************************************************************/
-  public static Triangle[] randomGenome(int count, int width, int height)
+  public static Triangle[] randomGenome(int count, int width, int height, ArrayList<Integer> colorList)
   {
     Triangle[] ts = new Triangle[count];
     for (int i = 0; i < count; i++)
     {
-      ts[i] = randomTriangleIn(width, height);
+      ts[i] = randomTriangleIn(width, height, colorList);
     }
     return ts;
   }

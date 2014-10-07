@@ -17,10 +17,10 @@ public class MainFrame extends Thread
   final static int FRAME_SIZE_X = 1100;
   final static int FRAME_SIZE_Y = 740;
 
-  public static PicturePanel picturePanel;
+  public PicturePanel picturePanel;
   private static JFrame mainFrame;
-  private static ButtonPanel buttonPanel;
-  public static TrianglePanel trianglePanel;
+  public ButtonPanel buttonPanel;
+  public TrianglePanel trianglePanel;
   private static JPanel containerPanel;
 
   /**
@@ -28,6 +28,15 @@ public class MainFrame extends Thread
    */
   public MainFrame()
   {
+
+    mainFrame = new JFrame("Triangle Genome");
+    containerPanel = new JPanel(new BorderLayout());
+    buttonPanel = new ButtonPanel();
+    
+    picturePanel = new PicturePanel(LoadPictures.bImage1.getWidth(), LoadPictures.bImage1.getHeight(),
+        LoadPictures.bImage1);
+    trianglePanel = new TrianglePanel(LoadPictures.bImage1.getWidth(), LoadPictures.bImage1.getHeight());
+    
   }
 
   /********************************************************************************
@@ -39,23 +48,16 @@ public class MainFrame extends Thread
   public int init()
   {
 
-    mainFrame = new JFrame("Triangle Genome");
     mainFrame.setPreferredSize(new Dimension(FRAME_SIZE_X, FRAME_SIZE_Y));
     mainFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
     mainFrame.setResizable(false);
 
-    new LoadPictures();
-    picturePanel = new PicturePanel(LoadPictures.bImage1.getWidth(), LoadPictures.bImage1.getHeight(),
-        LoadPictures.bImage1);
-    trianglePanel = new TrianglePanel(LoadPictures.bImage1.getWidth(), LoadPictures.bImage1.getHeight());
     
     trianglePanel.setTriangleCount(200);
 //    trianglePanel.displayTriangles(
 //        Triangle.randomGenome(200, LoadPictures.bImage1.getWidth(), LoadPictures.bImage1.getHeight()),
 //        LoadPictures.bImage1.getWidth(), LoadPictures.bImage1.getHeight());
 
-    containerPanel = new JPanel(new BorderLayout());
-    buttonPanel = new ButtonPanel();
     
     containerPanel.add(picturePanel, BorderLayout.WEST);
     containerPanel.add(trianglePanel, BorderLayout.EAST);

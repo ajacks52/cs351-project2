@@ -37,7 +37,7 @@ public class TrianglePanel extends JPanel
     // this.triangles = Triangle.randomGenome(200, width, height);
     this.repaint();
   }
-
+  
   /*******************************************************************************
    * 
    * @param triangles
@@ -129,27 +129,27 @@ public class TrianglePanel extends JPanel
    *******************************************************************************/
   public static void main(String[] args)
   {
-    int width = 512;
-    int height = 413;
-
-    Triangle[] triangles = Triangle.randomGenome(200, width, height);
-    JFrame frame = new JFrame();
-    TrianglePanel panel = new TrianglePanel(width, height);
-    frame.add(panel);
-    frame.setSize(new Dimension(PANEL_W, PANEL_H));
-    frame.setVisible(true);
-
-    panel.displayTriangles(triangles, width, height);
-    try
-    {
-      Thread.sleep(2000);
-    }
-    catch (InterruptedException e)
-    {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
-    }
-    panel.setTriangleCount(10);
+//    int width = 512;
+//    int height = 413;
+//
+//    Triangle[] triangles = Triangle.randomGenome(200, width, height);
+//    JFrame frame = new JFrame();
+//    TrianglePanel panel = new TrianglePanel(width, height);
+//    frame.add(panel);
+//    frame.setSize(new Dimension(PANEL_W, PANEL_H));
+//    frame.setVisible(true);
+//
+//    panel.displayTriangles(triangles, width, height);
+//    try
+//    {
+//      Thread.sleep(2000);
+//    }
+//    catch (InterruptedException e)
+//    {
+//      // TODO Auto-generated catch block
+//      e.printStackTrace();
+//    }
+//    panel.setTriangleCount(10);
   }
 
   /********************************************************************************
@@ -167,8 +167,10 @@ public class TrianglePanel extends JPanel
     graphics.fillRect(0, 0, paintCanvas.getWidth(), paintCanvas.getHeight());
     this.drawGraphics(graphics);
     super.paintComponent(canvas);
-    canvas.drawImage(paintCanvas, 25, 25, null);
-
+    if (canvas != null)
+    {
+      canvas.drawImage(paintCanvas, 25, 25, null);
+    }
   }
 
   /********************************************************************************
@@ -176,6 +178,10 @@ public class TrianglePanel extends JPanel
    ********************************************************************************/
   public BufferedImage getBufferedImage()
   {
+    if (this.paintCanvas == null)
+    {
+      paintComponent(null);
+    }
     return this.paintCanvas;
   }
 

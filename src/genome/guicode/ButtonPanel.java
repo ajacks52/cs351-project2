@@ -56,6 +56,7 @@ public class ButtonPanel extends JPanel
   private int gen = 0;
   private int genPerSec = 0;
 
+  
 
   /**
    * Constructor
@@ -78,88 +79,14 @@ public class ButtonPanel extends JPanel
 
     Set<String> keys = LoadPictures.picturesMap.keySet();
     String[] pictures = (String[]) keys.toArray(new String[keys.size()]);
-
+    System.out.println(LoadPictures.picturesMap);
     pictureSelector = new JComboBox<String>(pictures);
-    pictureSelector.setSelectedIndex(7);
+    pictureSelector.setSelectedIndex(0);
     String[] genomes = new String[2000];
     genomePicker = new JComboBox<String>(genomes);
     pictureSelector.setSelectedIndex(0);
     genomePicker.setSelectedIndex(0);
 
-    
-    // ActionListeners
-    
-    /***
-     * pictureSelector
-     */
-    pictureSelector.addActionListener(new java.awt.event.ActionListener() {
-      public void actionPerformed(ActionEvent e)
-      {
-        @SuppressWarnings("unchecked")
-        JComboBox<String> cb = (JComboBox<String>) e.getSource();
-        String pictName = (String) cb.getSelectedItem();
-        MainFrame.picturePanel.setPicture(pictName);
-        System.out.println(pictName);
-      }
-    });
-
-    /**
-     * genomePicker
-     */
-    genomePicker.addActionListener(new java.awt.event.ActionListener() {
-      public void actionPerformed(ActionEvent e)
-      {
-        System.out.println("action");
-      }
-    });
-
-    /**
-     * tribeSelectorListener
-     */
-    ChangeListener tribeSelectorListener = new ChangeListener() {
-      public void stateChanged(ChangeEvent e)
-      {
-
-        int value = (int) tribeSelector.getValue();
-        tribeNumL.setText(("Tribe #: " + value));
-        MainFrame.trianglePanel.displayTriangles(
-            Triangle.randomGenome(200, PicturePanel.getCurrentPicture().getWidth(), PicturePanel.getCurrentPicture().getHeight()),
-            PicturePanel.getCurrentPicture().getWidth(), PicturePanel.getCurrentPicture().getHeight());
-      }
-    };
-
-    /**
-     * triangleSelectorListener
-     */
-    ChangeListener triangleSelectorListener = new ChangeListener() {
-      public void stateChanged(ChangeEvent e)
-      {
-
-        int value = (int) triangleSelector.getValue();
-        triangleAmountL.setText(("Triangle #: " + value));
-        MainFrame.trianglePanel.setTriangleCount(value);
-      }
-    };
-    
-    /**
-     * Next button
-     */
-    next.addActionListener(new java.awt.event.ActionListener() {
-      public void actionPerformed(ActionEvent e)
-      {
-        MainFrame.trianglePanel.displayTriangles(
-            Triangle.randomGenome(200, PicturePanel.getCurrentPicture().getWidth(), PicturePanel.getCurrentPicture().getHeight()),
-            PicturePanel.getCurrentPicture().getWidth(), PicturePanel.getCurrentPicture().getHeight());
-        fit = Fitness.getFitness(PicturePanel.getCurrentPicture(), MainFrame.trianglePanel.getBufferedImage());
-        bestTribeL.setText("Best Tribe # " + bestTribe + ", fit # " + fit);
-      }
-    });
-
-    
-    tribeSelector.addChangeListener(tribeSelectorListener);
-    triangleSelector.addChangeListener(triangleSelectorListener);
-
-    
     // Layout the components
     
     int row1 = 5;
@@ -236,6 +163,60 @@ public class ButtonPanel extends JPanel
 
   }
 
+  
+  
+  /*
+   * All of the actionlisteners for the delegate
+   */
+  
+  public void addNextButtonActionListener(ActionListener al)
+  {
+    next.addActionListener(al);
+  }
+  
+  public void addStatsFileChangedActionListener(ActionListener al)
+  {
+    statsFile.addActionListener(al);
+  }
+  
+  public void addTriangleSelectorChangeListener(ChangeListener cl)
+  {
+    triangleSelector.addChangeListener(cl);
+  }
+  
+  public void addTribeSelectorActionListener(ChangeListener cl)
+  {
+    tribeSelector.addChangeListener(cl);
+  }
+  
+  public void addGenomePickerActionListener(ActionListener al)
+  {
+    genomePicker.addActionListener(al);
+  }
+  
+  public void addPicturePickerActionListener(ActionListener al)
+  {
+    pictureSelector.addActionListener(al);
+  }
+  
+  public void setTribeNumber(int i)
+  {
+    tribeNum = i;
+    tribeNumL.setText(("Tribe #: " + i));
+  }
+  
+  public void setTriangleNumber(int i)
+  {
+    triangleAmount = i;
+    triangleAmountL.setText("Triangle #: " + i);
+  }
+  
+  public void setFitness(long i)
+  {
+    fit = i;
+    bestTribeL.setText("Best Tribe # " + bestTribe + ", fit # " + fit);
+  }
+  
   /********************************************************************************
    * Main for unit testing..
    * 

@@ -14,6 +14,7 @@ public class Fitness
    ***********************************************************************************/
   public static long getFitness(BufferedImage a, BufferedImage b)
   {
+//    System.out.println(a + " " + b);
     if (a.getWidth() != b.getWidth()) return 0;
     if (a.getHeight() != b.getHeight()) return 0;
     long sum = 0;
@@ -33,6 +34,6 @@ public class Fitness
       }
 //      System.out.println(sum);
     }
-    return sum;
+    return sum / a.getWidth() / a.getHeight();
   }
 }

@@ -16,15 +16,6 @@ import javax.imageio.ImageIO;
  ************************************************************************************/
 public class LoadPictures
 {
-  public static BufferedImage bImage1;
-  public static BufferedImage bImage2;
-  public static BufferedImage bImage3;
-  public static BufferedImage bImage4;
-  public static BufferedImage bImage6;
-  public static BufferedImage bImage5;
-  public static BufferedImage bImage7;
-  public static BufferedImage bImage8;
-  public static BufferedImage bImage9;
 
   public static File f1 = new File("images/Leonardo_da_Vinci-Mona-Lisa-460x363.png");
   public static File f2 = new File("images/Claude_Monet-Poppy_Fields-450x338.png");
@@ -35,11 +26,20 @@ public class LoadPictures
   public static File f7 = new File("images/Old_House-300x331.png");
   public static File f8 = new File("images/Hot_Air_Balloon-400x300.png");
   public static File f9 = new File("images/triangles.png");
+
+  public static BufferedImage bImage1;
+  public static BufferedImage bImage2;
+  public static BufferedImage bImage3;
+  public static BufferedImage bImage4;
+  public static BufferedImage bImage6;
+  public static BufferedImage bImage5;
+  public static BufferedImage bImage7;
+  public static BufferedImage bImage8;
+  public static BufferedImage bImage9;
   
   public static Map<String,BufferedImage> picturesMap = new TreeMap<String,BufferedImage>();
   
-  
-  LoadPictures()
+  static 
   {
     try
     {
@@ -69,6 +69,8 @@ public class LoadPictures
     picturesMap.put(f8.getName(), bImage8);
     picturesMap.put(f9.getName(), bImage9);
   }
+  
+ 
 
   /************************************************************************************
    * main for unit testing 

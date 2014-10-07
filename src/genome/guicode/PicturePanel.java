@@ -18,13 +18,13 @@ import javax.swing.*;
  ********************************************************************************/
 public class PicturePanel extends JPanel
 {
-  private final static int PANEL_H = 550;
-  private final static int PANEL_W = 550;
+  private final int PANEL_H = 550;
+  private final int PANEL_W = 550;
   private int height;
   private int width;
   // private static Graphics2D canvas;
-  private static BufferedImage currentImage;
-  private static ArrayList<Integer> colorList = new ArrayList<Integer>();
+  private BufferedImage currentImage;
+  private ArrayList<Integer> colorList = new ArrayList<Integer>();
 
   public PicturePanel(int x, int y, BufferedImage bImage)
   {
@@ -66,10 +66,6 @@ public class PicturePanel extends JPanel
       // TODO Auto-generated catch block
       e.printStackTrace();
     }
-    MainFrame.trianglePanel.displayTriangles(
-        Triangle.randomGenome(200, currentImage.getWidth(), currentImage.getHeight()),
-        currentImage.getWidth(), currentImage.getHeight());
-    
     repaint();
   }
   
@@ -77,7 +73,7 @@ public class PicturePanel extends JPanel
    * 
    * @param bImage
    */
-  private void pictureColorValues(BufferedImage bImage)
+  public ArrayList<Integer> pictureColorValues(BufferedImage bImage)
   {
     colorList = new ArrayList<Integer>();
     for(int x = 0; x < bImage.getWidth(); x++)
@@ -87,9 +83,10 @@ public class PicturePanel extends JPanel
         colorList.add(bImage.getRGB(x, y));
       }
     }
+    return colorList;
   }
   
-  public static ColorModel getColorModelCurrentImage()
+  public ColorModel getColorModelCurrentImage()
   {
     return currentImage.getColorModel();
   }
@@ -97,24 +94,16 @@ public class PicturePanel extends JPanel
   /**
    * 
    */
-  public static ArrayList<Integer> getColorList()
+  public ArrayList<Integer> getColorList()
   {
     return colorList;
-  }
-  
-  /***
-   * 
-   */
-  public static int getColorListSize()
-  {
-    return colorList.size();
   }
   
   /********************************************************************************
    * 
    * @return
    ********************************************************************************/
-  public static BufferedImage getCurrentPicture()
+  public BufferedImage getCurrentPicture()
   {
     return currentImage;
     
@@ -124,7 +113,7 @@ public class PicturePanel extends JPanel
    * 
    * @return
    ********************************************************************************/
-  public static Point getCurrentPictureSize()
+  public Point getCurrentPictureSize()
   {
     Point p = new Point(currentImage.getWidth(), currentImage.getHeight());
     return p;
