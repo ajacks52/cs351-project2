@@ -34,6 +34,6 @@ public class Fitness
       }
 //      System.out.println(sum);
     }
-    return sum / a.getWidth() / a.getHeight();
+    return sum;
   }
 }
