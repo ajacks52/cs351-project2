@@ -205,15 +205,66 @@ public class HillClimbing
       
       g.getTriangles()[triangle-1] = g.getTriangles()[triangle];
       g.getTriangles()[triangle] = t;
+    } else {
+      Triangle t = g.getTriangles()[triangle+1].copy();
+      
+      g.getTriangles()[triangle+1] = g.getTriangles()[triangle];
+      g.getTriangles()[triangle] = t;
     }
   }
   
   /********************************************************************
    * aplies one of the previous methods to the genome only once
    *******************************************************************/
-  public void oneChange(Genome g)
+  public void oneChange(Genome g, int i)
   {
-    int randomNum = Constants.random.nextInt(10);
+    Triangle t = g.triangles[i];
+    int randomNum = Constants.random.nextInt(14);
+    switch(randomNum)
+    {
+    case 0:
+      addAlpha(t);
+      break;
+    case 1:
+      addBlue(t);
+      break;
+    case 2:
+      addGreen(t);
+      break;
+    case 3:
+      addRed(t);
+      break;
+    case 4:
+      addX(t);
+      break;
+    case 5:
+      addY(t);
+      break;
+    case 6:
+      minusAlpha(t);
+      break;
+    case 7:
+      minusBlue(t);
+      break;
+    case 8:
+      minusGreen(t);
+      break;
+    case 9:
+      minusRed(t);
+      break;
+    case 10:
+      moveTriangle(t);
+      break;
+    case 11:
+      reLayerTriangle(g,i);
+      break;
+    case 12:
+      subX(t);
+      break;
+    case 13:
+      subY(t);
+      break;
+    }
     
   }
 

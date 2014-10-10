@@ -15,7 +15,7 @@ import java.awt.image.BufferedImage;
  ************************************************************************************/
 public class Genome
 {
-  private Triangle[] triangles = new Triangle[Constants.GENOME_SIZE];
+  public Triangle[] triangles = new Triangle[Constants.GENOME_SIZE];
   private Dimension dimension = new Dimension();
   private int fitness;
 

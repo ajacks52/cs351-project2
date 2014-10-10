@@ -1,11 +1,13 @@
 package genome.guicode;
 
+import genome.types.Genome;
 import genome.types.Triangle;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.awt.*;
 import java.awt.image.BufferedImage;
+
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
@@ -76,6 +78,14 @@ public class TrianglePanel extends JPanel
   public void displayTriangles(List<Triangle> triangles)
   {
     this.triangles = (Triangle[]) triangles.toArray();
+    this.repaint();
+  }
+  
+  public void displayGenome(Genome g)
+  {
+    this.width = g.getDimension().width;
+    this.height = g.getDimension().height;
+    this.triangles = g.triangles;
     this.repaint();
   }
 

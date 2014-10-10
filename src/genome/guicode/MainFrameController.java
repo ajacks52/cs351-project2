@@ -1,11 +1,15 @@
 package genome.guicode;
 
 import genome.logic.Fitness;
+import genome.types.Genome;
 import genome.types.Triangle;
+import genome.types.Tribe;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import javax.swing.JComboBox;
 import javax.swing.JSlider;
@@ -21,6 +25,7 @@ import javax.swing.event.ChangeListener;
 public class MainFrameController
 {
   private MainFrame frame;
+  private Tribe tribe;
   
   public MainFrameController()
   {
@@ -31,6 +36,7 @@ public class MainFrameController
     
     synchronized (frame) 
     {
+      
       /**
        * picturePicker
        */
@@ -102,10 +108,22 @@ public class MainFrameController
         @Override
         public void actionPerformed(ActionEvent e)
         {
-          frame.trianglePanel.displayTriangles(
-              Triangle.randomGenome(200, frame.picturePanel.getCurrentPicture().getWidth(), frame.picturePanel.getCurrentPicture().getHeight(), frame.picturePanel.getColorList()),
-              frame.picturePanel.getCurrentPicture().getWidth(), frame.picturePanel.getCurrentPicture().getHeight());
-          frame.buttonPanel.setFitness(Fitness.getFitness(frame.picturePanel.getCurrentPicture(), frame.trianglePanel.getBufferedImage()));
+          Genome g = Genome.randomGenome(frame.picturePanel.getCurrentPicture().getWidth(), frame.picturePanel.getCurrentPicture().getHeight());
+          frame.trianglePanel.displayGenome(g);
+          frame.buttonPanel.setFitness(Fitness.getFitness(frame.picturePanel.getCurrentPicture(), g));
+        }
+      });
+      
+      /**
+       * pauseButton
+       */
+      frame.buttonPanel.addStartPauseActionListener(new ActionListener()
+      {
+        @Override
+        public void actionPerformed(ActionEvent e)
+        {
+          // TODO Auto-generated method stub
+          
         }
       });
       
@@ -113,10 +131,38 @@ public class MainFrameController
       int height = frame.picturePanel.getCurrentPicture().getHeight();
       ArrayList<Integer> colorList = frame.picturePanel.pictureColorValues(LoadPictures.bImage1);
       
-      frame.trianglePanel.displayTriangles(Triangle.randomGenome(200, width, height, colorList), width, height);
+      Genome g = Genome.randomGenome(width, height);
       
-      long fitness = Fitness.getFitness(frame.picturePanel.getCurrentPicture(), frame.trianglePanel.getBufferedImage());
+      frame.trianglePanel.displayGenome(g);
+      
+      long fitness = Fitness.getFitness(frame.picturePanel.getCurrentPicture(), g);
       frame.buttonPanel.setFitness(fitness);
+
+      tribe = new Tribe("Tribe 1", frame.picturePanel.getCurrentPicture().getWidth(), frame.picturePanel.getCurrentPicture().getHeight(), frame.picturePanel.getCurrentPicture());
+      tribe.start();
+      
+      Timer timer = new Timer();
+      timer.scheduleAtFixedRate(new TimerTask()
+      {
+        @Override
+        public void run()
+        {
+          synchronized (tribe) 
+          {
+            displayGenome(tribe.genomes.get(0));
+          }
+        }
+      }, 0, 500L);
+    }
+
+  }
+  
+  public void displayGenome(Genome g)
+  {
+    synchronized(frame)
+    {
+      frame.trianglePanel.displayGenome(g);
+      frame.buttonPanel.setFitness(Fitness.getFitness(frame.picturePanel.getCurrentPicture(), g));
     }
   }
   

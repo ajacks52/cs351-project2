@@ -25,7 +25,7 @@ public class ButtonPanel extends JPanel
   /**
    * All of the components to be displayed within the ButtonPanel
    */
-  private JButton pause = new JButton("Pause");
+  private JButton pause = new JButton("Start");
   private JButton next = new JButton("Next");
   private JButton showTable = new JButton("Show Genome Table");
   private JButton readGenome = new JButton("Read Genome File");
@@ -197,6 +197,11 @@ public class ButtonPanel extends JPanel
   public void addPicturePickerActionListener(ActionListener al)
   {
     pictureSelector.addActionListener(al);
+  }
+  
+  public void addStartPauseActionListener(ActionListener al)
+  {
+    pause.addActionListener(al);
   }
   
   public void setTribeNumber(int i)

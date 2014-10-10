@@ -1,6 +1,9 @@
 package genome.logic;
 
+import genome.types.Genome;
+
 import java.awt.image.BufferedImage;
+import java.util.HashMap;
 
 /************************************************************************************
  * 
@@ -9,24 +12,32 @@ import java.awt.image.BufferedImage;
  ************************************************************************************/
 public class Fitness
 {
+  private static HashMap<Genome,Long> map = new HashMap<Genome,Long>();
+  
+  
   /***********************************************************************************
    * 
    ***********************************************************************************/
-  public static long getFitness(BufferedImage a, BufferedImage b)
+  public static long getFitness(BufferedImage image, Genome g)
   {
+//    if (map.containsKey(g))
+//    {
+//      return map.get(g);
+//    }
+    BufferedImage phenome = g.getImage(200);
 //    System.out.println(a + " " + b);
-    if (a.getWidth() != b.getWidth()) return 0;
-    if (a.getHeight() != b.getHeight()) return 0;
+    if (image.getWidth() != phenome.getWidth()) return 0;
+    if (image.getHeight() != phenome.getHeight()) return 0;
     long sum = 0;
-    for (int j=0; j < a.getHeight(); j++)
+    for (int j=0; j < image.getHeight(); j++)
     {
-      for (int i=0; i < a.getWidth(); i++)
+      for (int i=0; i < image.getWidth(); i++)
       {
-        int argb = a.getRGB(i, j);
+        int argb = image.getRGB(i, j);
         int ared = (argb >> 16) & 0xFF;
         int agreen = (argb >> 8) & 0xFF;
         int ablue = (argb >> 0) & 0xFF;
-        int brgb = b.getRGB(i, j);
+        int brgb = phenome.getRGB(i, j);
         int bred = (brgb >> 16) & 0xFF;
         int bgreen = (brgb >> 8) & 0xFF;
         int bblue = (brgb >> 0) & 0xFF;
