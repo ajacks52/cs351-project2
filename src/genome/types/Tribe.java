@@ -3,7 +3,9 @@ package genome.types;
 import genome.Constants;
 import genome.logic.Fitness;
 import genome.logic.GeneticAlg;
+import genome.logic.HillClimbing;
 
+import java.awt.Point;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -53,6 +55,15 @@ public class Tribe extends Thread
     for (int i=0; i < div4; i++)
     {
       genAlg.singlePointCrossOver(genomes.get(i), genomes.get(i+div4), genomes.get(i+div4*2), genomes.get(i+div4*3), Constants.random.nextInt(200));
+    }
+  }
+  
+  private void mutateAll()
+  {
+    HillClimbing hc = new HillClimbing(new Point(bImage.getWidth(), bImage.getHeight()));
+    for (Genome g : genomes)
+    {
+      
     }
   }
   

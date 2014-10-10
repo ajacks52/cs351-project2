@@ -18,12 +18,13 @@ import genome.types.Triangle;
  *******************************************************************/
 public class HillClimbing
 {
-
+  private Point size;
   /********************************************************************
    * Constructor 
    *******************************************************************/
-  public HillClimbing()
+  public HillClimbing(Point size)
   {
+    this.size = size;
   }
   
   /********************************************************************
@@ -31,7 +32,6 @@ public class HillClimbing
    *******************************************************************/
   public void addX(Triangle t)
   {
-    Point size = PicturePanel.getCurrentPictureSize();
     int rand = Constants.random.nextInt(2);
     if(rand == 0 && t.getPoint1().y < size.y) t.getPoint1().x++;
     if(rand == 1 && t.getPoint1().y < size.y) t.getPoint2().x++;
@@ -56,7 +56,6 @@ public class HillClimbing
    *******************************************************************/
   public void addY(Triangle t)
   {
-    Point size = PicturePanel.getCurrentPictureSize();
     int rand = Constants.random.nextInt(2);
     if(rand == 0 && t.getPoint1().y < size.y) t.getPoint1().y++;
     if(rand == 1 && t.getPoint2().y < size.y) t.getPoint2().y++;
@@ -184,13 +183,12 @@ public class HillClimbing
    *******************************************************************/
   public void moveTriangle(Triangle t)
   {
-    Point pictureSize = PicturePanel.getCurrentPictureSize();
-    t.getPoint1().x = Constants.random.nextInt(pictureSize.x);
-    t.getPoint1().y = Constants.random.nextInt(pictureSize.y);
-    t.getPoint2().x = Constants.random.nextInt(pictureSize.x);
-    t.getPoint2().y = Constants.random.nextInt(pictureSize.y);
-    t.getPoint3().x = Constants.random.nextInt(pictureSize.x);
-    t.getPoint3().y = Constants.random.nextInt(pictureSize.y);
+    t.getPoint1().x = Constants.random.nextInt(size.x);
+    t.getPoint1().y = Constants.random.nextInt(size.y);
+    t.getPoint2().x = Constants.random.nextInt(size.x);
+    t.getPoint2().y = Constants.random.nextInt(size.y);
+    t.getPoint3().x = Constants.random.nextInt(size.x);
+    t.getPoint3().y = Constants.random.nextInt(size.y);
   }
   
   /********************************************************************
@@ -208,6 +206,15 @@ public class HillClimbing
       g.getTriangles()[triangle-1] = g.getTriangles()[triangle];
       g.getTriangles()[triangle] = t;
     }
+  }
+  
+  /********************************************************************
+   * aplies one of the previous methods to the genome only once
+   *******************************************************************/
+  public void oneChange(Genome g)
+  {
+    int randomNum = Constants.random.nextInt(10);
+    
   }
 
 }
