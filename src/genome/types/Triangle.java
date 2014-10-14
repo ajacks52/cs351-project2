@@ -10,6 +10,8 @@ import java.awt.image.ColorModel;
 import java.util.ArrayList;
 import java.util.Random;
 
+import com.sun.corba.se.impl.orbutil.closure.Constant;
+
 /**********************************************************************************
  * @author Jordan Medlock 
  * @author Adam Mitchell
@@ -114,17 +116,25 @@ public class Triangle
    * @param height
    * @return
    *************************************************************************************/
-  public static Triangle[] randomGenome(int count, int width, int height, ArrayList<Integer> colorList)
+  public static ArrayList<Triangle> randomGenome(int count, int width, int height, ArrayList<Integer> colorList)
   {
-    Triangle[] ts = new Triangle[count];
-    for (int i = 0; i < count; i++)
+    ArrayList<Triangle> ts = new ArrayList<Triangle>(count);
+    Point p = new Point(Constants.random.nextInt(width), Constants.random.nextInt(height)); 
+    
+
+    
+   ts.add(new Triangle(0,0,0,height,p.x,p.y,colorList.get(Constants.random.nextInt(colorList.size()))));
+   ts.add(new Triangle(width,height,width,0,p.x,p.y,colorList.get(Constants.random.nextInt(colorList.size()))));
+   ts.add(new Triangle(0,0,width,0,p.x,p.y,colorList.get(Constants.random.nextInt(colorList.size()))));
+   ts.add(new Triangle(width,height,0,height,p.x,p.y,colorList.get(Constants.random.nextInt(colorList.size()))));
+   
+   
+    for (int i = 4; i < count; i++)
     {
-      ts[i] = randomTriangleIn(width, height, colorList);
+      ts.add(randomTriangleIn(width, height, colorList));
     }
     return ts;
   }
-  
-
   
 
   /************************************************************************************

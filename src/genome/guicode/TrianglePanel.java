@@ -81,6 +81,7 @@ public class TrianglePanel extends JPanel
     this.repaint();
   }
   
+  
   public void displayGenome(Genome g)
   {
     this.width = g.getDimension().width;

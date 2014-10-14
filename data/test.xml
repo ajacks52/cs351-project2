@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<genome>
+	<triangle id="0">
+		<x1>yong</x1>
+		<y1>mook</y1>
+		<x2>mkyong</x2>
+		<y2>100000</y2>
+		<x3>yong</x3>
+		<y3>mook</y3>
+		<r>mkyong</r>
+		<g>100000</g>
+		<b>yong</b>
+		<t>mook</t>
+	</triangle>
+	<triangle id="1">
+		<x1>yong</x1>
+		<y1>mook</y1>
+		<x2>mkyong</x2>
+		<y2>100000</y2>
+		<x3>yong</x3>
+		<y3>mook</y3>
+		<r>mkyong</r>
+		<g>100000</g>
+		<b>yong</b>
+		<t>mook</t>
+	</triangle>
+</genome>

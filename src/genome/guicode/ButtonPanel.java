@@ -25,7 +25,7 @@ public class ButtonPanel extends JPanel
   /**
    * All of the components to be displayed within the ButtonPanel
    */
-  private JButton pause = new JButton("Start");
+  private JButton pause = new JButton("Pause");
   private JButton next = new JButton("Next");
   private JButton showTable = new JButton("Show Genome Table");
   private JButton readGenome = new JButton("Read Genome File");
@@ -38,9 +38,9 @@ public class ButtonPanel extends JPanel
   private JComboBox<String> genomePicker;
   private JTextField statsFile = new JTextField();
 
-  private JLabel triangleAmountL = new JLabel("Triangle #: 200");
+  private JLabel triangleAmountL = new JLabel("Triangles 200");
   private JLabel bestTribeL = new JLabel("Best Tribe # 0, fit # 0");
-  private JLabel tribeNumL = new JLabel("Tribe #: 1");
+  private JLabel tribeNumL = new JLabel("Tribe/Thread Amount");
   private JLabel timeL = new JLabel("min:sec ");
   private JLabel genNumL = new JLabel("gen ");
   private JLabel genPerSecL = new JLabel("gen/sec ");
@@ -103,10 +103,10 @@ public class ButtonPanel extends JPanel
     pictureSelector.setSelectedIndex(7);
 
     size = tribeSelector.getPreferredSize();
-    tribeSelector.setBounds(445 + insets.left, row1 + insets.top, size.width - 15, size.height + 15);
+    tribeSelector.setBounds(443 + insets.left, row1 + insets.top, size.width - 17, size.height + 15);
 
     size = triangleSelector.getPreferredSize();
-    triangleSelector.setBounds(610 + insets.left, row1 + insets.top, size.width + 60, size.height + 20);
+    triangleSelector.setBounds(595 + insets.left, row1 + insets.top, size.width + 40, size.height + 20);
 
     size = bsize;
     pause.setBounds(25 + insets.left, row2 + insets.top, size.width, size.height);
@@ -119,9 +119,9 @@ public class ButtonPanel extends JPanel
         size.height);
     statsFile.setBounds(bsizeX * 5 + 30 + insets.left, row3 + insets.top, size.width, size.height);
 
-    triangleAmountL.setBounds(  525 + insets.left,  row1 + insets.top+5, size.width,    size.height);
-    tribeNumL.setBounds(        370 + insets.left,  row1 + insets.top+5, size.width,    size.height);
-    bestTribeL.setBounds(       880 + insets.left,  row1 + insets.top+5, size.width+25, size.height);
+    triangleAmountL.setBounds(  513 + insets.left,  row1 + insets.top+5, size.width,    size.height);
+    tribeNumL.setBounds(        320 + insets.left,  row1 + insets.top+5, size.width,    size.height);
+    bestTribeL.setBounds(       865 + insets.left,  row1 + insets.top+5, size.width+45, size.height);
     timeL.setBounds(            50 + insets.left,   row3 + insets.top+5, size.width,    size.height);
     genNumL.setBounds(          200 + insets.left,  row3 + insets.top+5, size.width,    size.height);
     genPerSecL.setBounds(       350 + insets.left,  row3 + insets.top+5, size.width,    size.height);
@@ -168,6 +168,22 @@ public class ButtonPanel extends JPanel
   /*
    * All of the actionlisteners for the delegate
    */
+   
+  public void addreadGenomeButtonActionListener(ActionListener al)
+  {
+    readGenome.addActionListener(al);
+  }
+  
+  public void addwriteGenomeButtonActionListener(ActionListener al)
+  {
+    writeGenome.addActionListener(al);
+  }
+  
+  public void addshowTableButtonActionListener(ActionListener al)
+  {
+    showTable.addActionListener(al);
+  }
+  
   
   public void addNextButtonActionListener(ActionListener al)
   {
@@ -207,19 +223,57 @@ public class ButtonPanel extends JPanel
   public void setTribeNumber(int i)
   {
     tribeNum = i;
-    tribeNumL.setText(("Tribe #: " + i));
   }
   
   public void setTriangleNumber(int i)
   {
     triangleAmount = i;
-    triangleAmountL.setText("Triangle #: " + i);
+    triangleAmountL.setText("Triangles " + i);
   }
   
   public void setFitness(long i)
   {
     fit = i;
     bestTribeL.setText("Best Tribe # " + bestTribe + ", fit # " + fit);
+  }
+  
+  public void setPause()
+  {
+    if(pause.getText().equalsIgnoreCase("pause"))
+    {
+      pause.setText("Start");
+      enableButtons();
+    }
+    else{
+      pause.setText("Pause");
+      disableButtons();
+  
+      
+       
+    }
+  }
+  
+  public void disableButtons()
+  {
+    next.setEnabled(false); 
+    showTable.setEnabled(false); 
+    readGenome.setEnabled(false); 
+    writeGenome.setEnabled(false); 
+    appendStats.setEnabled(false); 
+  }
+  
+  public void enableButtons()
+  {
+    next.setEnabled(true); 
+    showTable.setEnabled(true); 
+    readGenome.setEnabled(true); 
+    writeGenome.setEnabled(true); 
+    appendStats.setEnabled(true); 
+  }
+  
+  public boolean getPauseState()
+  {
+    return(pause.getText().equalsIgnoreCase("start"));
   }
   
   /********************************************************************************

@@ -20,8 +20,7 @@ public class PicturePanel extends JPanel
 {
   private final int PANEL_H = 550;
   private final int PANEL_W = 550;
-  private int height;
-  private int width;
+
   // private static Graphics2D canvas;
   private BufferedImage currentImage;
   private ArrayList<Integer> colorList = new ArrayList<Integer>();
@@ -63,7 +62,6 @@ public class PicturePanel extends JPanel
     }
     catch (InterruptedException e)
     {
-      // TODO Auto-generated catch block
       e.printStackTrace();
     }
     repaint();
@@ -97,6 +95,11 @@ public class PicturePanel extends JPanel
   public ArrayList<Integer> getColorList()
   {
     return colorList;
+  }
+  
+  public void setColorList(ArrayList<Integer> cl)
+  {
+    colorList = cl;
   }
   
   /********************************************************************************
