@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Polygon;
 import java.awt.image.BufferedImage;
 
@@ -17,10 +18,12 @@ public class Genome
 {
   public Triangle[] triangles = new Triangle[Constants.GENOME_SIZE];
   private Dimension dimension = new Dimension();
-  private int fitness;
+  static BufferedImage bi;
+  public BufferedImage resizedBi;
+  private long fitness;
 
   /************************************************************************************
-   * One of two constructors takes an arraylist of triangles
+   * One of 3 constructors takes an arraylist of triangles
    * 
    * @param tris
    ************************************************************************************/
@@ -50,12 +53,14 @@ public class Genome
 
   public BufferedImage getImage(int count)
   {
-    BufferedImage bi = new BufferedImage(dimension.width,dimension.height,BufferedImage.TYPE_INT_RGB);
+    bi = new BufferedImage(dimension.width,dimension.height,BufferedImage.TYPE_INT_RGB);
     Graphics g = bi.getGraphics();
     this.drawToCanvas(g, count);
     return bi;
   }
   
+  
+
   public int hammingDistance(Genome other)
   { 
     int sum = 0;
@@ -92,6 +97,16 @@ public class Genome
       sum += (diff1==0? 0 : 1);
     }
     return sum;
+  }
+  
+  public void setFit(long fit)
+  {
+    fitness = fit;
+  }
+  
+  public long getFit()
+  {
+    return fitness;
   }
   
   public void mateWith(Genome father, Genome daughter, Genome son, int crossoverPoint)

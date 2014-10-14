@@ -1,5 +1,6 @@
 package genome.guicode;
 
+
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -7,6 +8,7 @@ import java.util.Map;
 import java.util.TreeMap;
 
 import javax.imageio.ImageIO;
+
 
 
 /************************************************************************************
@@ -36,6 +38,10 @@ public class LoadPictures
   public static BufferedImage bImage7;
   public static BufferedImage bImage8;
   public static BufferedImage bImage9;
+  private static BufferedImage cPicture;
+
+  
+  
   
   public static Map<String,BufferedImage> picturesMap = new TreeMap<String,BufferedImage>();
   
@@ -71,7 +77,13 @@ public class LoadPictures
   }
   
  
+  public static void currentPicture(BufferedImage image)
+  {
+    cPicture = image; 
+  }
 
+
+  
   /************************************************************************************
    * main for unit testing 
    ************************************************************************************/

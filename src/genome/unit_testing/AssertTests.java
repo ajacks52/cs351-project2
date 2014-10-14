@@ -31,8 +31,8 @@ public class AssertTests
     // Initialize the triangles
     for (int i = 0; i < 200; i++)
     {
-      triangles1.add(Triangle.randomTriangleIn(300, 300));
-      triangles2.add(Triangle.randomTriangleIn(200, 200));     
+//      triangles1.add(Triangle.randomTriangleIn(300, 300));
+//      triangles2.add(Triangle.randomTriangleIn(200, 200));     
     }
 
     Genome testGenomeP1 = new Genome(triangles1, 300, 300);

@@ -17,4 +17,6 @@ public class Constants
    ********************************************************************************/
   public static final Random random = new Random();
   public static final int GENOME_SIZE = 200;
+  public static final int RESIZED_PICTURE_SIZE = 100;
+
 }
