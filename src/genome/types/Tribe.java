@@ -48,8 +48,8 @@ public class Tribe extends Thread
       @Override
       public int compare(Genome o1, Genome o2)
       {
-        long f1 = Fitness.getFitness(bImage, o1);
-        long f2 = Fitness.getFitness(bImage, o2);
+        long f1 = Fitness.getFitness(bImage, o1, 5);
+        long f2 = Fitness.getFitness(bImage, o2, 5);
         return (int) (f1 - f2);
       }
     });
@@ -83,6 +83,7 @@ public class Tribe extends Thread
   {
     for (int step=0; !this.isInterrupted(); step++)
     {
+      long start = System.currentTimeMillis();
       System.out.println(step);
       sortGenomes();
       yield();

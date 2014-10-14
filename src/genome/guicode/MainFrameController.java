@@ -110,7 +110,7 @@ public class MainFrameController
         {
           Genome g = Genome.randomGenome(frame.picturePanel.getCurrentPicture().getWidth(), frame.picturePanel.getCurrentPicture().getHeight());
           frame.trianglePanel.displayGenome(g);
-          frame.buttonPanel.setFitness(Fitness.getFitness(frame.picturePanel.getCurrentPicture(), g));
+          frame.buttonPanel.setFitness(Fitness.getFitness(frame.picturePanel.getCurrentPicture(), g, 5));
         }
       });
       
@@ -135,7 +135,7 @@ public class MainFrameController
       
       frame.trianglePanel.displayGenome(g);
       
-      long fitness = Fitness.getFitness(frame.picturePanel.getCurrentPicture(), g);
+      long fitness = Fitness.getFitness(frame.picturePanel.getCurrentPicture(), g, 5);
       frame.buttonPanel.setFitness(fitness);
 
       tribe = new Tribe("Tribe 1", frame.picturePanel.getCurrentPicture().getWidth(), frame.picturePanel.getCurrentPicture().getHeight(), frame.picturePanel.getCurrentPicture());
@@ -162,7 +162,7 @@ public class MainFrameController
     synchronized(frame)
     {
       frame.trianglePanel.displayGenome(g);
-      frame.buttonPanel.setFitness(Fitness.getFitness(frame.picturePanel.getCurrentPicture(), g));
+      frame.buttonPanel.setFitness(Fitness.getFitness(frame.picturePanel.getCurrentPicture(), g, 5));
     }
   }
   

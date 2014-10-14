@@ -18,20 +18,17 @@ public class Fitness
   /***********************************************************************************
    * 
    ***********************************************************************************/
-  public static long getFitness(BufferedImage image, Genome g)
+  public static long getFitness(BufferedImage image, Genome g, int scaledBy)
   {
-//    if (map.containsKey(g))
-//    {
-//      return map.get(g);
-//    }
+    
     BufferedImage phenome = g.getImage(200);
 //    System.out.println(a + " " + b);
     if (image.getWidth() != phenome.getWidth()) return 0;
     if (image.getHeight() != phenome.getHeight()) return 0;
     long sum = 0;
-    for (int j=0; j < image.getHeight(); j++)
+    for (int j=0; j < image.getHeight(); j+= scaledBy)
     {
-      for (int i=0; i < image.getWidth(); i++)
+      for (int i=0; i < image.getWidth(); i+= scaledBy)
       {
         int argb = image.getRGB(i, j);
         int ared = (argb >> 16) & 0xFF;
@@ -45,6 +42,6 @@ public class Fitness
       }
 //      System.out.println(sum);
     }
-    return sum;
+    return sum * scaledBy * scaledBy;
   }
 }
