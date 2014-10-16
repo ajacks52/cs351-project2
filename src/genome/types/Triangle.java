@@ -122,12 +122,21 @@ public class Triangle
     Point p = new Point(Constants.random.nextInt(width), Constants.random.nextInt(height)); 
     
 
-    
-   ts.add(new Triangle(0,0,0,height,p.x,p.y,colorList.get(Constants.random.nextInt(colorList.size()))));
-   ts.add(new Triangle(width,height,width,0,p.x,p.y,colorList.get(Constants.random.nextInt(colorList.size()))));
-   ts.add(new Triangle(0,0,width,0,p.x,p.y,colorList.get(Constants.random.nextInt(colorList.size()))));
-   ts.add(new Triangle(width,height,0,height,p.x,p.y,colorList.get(Constants.random.nextInt(colorList.size()))));
-   
+   if (colorList.size() > 0)
+   {
+     ts.add(new Triangle(0,0,0,height,p.x,p.y,colorList.get(Constants.random.nextInt(colorList.size()))));
+     ts.add(new Triangle(width,height,width,0,p.x,p.y,colorList.get(Constants.random.nextInt(colorList.size()))));
+     ts.add(new Triangle(0,0,width,0,p.x,p.y,colorList.get(Constants.random.nextInt(colorList.size()))));
+     ts.add(new Triangle(width,height,0,height,p.x,p.y,colorList.get(Constants.random.nextInt(colorList.size()))));
+   } 
+   else 
+   {
+     ts.add(new Triangle(0,0,0,height,p.x,p.y,Constants.random.nextInt()));
+     ts.add(new Triangle(width,height,width,0,p.x,p.y,Constants.random.nextInt()));
+     ts.add(new Triangle(0,0,width,0,p.x,p.y,Constants.random.nextInt()));
+     ts.add(new Triangle(width,height,0,height,p.x,p.y,Constants.random.nextInt()));
+
+   }
    
     for (int i = 4; i < count; i++)
     {

@@ -63,13 +63,8 @@ public class Tribe extends Thread
       @Override
       public int compare(Genome o1, Genome o2)
       {
-        long f1 = Fitness.getFitness(MainFrameController.getresizedPict(), o1.resizedBi);
-        long f2 = Fitness.getFitness(MainFrameController.getresizedPict(), o2.resizedBi);
-        // BufferedImage o1Bi = o1.getImage(200);
-        // BufferedImage o2Bi = o2.getImage(200);
-
-        // long f1 = Fitness.getFitness(bImageResized, getResizedImage(o2Bi,o2Bi.getWidth()/3,o2Bi.getHeight()/3));
-        // long f2 = Fitness.getFitness(bImageResized, getResizedImage(o2Bi,o2Bi.getWidth()/3,o2Bi.getHeight()/3));
+        long f1 = Fitness.getFitness(bImage, o1, 5);
+        long f2 = Fitness.getFitness(bImage, o2, 5);
         return (int) (f1 - f2);
       }
     });
@@ -125,6 +120,7 @@ public class Tribe extends Thread
 
     for (int step = 0; !this.isInterrupted(); step++)
     {
+      long start = System.currentTimeMillis();
       System.out.println(step);
       sortGenomes();
       yield();

@@ -142,7 +142,7 @@ public class MainFrameController
         Genome g = Genome.randomGenome(frame.picturePanel.getCurrentPicture().getWidth(), frame.picturePanel
             .getCurrentPicture().getHeight());
         frame.trianglePanel.displayGenome(g);
-        frame.buttonPanel.setFitness(Fitness.getFitness(frame.picturePanel.getCurrentPicture(), g));
+        frame.buttonPanel.setFitness(Fitness.getFitness(frame.picturePanel.getCurrentPicture(), g, 5));
       }
     });
 
@@ -176,6 +176,10 @@ public class MainFrameController
         }
         catch (IOException e1)
         {
+          Genome g = Genome.randomGenome(frame.picturePanel.getCurrentPicture().getWidth(), frame.picturePanel.getCurrentPicture().getHeight());
+          frame.trianglePanel.displayGenome(g);
+          frame.buttonPanel.setFitness(Fitness.getFitness(frame.picturePanel.getCurrentPicture(), g, 5));
+
         }
         chooser.setCurrentDirectory(f);
         chooser.showOpenDialog(null);
@@ -198,7 +202,24 @@ public class MainFrameController
       }
     });
 
-    /*
+ 
+      
+      int width = frame.picturePanel.getCurrentPicture().getWidth();
+      int height = frame.picturePanel.getCurrentPicture().getHeight();
+      ArrayList<Integer> colorList = frame.picturePanel.pictureColorValues(LoadPictures.bImage1);
+      
+      Genome g = Genome.randomGenome(width, height);
+      
+      frame.trianglePanel.displayGenome(g);
+      
+      long fitness = Fitness.getFitness(frame.picturePanel.getCurrentPicture(), g, 5);
+      frame.buttonPanel.setFitness(fitness);
+
+      tribe = new Tribe("Tribe 1", frame.picturePanel.getCurrentPicture().getWidth(), frame.picturePanel.getCurrentPicture().getHeight(), frame.picturePanel.getCurrentPicture(), new ArrayList<Integer>());
+      tribe.start();
+      
+      
+    /**
      * show table 
      */
     frame.addshowTableActionListener(new ActionListener() {
@@ -288,7 +309,7 @@ public class MainFrameController
     {
       tribe.quickSortGenomes();
       frame.trianglePanel.displayGenome(g);
-      frame.buttonPanel.setFitness(Fitness.getFitness(frame.picturePanel.getCurrentPicture(), g));
+      frame.buttonPanel.setFitness(Fitness.getFitness(frame.picturePanel.getCurrentPicture(), g, 5));
     }
   }
 

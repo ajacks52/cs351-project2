@@ -243,7 +243,7 @@ public class HillClimbing
 
     while (goodOutCome)
     {   
-      long fitBefore = Fitness.getFitness(MainFrameController.getCurrentPict(), g);
+      long fitBefore = Fitness.getFitness(MainFrameController.getCurrentPict(), g,5);
       Triangle undo = t.copy();
 
       switch (randomNum)
@@ -313,7 +313,7 @@ public class HillClimbing
 
   private boolean checkFit(long fitBefore, Genome g)
   {
-     long fitAfter = Fitness.getFitness(MainFrameController.getCurrentPict(), g);
+     long fitAfter = Fitness.getFitness(MainFrameController.getCurrentPict(), g, 5);
     
     //System.out.println("fit before " + fitBefore + " fit after "+ fitAfter);
     if (fitAfter < fitBefore)
