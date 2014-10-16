@@ -15,24 +15,25 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
-import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-import com.sun.org.apache.xml.internal.serialize.OutputFormat;
 
-/**
- * 
+/***************************************************************************************************
  * @author Adam
  * 
- * used http://www.mkyong.com/java/how-to-read-xml-file-in-java-dom-parser/,
- * http://www.java-samples.com/showtutorial.php?tutorialid=152, and
- * http://www.mkyong.com/java/how-to-create-xml-file-in-java-dom/ to get an idea on how to parse xml
- */
+ * Writes an xml file based on the given genome. In our awesomely formatted genome genetic algorithm
+ * xml format.
+ **************************************************************************************************/
 public class WriteXMLFile
 {
 
-  public static void generate(Genome genome)
+  /***************************************************************************************************
+   * Writes an xml file based on the given genome. In our awesomely formatted genome genetic algorithm
+   * xml format.
+   * @param genome
+   **************************************************************************************************/
+  public void generate(Genome genome)
   {
     try
     {
@@ -101,10 +102,7 @@ public class WriteXMLFile
       transformer.setOutputProperty(OutputKeys.INDENT, "yes");
       transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "2");
       DOMSource source = new DOMSource(doc);
-      StreamResult result = new StreamResult(new File("data/file.xml"));
-
-
-      
+      StreamResult result = new StreamResult(new File("data/file.xml"));      
       transformer.transform(source, result);
 
       System.out.println("File saved!");

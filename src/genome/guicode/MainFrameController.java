@@ -7,7 +7,6 @@ import genome.types.Genome;
 import genome.types.Triangle;
 import genome.types.Tribe;
 
-import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
@@ -17,19 +16,12 @@ import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import javax.swing.JComboBox;
-import javax.swing.JFileChooser;
-import javax.swing.JOptionPane;
-import javax.swing.JSlider;
-import javax.swing.JSpinner;
-import javax.swing.SwingUtilities;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
-import javax.swing.filechooser.FileFilter;
-import javax.swing.filechooser.FileNameExtensionFilter;
+import javax.swing.*;
+import javax.swing.event.*;
+import javax.swing.filechooser.*;
 
 /***********************************************************************************
- * Where are program will start
+ * Where are program will start and the brains of the program
  ***********************************************************************************/
 public class MainFrameController
 {
@@ -48,12 +40,12 @@ public class MainFrameController
     frame = new MainFrame();
     frame.start(); // needs to be changed so it'll sleep
 
-    /**
+    /*
      * All the action listeners are below pauseButton, picturePicker, genomePicker, tribeSelector, triangleSelector,
      * nextButton
      */
 
-    /**
+    /*
      * pauseButton
      */
     frame.buttonPanel.addStartPauseActionListener(new ActionListener() {
@@ -65,7 +57,7 @@ public class MainFrameController
       }
     });
 
-    /**
+    /*
      * picturePicker
      */
     frame.buttonPanel.addPicturePickerActionListener(new ActionListener() {
@@ -88,7 +80,7 @@ public class MainFrameController
       }
     });
 
-    /**
+    /*
      * genomePicker
      */
     frame.buttonPanel.addGenomePickerActionListener(new ActionListener() {
@@ -99,7 +91,7 @@ public class MainFrameController
       }
     });
 
-    /**
+    /*
      * tribeSelector
      */
     frame.buttonPanel.addTribeSelectorActionListener(new ChangeListener() {
@@ -114,7 +106,7 @@ public class MainFrameController
       }
     });
 
-    /**
+    /*
      * triangleSelector
      */
     frame.buttonPanel.addTriangleSelectorChangeListener(new ChangeListener() {
@@ -128,7 +120,7 @@ public class MainFrameController
       }
     });
 
-    /**
+    /*
      * nextButton
      */
     frame.buttonPanel.addNextButtonActionListener(new ActionListener() {
@@ -142,18 +134,20 @@ public class MainFrameController
       }
     });
 
-    /**
+    /*
      * write genome button
      */
     frame.buttonPanel.addwriteGenomeButtonActionListener(new ActionListener() {
       @Override
       public void actionPerformed(ActionEvent e)
       {
-        WriteXMLFile.generate(new Genome(Triangle.randomGenome(200, 200, 200, frame.picturePanel.pictureColorValues(frame.picturePanel.getCurrentPicture())), 200, 200));
+        // TODO needs to be the current genome
+        new WriteXMLFile().generate(new Genome(Triangle.randomGenome(200, 200, 200,
+            frame.picturePanel.pictureColorValues(frame.picturePanel.getCurrentPicture())), 200, 200));
       }
     });
 
-    /**
+    /*
      * read genome button
      */
     frame.buttonPanel.addreadGenomeButtonActionListener(new ActionListener() {
@@ -181,8 +175,17 @@ public class MainFrameController
         if (!(curFile == null))
         {
           System.out.println(curFile.toString());
-          ArrayList<Triangle> xmlArrayListTriangle = XMLParser.parser(curFile);
-          //need to add xmlArrayListTriangle to a tribe.
+          ArrayList<Triangle> xmlArrayListTriangle = new XMLParser().parser(curFile);
+          if (xmlArrayListTriangle == null)
+          {
+            JOptionPane.showMessageDialog(null,
+                "Sorry the file you selected was not in the correct xml format we expected"
+                    + "\n\n click ok to continue");
+          }
+          else
+          {
+            // TODO need make a new genome with the arraylist xmlArrayListTriangle and add it to a tribe..
+          }
         }
       }
     });
@@ -209,9 +212,9 @@ public class MainFrameController
       @Override
       public void actionPerformed(ActionEvent e)
       {
-//        JOptionPane.showMessageDialog(null, "the current stats" + " blah blah \n\n\n", "The Current Stats",
-//            JOptionPane.PLAIN_MESSAGE);
-        new TableStats(new Genome(Triangle.randomGenome(200, 200, 200, frame.picturePanel.pictureColorValues(frame.picturePanel.getCurrentPicture())), 200, 200));
+        // TODO need to pass in the current genome not just a random one
+        new TableStats().showTableData(new Genome(Triangle.randomGenome(200, 200, 200,
+            frame.picturePanel.pictureColorValues(frame.picturePanel.getCurrentPicture())), 200, 200));
       }
     });
 
@@ -219,6 +222,9 @@ public class MainFrameController
 
   }
 
+  /***************************************************************************************************
+   * 
+   **************************************************************************************************/
   private void startGA_HC()
   {
 
@@ -253,6 +259,10 @@ public class MainFrameController
     }, 0, 1000L);
   }
 
+  /***************************************************************************************************
+   * 
+   * @param g
+   **************************************************************************************************/
   public void displayGenome(Genome g)
   {
     synchronized (frame)
@@ -263,17 +273,30 @@ public class MainFrameController
     }
   }
 
+  /***************************************************************************************************
+   * 
+   * @param bImage
+   * @param clist
+   **************************************************************************************************/
   private void birthTribe(BufferedImage bImage, ArrayList<Integer> clist)
   {
     tribe = new Tribe("Tribe 1", bImage.getWidth(), bImage.getHeight(), bImage, clist);
     tribe.start();
   }
 
+  /***************************************************************************************************
+   * 
+   **************************************************************************************************/
   private void killTribe()
   {
     tribe.interrupt();
   }
 
+  /***************************************************************************************************
+   * 
+   * @param bImage
+   * @param clist
+   **************************************************************************************************/
   private void restart(BufferedImage bImage, ArrayList<Integer> clist)
   {
     System.out.println("Restarting GA / HC with new picture");
@@ -281,16 +304,28 @@ public class MainFrameController
     birthTribe(bImage, clist);
   }
 
+  /***************************************************************************************************
+   * 
+   * @return BufferedImage
+   **************************************************************************************************/
   public static BufferedImage getCurrentPict()
   {
     return bi;
   }
 
+  /***************************************************************************************************
+   * 
+   * @return
+   **************************************************************************************************/
   public static BufferedImage getresizedPict()
   {
     return smallBi;
   }
 
+  /***************************************************************************************************
+   * 
+   * Main starts the whole program..
+   **************************************************************************************************/
   public static void main(String[] args)
   {
     new MainFrameController();
