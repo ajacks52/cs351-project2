@@ -20,9 +20,7 @@ public class GeneticAlg
    *********************************************************************************/
   public void singlePointCrossOver(Genome parent1, Genome parent2, Genome child1, Genome child2, int crossover)
   {
-    child1 = new Genome();
-    child2 = new Genome();
-
+   
     for (int i = 0; i < crossover; i++)
     {
       child1.getTriangles()[i] = parent1.getTriangles()[i];

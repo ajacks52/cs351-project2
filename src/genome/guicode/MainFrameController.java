@@ -28,10 +28,14 @@ public class MainFrameController
   private Tribe tribe;
   private static BufferedImage bi = null;
   private static BufferedImage smallBi = null;
+
   private int numTribe = 0;
+  private Timer totalRunningTime = new Timer();
+
   int width;
   int height;
-  private volatile boolean running = true; // Run unless told to pause
+  private volatile boolean paused = false; // Run unless told to pause
+  private volatile int generations = 0;
 
   public MainFrameController()
   {
@@ -51,8 +55,18 @@ public class MainFrameController
       @Override
       public void actionPerformed(ActionEvent e)
       {
-        frame.buttonPanel.setPause();
-        running = frame.buttonPanel.getPauseState();
+        if(frame.buttonPanel.setPause())
+        {
+         
+          frame.buttonPanel.enableButtons();
+          frame.enableMenu();
+        }
+        else
+        {
+          frame.buttonPanel.disableButtons();   
+          frame.disableMenu();
+        }
+        paused = frame.buttonPanel.getPauseState();
       }
     });
 
@@ -134,9 +148,9 @@ public class MainFrameController
     });
 
     /*
-     * write genome button
+     * write genome 
      */
-    frame.buttonPanel.addwriteGenomeButtonActionListener(new ActionListener() {
+    frame.addwriteGenomeActionListener(new ActionListener() {
       @Override
       public void actionPerformed(ActionEvent e)
       {
@@ -147,9 +161,9 @@ public class MainFrameController
     });
 
     /*
-     * read genome button
+     * read genome 
      */
-    frame.buttonPanel.addreadGenomeButtonActionListener(new ActionListener() {
+    frame.addreadGenomeActionListener(new ActionListener() {
       @Override
       public void actionPerformed(ActionEvent e)
       {
@@ -175,19 +189,21 @@ public class MainFrameController
         {
           System.out.println(curFile.toString());
           ArrayList<Triangle> xmlArrayListTriangle = new XMLParser().parser(curFile);
-          if (xmlArrayListTriangle == null)
-          {
-            JOptionPane.showMessageDialog(null,
-                "Sorry the file you selected was not in the correct xml format we expected"
-                    + "\n\n click ok to continue");
-          }
-          else
+//          if (xmlArrayListTriangle == null)
+//          {
+//            JOptionPane.showMessageDialog(null,
+//                "Sorry the file you selected was not in the correct xml format we expected"
+//                    + "\n\n click ok to continue");
+//          }
+          //else
           {
             // TODO need make a new genome with the arraylist xmlArrayListTriangle and add it to a tribe..
           }
         }
       }
     });
+
+ 
       
       int width = frame.picturePanel.getCurrentPicture().getWidth();
       int height = frame.picturePanel.getCurrentPicture().getHeight();
@@ -203,9 +219,9 @@ public class MainFrameController
       
       
     /**
-     * show table button
+     * show table 
      */
-    frame.buttonPanel.addshowTableButtonActionListener(new ActionListener() {
+    frame.addshowTableActionListener(new ActionListener() {
       @Override
       public void actionPerformed(ActionEvent e)
       {
@@ -215,6 +231,28 @@ public class MainFrameController
       }
     });
 
+    /*
+     * Append Stats 
+     */
+    frame.addAppendStatsActionListener(new ActionListener() {
+      @Override
+      public void actionPerformed(ActionEvent e)
+      {
+        // TODO need to pass in the current genome not just a random one
+        JOptionPane.showMessageDialog(null, "Message", "File saved",
+            JOptionPane.INFORMATION_MESSAGE);
+        try
+        {
+          new PrintStatsFile("file2").writeToFile(null);
+        }
+        catch (IOException e1)
+        {
+          e1.printStackTrace();
+        }
+      }
+    });
+    
+    
     startGA_HC();
 
   }
@@ -226,6 +264,7 @@ public class MainFrameController
   {
 
     frame.buttonPanel.disableButtons();
+    frame.disableMenu();
     frame.picturePanel.setPicture("triangles.png");
     bi = frame.picturePanel.getCurrentPicture();
     ArrayList<Integer> colorList = frame.picturePanel.pictureColorValues(frame.picturePanel.getCurrentPicture());
@@ -235,12 +274,14 @@ public class MainFrameController
 
     birthTribe(bi, colorList);
 
-    Timer timer = new Timer();
+    Timer timer = new Timer();  
     timer.scheduleAtFixedRate(new TimerTask() {
+      int sec = 0;
+      int min = 0;
       @Override
       public void run()
       {
-        if (!tribe.isInterrupted())
+        if (!tribe.isInterrupted() && !paused)
         {
           synchronized (tribe)
           {
@@ -249,12 +290,36 @@ public class MainFrameController
             {
               displayGenome(tribe.genomes.get(0));
             }
-
+            if (sec == 59)
+            {
+              sec = 0;
+              min++;
+            }
+            sec++;
+            frame.buttonPanel.setTime(min,sec);
+           // frame.buttonPanel.setGen(generations,hc_generations, ga_generations);
           }
         }
       }
-    }, 0, 1000L);
+    }, 0, 1000L); 
+    
+    Timer statsFileTimer = new Timer();  
+    statsFileTimer.scheduleAtFixedRate(new TimerTask() {
+      @Override
+      public void run()
+      {
+        try
+        {
+          new PrintStatsFile("file3").writeToFile(null);
+        }
+        catch (IOException e)
+        {
+          e.printStackTrace();
+        }   
+      }        
+    }, 0, 5000L);       
   }
+
 
   /***************************************************************************************************
    * 

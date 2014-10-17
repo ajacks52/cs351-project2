@@ -5,17 +5,16 @@ import genome.types.Triangle;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.Set;
+
 import javax.swing.*;
 import javax.swing.event.*;
-
 
 /*******************************************************************************
  * 
  * @author Adam Mitchell
  * 
- * The control button for our program Pause, Next, Show Genome Table, Read
- * Genome File, Write Genome File, Append Stats File, Other control elements
- * including sliders
+ * The control button for our program Pause, Next, Show Genome Table, Read Genome File, Write Genome File, Append Stats
+ * File, Other control elements including sliders
  * ********************************************************************************/
 @SuppressWarnings("serial")
 public class ButtonPanel extends JPanel
@@ -24,26 +23,27 @@ public class ButtonPanel extends JPanel
   /**
    * All of the components to be displayed within the ButtonPanel
    */
-  private JButton pause = new JButton("Pause");
-  private JButton next = new JButton("Next");
-  private JButton showTable = new JButton("Show Genome Table");
-  private JButton readGenome = new JButton("Read Genome File");
-  private JButton writeGenome = new JButton("Write Genome File");
-  private JButton appendStats = new JButton("Append Stats File");
+  private JButton pauseB = new JButton("Pause");
+  private JButton nextB = new JButton("Next");
+
   private SpinnerModel spinnerModel = new SpinnerNumberModel(1, 1, 2000, 1);
-  private JSpinner tribeSelector = new JSpinner(spinnerModel);
-  private JSlider triangleSelector = new JSlider(JSlider.HORIZONTAL, 0, 200, 200);
-  private JComboBox<String> pictureSelector;
-  private JComboBox<String> genomePicker;
-  private JTextField statsFile = new JTextField();
+  private JSpinner tribeSpinner = new JSpinner(spinnerModel);
+  private JSlider triangleSlider = new JSlider(JSlider.HORIZONTAL, 0, 200, 200);
+  private JComboBox<String> pictureComboBox;
+  private JComboBox<String> genomeComboBox;
+  private JFormattedTextField statsFileTextField = new JFormattedTextField();
 
   private JLabel triangleAmountL = new JLabel("Triangles 200");
-  private JLabel bestTribeL = new JLabel("Best Tribe # 0, fit # 0");
   private JLabel tribeNumL = new JLabel("Tribe/Thread Amount");
-  private JLabel timeL = new JLabel("min:sec ");
-  private JLabel genNumL = new JLabel("gen ");
+  private JLabel uptimeL = new JLabel("Total Uptime min:sec ");
   private JLabel genPerSecL = new JLabel("gen/sec ");
-  
+  private JLabel hcGensL = new JLabel("Total Mutations 0");
+  private JLabel gaGensL = new JLabel("Total Crossovers 0");
+  private JLabel totalGenomes = new JLabel("Total Genomes");
+  private JLabel totalGenerationsL = new JLabel("Total Generations ");
+  private JLabel currentTribeBestL = new JLabel("Current Tribe # 0, Best fit # 0");
+  private JLabel totalBestGeneL = new JLabel("Best Overall Tribe # 0, Best fit # 0");
+
   /**
    * All of the values that need to be stored for information about the triangles
    */
@@ -54,12 +54,13 @@ public class ButtonPanel extends JPanel
   private int time = 0;
   private int gen = 0;
   private int genPerSec = 0;
-
-  
+  private Color bgcolor = new Color(171, 170, 179);
+  private Color bgcolor2 = new Color(199, 198, 207);
+  private Color bgcolor3 = new Color(9, 219, 37);
+  private Color bgcolor4 = new Color(199, 198, 207);
 
   /**
-   * Constructor
-   * Just sets up the panels
+   * Constructor Just sets up the panels
    */
   public ButtonPanel()
   {
@@ -69,212 +70,253 @@ public class ButtonPanel extends JPanel
   }
 
   /**
-   * To be called in the constructor
-   * creates all the components and displays them at the end
+   * To be called in the constructor creates all the components and displays them at the end
    */
   private void setUpPanel()
   {
-    this.setLayout(null); // Hand created layout
 
+    this.setLayout(null); // Hand created layout
     Set<String> keys = LoadPictures.picturesMap.keySet();
     String[] pictures = (String[]) keys.toArray(new String[keys.size()]);
     System.out.println(LoadPictures.picturesMap);
-    pictureSelector = new JComboBox<String>(pictures);
-    pictureSelector.setSelectedIndex(0);
+    pictureComboBox = new JComboBox<String>(pictures);
+    pictureComboBox.setSelectedIndex(0);
     String[] genomes = new String[2000];
-    genomePicker = new JComboBox<String>(genomes);
-    pictureSelector.setSelectedIndex(0);
-    genomePicker.setSelectedIndex(0);
+    genomeComboBox = new JComboBox<String>(genomes);
+    pictureComboBox.setSelectedIndex(0);
+    genomeComboBox.setSelectedIndex(0);
 
     // Layout the components
-    
-    int row1 = 5;
-    int row2 = 60;
-    int row3 = 110;
+
+    int row0 = 5;
+    int row = 41;
+    int col0 = 15;
+    int col = 115;
+
+    this.setBackground(bgcolor2);
+    triangleSlider.setBackground(bgcolor2);
+    pictureComboBox.setBackground(bgcolor2);
+    genomeComboBox.setBackground(bgcolor2);
+    tribeSpinner.setForeground(bgcolor2);
+    pauseB.setBackground(bgcolor3);
+    pauseB.setContentAreaFilled(false);
+    pauseB.setOpaque(true);
 
     Insets insets = this.getInsets();
-    Dimension bsize = showTable.getPreferredSize();
     Dimension size;
-    int bsizeX = (int) bsize.getWidth() + 15;
 
-    size = pictureSelector.getPreferredSize();
-    pictureSelector.setBounds(25 + insets.left, row1 + insets.top, size.width - 30, size.height + 15);
-    pictureSelector.setSelectedIndex(7);
+    size = pauseB.getPreferredSize();
+    pauseB.setBounds(col0, row0, size.width, size.height);
+    nextB.setBounds(col, row0, size.width, size.height);
 
-    size = tribeSelector.getPreferredSize();
-    tribeSelector.setBounds(443 + insets.left, row1 + insets.top, size.width - 17, size.height + 15);
+    size = pictureComboBox.getPreferredSize();
+    pictureComboBox.setBounds(col*2, row0, size.width - 5, size.height);
+    // pictureComboBox.setSelectedIndex(7);
 
-    size = triangleSelector.getPreferredSize();
-    triangleSelector.setBounds(595 + insets.left, row1 + insets.top, size.width + 40, size.height + 20);
+    size = tribeSpinner.getPreferredSize();
+    tribeSpinner.setBounds((col*5)+10, row+5, size.width - 15, size.height);
 
-    size = bsize;
-    pause.setBounds(25 + insets.left, row2 + insets.top, size.width, size.height);
-    next.setBounds(bsizeX + 30 + insets.left, row2 + insets.top, size.width, size.height);
-    showTable.setBounds(bsizeX * 2 + 30 + insets.left, row2 + insets.top, size.width, size.height);
-    readGenome.setBounds(bsizeX * 3 + 30 + insets.left, row2 + insets.top, size.width, size.height);
-    writeGenome.setBounds(bsizeX * 4 + 30 + insets.left, row2 + insets.top, size.width, size.height);
-    appendStats.setBounds(bsizeX * 5 + 30 + insets.left, row2 + insets.top, size.width, size.height);
-    genomePicker.setBounds(bsizeX * 3 + 30 + insets.left, row3 + insets.top, size.width + 160,
-        size.height);
-    statsFile.setBounds(bsizeX * 5 + 30 + insets.left, row3 + insets.top, size.width, size.height);
+    size = triangleSlider.getPreferredSize();
+    triangleSlider.setBounds(col, row+5, size.width + 100, size.height);
 
-    triangleAmountL.setBounds(  513 + insets.left,  row1 + insets.top+5, size.width,    size.height);
-    tribeNumL.setBounds(        320 + insets.left,  row1 + insets.top+5, size.width,    size.height);
-    bestTribeL.setBounds(       865 + insets.left,  row1 + insets.top+5, size.width+45, size.height);
-    timeL.setBounds(            50 + insets.left,   row3 + insets.top+5, size.width,    size.height);
-    genNumL.setBounds(          200 + insets.left,  row3 + insets.top+5, size.width,    size.height);
-    genPerSecL.setBounds(       350 + insets.left,  row3 + insets.top+5, size.width,    size.height);
+    size = pictureComboBox.getPreferredSize();
+    genomeComboBox.setBounds(col*6, row0, size.width, size.height);
 
-    triangleSelector.setMinorTickSpacing(1);
-    triangleSelector.setSnapToTicks(true);
+    size = statsFileTextField.getPreferredSize();
+    statsFileTextField.setBounds(col*8, row*3, size.width + 160, size.height);
 
-    statsFile.setText("Type Text Here");
-    statsFile.addActionListener(new java.awt.event.ActionListener() {
+    size = tribeNumL.getPreferredSize();
+    tribeNumL.setBounds((col*4), row+5, size.width, size.height);
+    size = triangleAmountL.getPreferredSize();
+    triangleAmountL.setBounds(col0, row+5, size.width, size.height);
+    size = totalBestGeneL.getPreferredSize();
+    totalBestGeneL.setBounds(col*2, row*2, size.width, size.height);
+    size = uptimeL.getPreferredSize();
+    uptimeL.setBounds(col0, row*2, size.width, size.height);
+    size = totalGenerationsL.getPreferredSize();
+    totalGenerationsL.setBounds(col0, row*3, size.width, size.height);
+    size = genPerSecL.getPreferredSize();
+    genPerSecL.setBounds(col*6, row * 3, size.width, size.height);
+
+    size = hcGensL.getPreferredSize();
+    hcGensL.setBounds(col*2, row*3, size.width, size.height);
+    size = gaGensL.getPreferredSize();
+    gaGensL.setBounds(col*4, row*3, size.width, size.height);
+    size = totalGenomes.getPreferredSize();
+    totalGenomes.setBounds(col*6, row*2, size.width, size.height);
+    size = currentTribeBestL.getPreferredSize();
+    currentTribeBestL.setBounds(col*4, row*2, size.width, size.height);
+
+    triangleSlider.setMinorTickSpacing(1);
+    triangleSlider.setSnapToTicks(true);
+
+    statsFileTextField.setText("name_of_stats_file.txt");
+
+    statsFileTextField.addActionListener(new java.awt.event.ActionListener() {
       public void actionPerformed(ActionEvent e)
       {
         System.out.println("action");
       }
     });
 
-    add(statsFile);
-    add(genomePicker);
-    add(pictureSelector);
-    add(tribeSelector);
-    add(triangleSelector);
+    statsFileTextField.addFocusListener(new FocusListener() {
+      public void focusGained(FocusEvent e)
+      {
+        statsFileTextField.setText("");
+      }
+
+      public void focusLost(FocusEvent e)
+      {
+        // nothing
+      }
+    });
+
+    add(statsFileTextField);
+    add(genomeComboBox);
+    add(pictureComboBox);
+    add(tribeSpinner);
+    add(triangleSlider);
     add(triangleAmountL);
-    add(bestTribeL);
+    add(totalBestGeneL);
     add(tribeNumL);
-    add(timeL);
-    add(genNumL);
+    add(uptimeL);
+    add(totalGenerationsL);
     add(genPerSecL);
-    add(pause);
-    add(next);
-    add(showTable);
-    add(readGenome);
-    add(writeGenome);
-    add(appendStats);
+    add(pauseB);
+    add(nextB);
+    add(hcGensL);
+    add(gaGensL);
+    add(totalGenomes);
+    add(currentTribeBestL);
 
     this.setPreferredSize(new Dimension(1200, 150));
     if (this.isBackgroundSet() && this.isForegroundSet())
     {
       this.setVisible(true);
     }
-
   }
 
-  
-  
   /*
    * All of the actionlisteners for the delegate
    */
-   
-  public void addreadGenomeButtonActionListener(ActionListener al)
-  {
-    readGenome.addActionListener(al);
-  }
-  
-  public void addwriteGenomeButtonActionListener(ActionListener al)
-  {
-    writeGenome.addActionListener(al);
-  }
-  
-  public void addshowTableButtonActionListener(ActionListener al)
-  {
-    showTable.addActionListener(al);
-  }
-  
-  
   public void addNextButtonActionListener(ActionListener al)
   {
-    next.addActionListener(al);
+    nextB.addActionListener(al);
   }
-  
+
   public void addStatsFileChangedActionListener(ActionListener al)
   {
-    statsFile.addActionListener(al);
+    statsFileTextField.addActionListener(al);
   }
-  
+
   public void addTriangleSelectorChangeListener(ChangeListener cl)
   {
-    triangleSelector.addChangeListener(cl);
+    triangleSlider.addChangeListener(cl);
   }
-  
+
   public void addTribeSelectorActionListener(ChangeListener cl)
   {
-    tribeSelector.addChangeListener(cl);
+    tribeSpinner.addChangeListener(cl);
   }
-  
+
   public void addGenomePickerActionListener(ActionListener al)
   {
-    genomePicker.addActionListener(al);
+    genomeComboBox.addActionListener(al);
   }
-  
+
   public void addPicturePickerActionListener(ActionListener al)
   {
-    pictureSelector.addActionListener(al);
+    pictureComboBox.addActionListener(al);
   }
-  
+
   public void addStartPauseActionListener(ActionListener al)
   {
-    pause.addActionListener(al);
+    pauseB.addActionListener(al);
   }
-  
+
   public void setTribeNumber(int i)
   {
     tribeNum = i;
   }
-  
+
   public void setTriangleNumber(int i)
   {
     triangleAmount = i;
     triangleAmountL.setText("Triangles " + i);
   }
-  
+
   public void setFitness(long i)
   {
     fit = i;
-    bestTribeL.setText("Best Tribe # " + bestTribe + ", fit # " + fit);
+    totalBestGeneL.setText("Best Tribe # " + bestTribe + ", fit # " + fit);
   }
-  
-  public void setPause()
+
+  public boolean setPause()
   {
-    if(pause.getText().equalsIgnoreCase("pause"))
+    if (pauseB.getText().equalsIgnoreCase("pause"))
     {
-      pause.setText("Start");
-      enableButtons();
+      pauseB.setText("Start");
+      pauseB.setBackground(bgcolor3);
+      return true;
     }
-    else{
-      pause.setText("Pause");
-      disableButtons();
-  
-      
-       
+    else
+    {
+      pauseB.setText("Pause");
+      pauseB.setBackground(null);
+      return false;
     }
+
   }
-  
+
   public void disableButtons()
   {
-    next.setEnabled(false); 
-    showTable.setEnabled(false); 
-    readGenome.setEnabled(false); 
-    writeGenome.setEnabled(false); 
-    appendStats.setEnabled(false); 
+    nextB.setEnabled(false);
+    pictureComboBox.setEnabled(false);
+    triangleSlider.setEnabled(false);
   }
-  
+
   public void enableButtons()
   {
-    next.setEnabled(true); 
-    showTable.setEnabled(true); 
-    readGenome.setEnabled(true); 
-    writeGenome.setEnabled(true); 
-    appendStats.setEnabled(true); 
+    nextB.setEnabled(true);
+    pictureComboBox.setEnabled(true);
+    triangleSlider.setEnabled(true);
   }
-  
+
+  public void setTime(int m, int s)
+  {
+    if (s < 10)
+    {
+      uptimeL.setText("Uptime min:sec " + m + ":0" + s);
+    }
+    else
+
+      uptimeL.setText("Uptime min:sec " + m + ":" + s);
+  }
+
+  /**
+   * 
+   * 
+   * @param total
+   * @param hc
+   * @param ga
+   */
+  public void updateGUIStats(int total, int hc, int ga)
+  {
+
+    totalGenerationsL.setText("Total Generations 0");
+    genPerSecL.setText("blah");
+    hcGensL.setText("Total Mutations 0");
+    gaGensL.setText("Total Crossovers 0");
+    totalGenomes.setText("Total Genomes 0");
+    currentTribeBestL.setText("Currently Tribe # 0, Best fit # 0");
+    totalBestGeneL.setText("blah");
+  }
+
   public boolean getPauseState()
   {
-    return(pause.getText().equalsIgnoreCase("start"));
+    return (pauseB.getText().equalsIgnoreCase("start"));
   }
-  
+
   /********************************************************************************
    * Main for unit testing..
    * 
