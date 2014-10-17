@@ -1,6 +1,5 @@
 package genome.guicode;
 
-import genome.logic.Fitness;
 import genome.types.Triangle;
 
 import java.awt.*;

@@ -1,7 +1,6 @@
 package genome.guicode;
 
 import genome.Constants;
-import genome.logic.Fitness;
 import genome.logic.PictureResize;
 import genome.types.Genome;
 import genome.types.Triangle;
@@ -29,6 +28,8 @@ public class MainFrameController
   private Tribe tribe;
   private static BufferedImage bi = null;
   private static BufferedImage smallBi = null;
+
+  private int numTribe = 0;
   private Timer totalRunningTime = new Timer();
   volatile int totalgenerations = 0;
   public volatile static int totalmutations = 0;
@@ -148,7 +149,7 @@ public class MainFrameController
         Genome g = Genome.randomGenome(frame.picturePanel.getCurrentPicture().getWidth(), frame.picturePanel
             .getCurrentPicture().getHeight());
         frame.trianglePanel.displayGenome(g);
-        frame.buttonPanel.setFitness(Fitness.getFitness(frame.picturePanel.getCurrentPicture(), g, 5));
+        frame.buttonPanel.setFitness(g.getFitness(frame.picturePanel.getCurrentPicture(), 5));
       }
     });
 
@@ -185,7 +186,7 @@ public class MainFrameController
           Genome g = Genome.randomGenome(frame.picturePanel.getCurrentPicture().getWidth(), frame.picturePanel
               .getCurrentPicture().getHeight());
           frame.trianglePanel.displayGenome(g);
-          frame.buttonPanel.setFitness(Fitness.getFitness(frame.picturePanel.getCurrentPicture(), g, 5));
+          frame.buttonPanel.setFitness(g.getFitness(frame.picturePanel.getCurrentPicture(), 5));
 
         }
         chooser.setCurrentDirectory(f);
@@ -209,6 +210,7 @@ public class MainFrameController
       }
     });
 
+<<<<<<< HEAD
     int width = frame.picturePanel.getCurrentPicture().getWidth();
     int height = frame.picturePanel.getCurrentPicture().getHeight();
     ArrayList<Integer> colorList = frame.picturePanel.pictureColorValues(LoadPictures.bImage1);
@@ -224,6 +226,23 @@ public class MainFrameController
         .getCurrentPicture().getHeight(), frame.picturePanel.getCurrentPicture(), new ArrayList<Integer>());
     tribe.start();
 
+=======
+ 
+      
+      int width = frame.picturePanel.getCurrentPicture().getWidth();
+      int height = frame.picturePanel.getCurrentPicture().getHeight();
+      ArrayList<Integer> colorList = frame.picturePanel.pictureColorValues(LoadPictures.bImage1);
+      
+      Genome g = Genome.randomGenome(width, height);
+      
+      frame.trianglePanel.displayGenome(g);
+      
+      long fitness = g.getFitness(frame.picturePanel.getCurrentPicture(), 5);
+      frame.buttonPanel.setFitness(fitness);
+
+      
+      
+>>>>>>> fae5626dd00a67c9ef8fe47b4dc83dec93dabe82
     /**
      * show table
      */
@@ -354,7 +373,7 @@ public class MainFrameController
     {
       tribe.quickSortGenomes();
       frame.trianglePanel.displayGenome(g);
-      frame.buttonPanel.setFitness(Fitness.getFitness(frame.picturePanel.getCurrentPicture(), g, 5));
+      frame.buttonPanel.setFitness(g.getFitness(frame.picturePanel.getCurrentPicture(), 5));
     }
   }
 
