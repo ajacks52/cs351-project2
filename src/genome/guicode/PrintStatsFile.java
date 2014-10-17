@@ -21,12 +21,6 @@ public class PrintStatsFile
     }
   }
 
-  /*
-   * 
-   * 
-   * 
-   */
-
   public void writeToFile(Object[] obj) throws IOException
   {
     FileWriter writer = new FileWriter(this.address, true);
@@ -45,7 +39,6 @@ public class PrintStatsFile
     writer.write("Current Tribe Fitness Total Best fitness" + System.getProperty("line.separator"));
     writer.write("0" + System.getProperty("line.separator"));
     writer.write("Tribe/Population Diversity" + System.getProperty("line.separator"));
-    writer.write("0" + System.getProperty("line.separator"));
     writer.write("# of tribes 0" + System.getProperty("line.separator"));
     writer.write("average fitness of tribes 0" + System.getProperty("line.separator"));
     writer.write("----------------------------------------------------------------"
@@ -55,11 +48,7 @@ public class PrintStatsFile
     System.out.println("Wrote file");
   }
 
-  public void saveFile()
-  {
-
-  }
-
+  
   public static void main(String[] args)
   {
     try
@@ -68,7 +57,6 @@ public class PrintStatsFile
     }
     catch (IOException e)
     {
-      // TODO Auto-generated catch block
       e.printStackTrace();
     }
   }

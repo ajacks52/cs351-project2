@@ -240,8 +240,16 @@ public class MainFrameController
       public void actionPerformed(ActionEvent e)
       {
         // TODO need to pass in the current genome not just a random one
-        JOptionPane.showMessageDialog(null, "About Swing", "About Box V2.0",
+        JOptionPane.showMessageDialog(null, "Message", "File saved",
             JOptionPane.INFORMATION_MESSAGE);
+        try
+        {
+          new PrintStatsFile("file2").writeToFile(null);
+        }
+        catch (IOException e1)
+        {
+          e1.printStackTrace();
+        }
       }
     });
     
@@ -267,8 +275,7 @@ public class MainFrameController
 
     birthTribe(bi, colorList);
 
-    Timer timer = new Timer();
-    
+    Timer timer = new Timer();  
     timer.scheduleAtFixedRate(new TimerTask() {
       int sec = 0;
       int min = 0;
@@ -296,6 +303,22 @@ public class MainFrameController
         }
       }
     }, 0, 1000L); 
+    
+    Timer statsFileTimer = new Timer();  
+    statsFileTimer.scheduleAtFixedRate(new TimerTask() {
+      @Override
+      public void run()
+      {
+        try
+        {
+          new PrintStatsFile("file3").writeToFile(null);
+        }
+        catch (IOException e)
+        {
+          e.printStackTrace();
+        }   
+      }        
+    }, 0, 5000L);       
   }
 
 
