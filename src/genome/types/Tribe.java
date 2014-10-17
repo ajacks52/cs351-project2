@@ -54,7 +54,6 @@ public class Tribe extends Thread
 
   }
 
-
   private void sortGenomes()
   {
     doneSorting = true;
@@ -94,6 +93,10 @@ public class Tribe extends Thread
     {
       genAlg.singlePointCrossOver(parents.get(i), parents.get(i + div4), genomes.get(i + div4 * 2),
           genomes.get(i + div4 * 3), Constants.random.nextInt(200));
+      synchronized (this)
+      {
+        MainFrameController.totalcrossovers++;
+      }
     }
     sortGenomes();
   }
@@ -102,17 +105,16 @@ public class Tribe extends Thread
   {
     HillClimbing hc = new HillClimbing(new Point(bImage.getWidth(), bImage.getHeight()));
 
-      
-   for (Genome g : genomes) 
+    for (Genome g : genomes)
     {
-      //Genome g = iter.next();
-        for (int i = 0; i < 200; i++)
-        {
-          hc.oneChange(g, i);
-        }
-        System.out.println("picking new genome");
+      // Genome g = iter.next();
+      for (int i = 0; i < 200; i++)
+      {
+        hc.oneChange(g, i);
       }
-    
+      System.out.println("picking new genome");
+    }
+
   }
 
   public void run()
@@ -124,20 +126,18 @@ public class Tribe extends Thread
       System.out.println(step);
       sortGenomes();
       yield();
-       System.out.println("Breeding genomes");
-       breedGenomes();
+      System.out.println("Breeding genomes");
+      breedGenomes();
       // breed best half of best half with worst half of best half
 
       System.out.println("best fit " + genomes.indexOf(0));
       System.out.println("Mutating genomes");
-     
+
       mutateAll();
-           
-      
+
       // mutate all multiple times
     }
   }
-  
 
   public static void main(String[] args)
   {

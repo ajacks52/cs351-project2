@@ -30,9 +30,15 @@ public class MainFrameController
   private static BufferedImage bi = null;
   private static BufferedImage smallBi = null;
   private Timer totalRunningTime = new Timer();
+  volatile int totalgenerations = 0;
+  public volatile static int totalmutations = 0;
+  public volatile static int totalcrossovers = 0;
+  volatile int totalgenomes = 0;
+  Integer[] statsArray = new Integer[7];
 
   int width;
   int height;
+
   private volatile boolean paused = false; // Run unless told to pause
   private volatile int generations = 0;
 
@@ -54,15 +60,15 @@ public class MainFrameController
       @Override
       public void actionPerformed(ActionEvent e)
       {
-        if(frame.buttonPanel.setPause())
+        if (frame.buttonPanel.setPause())
         {
-         
+
           frame.buttonPanel.enableButtons();
           frame.enableMenu();
         }
         else
         {
-          frame.buttonPanel.disableButtons();   
+          frame.buttonPanel.disableButtons();
           frame.disableMenu();
         }
         paused = frame.buttonPanel.getPauseState();
@@ -147,7 +153,7 @@ public class MainFrameController
     });
 
     /*
-     * write genome 
+     * write genome
      */
     frame.addwriteGenomeActionListener(new ActionListener() {
       @Override
@@ -160,7 +166,7 @@ public class MainFrameController
     });
 
     /*
-     * read genome 
+     * read genome
      */
     frame.addreadGenomeActionListener(new ActionListener() {
       @Override
@@ -176,7 +182,8 @@ public class MainFrameController
         }
         catch (IOException e1)
         {
-          Genome g = Genome.randomGenome(frame.picturePanel.getCurrentPicture().getWidth(), frame.picturePanel.getCurrentPicture().getHeight());
+          Genome g = Genome.randomGenome(frame.picturePanel.getCurrentPicture().getWidth(), frame.picturePanel
+              .getCurrentPicture().getHeight());
           frame.trianglePanel.displayGenome(g);
           frame.buttonPanel.setFitness(Fitness.getFitness(frame.picturePanel.getCurrentPicture(), g, 5));
 
@@ -188,13 +195,13 @@ public class MainFrameController
         {
           System.out.println(curFile.toString());
           ArrayList<Triangle> xmlArrayListTriangle = new XMLParser().parser(curFile);
-//          if (xmlArrayListTriangle == null)
-//          {
-//            JOptionPane.showMessageDialog(null,
-//                "Sorry the file you selected was not in the correct xml format we expected"
-//                    + "\n\n click ok to continue");
-//          }
-          //else
+          // if (xmlArrayListTriangle == null)
+          // {
+          // JOptionPane.showMessageDialog(null,
+          // "Sorry the file you selected was not in the correct xml format we expected"
+          // + "\n\n click ok to continue");
+          // }
+          // else
           {
             // TODO need make a new genome with the arraylist xmlArrayListTriangle and add it to a tribe..
           }
@@ -202,25 +209,23 @@ public class MainFrameController
       }
     });
 
- 
-      
-      int width = frame.picturePanel.getCurrentPicture().getWidth();
-      int height = frame.picturePanel.getCurrentPicture().getHeight();
-      ArrayList<Integer> colorList = frame.picturePanel.pictureColorValues(LoadPictures.bImage1);
-      
-      Genome g = Genome.randomGenome(width, height);
-      
-      frame.trianglePanel.displayGenome(g);
-      
-      long fitness = Fitness.getFitness(frame.picturePanel.getCurrentPicture(), g, 5);
-      frame.buttonPanel.setFitness(fitness);
+    int width = frame.picturePanel.getCurrentPicture().getWidth();
+    int height = frame.picturePanel.getCurrentPicture().getHeight();
+    ArrayList<Integer> colorList = frame.picturePanel.pictureColorValues(LoadPictures.bImage1);
 
-      tribe = new Tribe("Tribe 1", frame.picturePanel.getCurrentPicture().getWidth(), frame.picturePanel.getCurrentPicture().getHeight(), frame.picturePanel.getCurrentPicture(), new ArrayList<Integer>());
-      tribe.start();
-      
-      
+    Genome g = Genome.randomGenome(width, height);
+
+    frame.trianglePanel.displayGenome(g);
+
+    long fitness = Fitness.getFitness(frame.picturePanel.getCurrentPicture(), g, 5);
+    frame.buttonPanel.setFitness(fitness);
+
+    tribe = new Tribe("Tribe 1", frame.picturePanel.getCurrentPicture().getWidth(), frame.picturePanel
+        .getCurrentPicture().getHeight(), frame.picturePanel.getCurrentPicture(), new ArrayList<Integer>());
+    tribe.start();
+
     /**
-     * show table 
+     * show table
      */
     frame.addshowTableActionListener(new ActionListener() {
       @Override
@@ -233,15 +238,14 @@ public class MainFrameController
     });
 
     /*
-     * Append Stats 
+     * Append Stats
      */
     frame.addAppendStatsActionListener(new ActionListener() {
       @Override
       public void actionPerformed(ActionEvent e)
       {
         // TODO need to pass in the current genome not just a random one
-        JOptionPane.showMessageDialog(null, "Message", "File saved",
-            JOptionPane.INFORMATION_MESSAGE);
+        JOptionPane.showMessageDialog(null, "Message", "File saved", JOptionPane.INFORMATION_MESSAGE);
         try
         {
           new PrintStatsFile("file2").writeToFile(null);
@@ -252,8 +256,7 @@ public class MainFrameController
         }
       }
     });
-    
-    
+
     startGA_HC();
 
   }
@@ -275,13 +278,24 @@ public class MainFrameController
 
     birthTribe(bi, colorList);
 
-    Timer timer = new Timer();  
+    Timer timer = new Timer();
     timer.scheduleAtFixedRate(new TimerTask() {
       int sec = 0;
       int min = 0;
+
       @Override
       public void run()
       {
+        synchronized (tribe)
+        {
+          totalgenerations = totalmutations + totalcrossovers;
+          statsArray[0] = totalmutations;
+          statsArray[1] = totalcrossovers;
+          statsArray[2] = totalgenomes;
+          statsArray[3] = totalgenerations;
+          statsArray[4] = 4;
+          statsArray[5] = 5;
+        }
         if (!tribe.isInterrupted() && !paused)
         {
           synchronized (tribe)
@@ -297,30 +311,38 @@ public class MainFrameController
               min++;
             }
             sec++;
-            frame.buttonPanel.setTime(min,sec);
-           // frame.buttonPanel.setGen(generations,hc_generations, ga_generations);
+            frame.buttonPanel.setTime(min, sec);
+            // frame.buttonPanel.setGen(generations,hc_generations, ga_generations);
           }
         }
       }
-    }, 0, 1000L); 
-    
-    Timer statsFileTimer = new Timer();  
+    }, 0, 1000L);
+
+    Timer statsFileTimer = new Timer();
     statsFileTimer.scheduleAtFixedRate(new TimerTask() {
       @Override
       public void run()
       {
+        Integer[] arr = new Integer[7];
+        totalgenerations = totalmutations + totalcrossovers;
+        arr[0] = totalmutations;
+        arr[1] = totalcrossovers;
+        arr[2] = totalgenomes;
+        arr[3] = totalgenerations;
+        arr[4] = 4;
+        arr[5] = 5;
+
         try
         {
-          new PrintStatsFile("file3").writeToFile(null);
+          new PrintStatsFile("file3").writeToFile(arr);
         }
         catch (IOException e)
         {
           e.printStackTrace();
-        }   
-      }        
-    }, 0, 5000L);       
+        }
+      }
+    }, 0, 60000L);
   }
-
 
   /***************************************************************************************************
    * 
@@ -345,6 +367,7 @@ public class MainFrameController
   {
     tribe = new Tribe("Tribe 1", bImage.getWidth(), bImage.getHeight(), bImage, clist);
     tribe.start();
+    totalgenomes += tribe.genomes.size();
   }
 
   /***************************************************************************************************

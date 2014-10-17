@@ -306,6 +306,10 @@ public class HillClimbing
    // checks if the hill climbing was successful
       goodOutCome = checkFit(fitBefore, g); 
       if(!goodOutCome) {t = undo;}
+      synchronized (this) // need to sync on something else
+      {
+        MainFrameController.totalmutations++;
+      }
       System.out.println("option "+randomNum+"\ttriangle # "+i);
     }
     
