@@ -1,7 +1,6 @@
 package genome.guicode;
 
 import genome.Constants;
-import genome.logic.Fitness;
 import genome.logic.PictureResize;
 import genome.types.Genome;
 import genome.types.Triangle;
@@ -29,7 +28,7 @@ public class MainFrameController
   private Tribe tribe;
   private static BufferedImage bi = null;
   private static BufferedImage smallBi = null;
-
+  private int numTribe = 0;
   int width;
   int height;
   private volatile boolean running = true; // Run unless told to pause
@@ -130,7 +129,7 @@ public class MainFrameController
         Genome g = Genome.randomGenome(frame.picturePanel.getCurrentPicture().getWidth(), frame.picturePanel
             .getCurrentPicture().getHeight());
         frame.trianglePanel.displayGenome(g);
-        frame.buttonPanel.setFitness(Fitness.getFitness(frame.picturePanel.getCurrentPicture(), g, 5));
+        frame.buttonPanel.setFitness(g.getFitness(frame.picturePanel.getCurrentPicture(), 5));
       }
     });
 
@@ -166,7 +165,7 @@ public class MainFrameController
         {
           Genome g = Genome.randomGenome(frame.picturePanel.getCurrentPicture().getWidth(), frame.picturePanel.getCurrentPicture().getHeight());
           frame.trianglePanel.displayGenome(g);
-          frame.buttonPanel.setFitness(Fitness.getFitness(frame.picturePanel.getCurrentPicture(), g, 5));
+          frame.buttonPanel.setFitness(g.getFitness(frame.picturePanel.getCurrentPicture(), 5));
 
         }
         chooser.setCurrentDirectory(f);
@@ -198,11 +197,9 @@ public class MainFrameController
       
       frame.trianglePanel.displayGenome(g);
       
-      long fitness = Fitness.getFitness(frame.picturePanel.getCurrentPicture(), g, 5);
+      long fitness = g.getFitness(frame.picturePanel.getCurrentPicture(), 5);
       frame.buttonPanel.setFitness(fitness);
 
-      tribe = new Tribe("Tribe 1", frame.picturePanel.getCurrentPicture().getWidth(), frame.picturePanel.getCurrentPicture().getHeight(), frame.picturePanel.getCurrentPicture(), new ArrayList<Integer>());
-      tribe.start();
       
       
     /**
@@ -269,7 +266,7 @@ public class MainFrameController
     {
       tribe.quickSortGenomes();
       frame.trianglePanel.displayGenome(g);
-      frame.buttonPanel.setFitness(Fitness.getFitness(frame.picturePanel.getCurrentPicture(), g, 5));
+      frame.buttonPanel.setFitness(g.getFitness(frame.picturePanel.getCurrentPicture(), 5));
     }
   }
 

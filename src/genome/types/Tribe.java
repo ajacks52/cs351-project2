@@ -3,9 +3,7 @@ package genome.types;
 import genome.Constants;
 import genome.guicode.LoadPictures;
 import genome.guicode.MainFrameController;
-import genome.logic.Fitness;
 import genome.logic.GeneticAlg;
-import genome.logic.HillClimbing;
 import genome.logic.PictureResize;
 
 import java.awt.Color;
@@ -26,7 +24,7 @@ import javax.imageio.ImageIO;
 public class Tribe extends Thread
 {
   public CopyOnWriteArrayList<Genome> genomes;
-  public static final int TRIBE_SIZE = 8;
+  public static final int TRIBE_SIZE = 24;
   public int width;
   public int height;
   public BufferedImage bImage;
@@ -48,7 +46,7 @@ public class Tribe extends Thread
     {
       // genomes.add(Genome.randomGenome(width, height));
       Genome g = new Genome(Triangle.randomGenome(200, width, height, colorList), width, height);
-      g.resizedBi = PictureResize.resize(bImage, Constants.RESIZED_PICTURE_SIZE, Constants.RESIZED_PICTURE_SIZE);
+      g.resizedPhenotype = PictureResize.resize(bImage, Constants.RESIZED_PICTURE_SIZE, Constants.RESIZED_PICTURE_SIZE);
       genomes.add(g);
     }
 
@@ -63,8 +61,8 @@ public class Tribe extends Thread
       @Override
       public int compare(Genome o1, Genome o2)
       {
-        long f1 = Fitness.getFitness(bImage, o1, 5);
-        long f2 = Fitness.getFitness(bImage, o2, 5);
+        long f1 = o1.getFitness(bImage, 5);
+        long f2 = o2.getFitness(bImage, 5);
         return (int) (f1 - f2);
       }
     });
@@ -74,22 +72,25 @@ public class Tribe extends Thread
 
   public void quickSortGenomes()
   {
+    synchronized (this)
+    {
     Collections.sort(genomes, new Comparator<Genome>() {
       @Override
       public int compare(Genome o1, Genome o2)
       {
-        long f1 = o1.getFit();
-        long f2 = o2.getFit();
+        long f1 = o1.getFitness(bImage, 5);
+        long f2 = o2.getFitness(bImage, 5);
         return (int) (f1 - f2);
       }
     });
+    }
   }
 
   private void breedGenomes()
   {
-    List<Genome> parents = genomes.subList(0, 4);
-    Collections.shuffle(parents);
     int div4 = TRIBE_SIZE / 4;
+    List<Genome> parents = genomes.subList(0, div4 * 2);
+    Collections.shuffle(parents);
     for (int i = 0; i < div4; i++)
     {
       genAlg.singlePointCrossOver(parents.get(i), parents.get(i + div4), genomes.get(i + div4 * 2),
@@ -100,15 +101,13 @@ public class Tribe extends Thread
 
   private void mutateAll()
   {
-    HillClimbing hc = new HillClimbing(new Point(bImage.getWidth(), bImage.getHeight()));
 
       
    for (Genome g : genomes) 
     {
-      //Genome g = iter.next();
         for (int i = 0; i < 200; i++)
         {
-          hc.oneChange(g, i);
+          g.oneChange(i);
         }
         System.out.println("picking new genome");
       }
@@ -117,11 +116,11 @@ public class Tribe extends Thread
 
   public void run()
   {
-
+    System.out.println("running tribe: "+ getName());
     for (int step = 0; !this.isInterrupted(); step++)
     {
       long start = System.currentTimeMillis();
-      System.out.println(step);
+      System.out.println("Sorting genomes: "+step);
       sortGenomes();
       yield();
        System.out.println("Breeding genomes");
