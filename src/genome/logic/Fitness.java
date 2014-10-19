@@ -47,7 +47,7 @@ public class Fitness
       }
 //      System.out.println(sum);
     }
-    g.setFit(sum);
+   // g.setFit(sum);
     return sum;
   }
 

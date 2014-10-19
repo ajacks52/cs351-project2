@@ -32,10 +32,15 @@ public class MainFrameController
   private int numTribe = 0;
   private Timer totalRunningTime = new Timer();
   volatile int totalgenerations = 0;
+  volatile int generationspersec = 0;
   public volatile static int totalmutations = 0;
   public volatile static int totalcrossovers = 0;
+  public int totaltribes;
   volatile int totalgenomes = 0;
-  Integer[] statsArray = new Integer[7];
+  int sec = 0;
+  int min = 0;
+  Integer[] statsArray = new Integer[9];
+
 
   int width;
   int height;
@@ -149,7 +154,7 @@ public class MainFrameController
         Genome g = Genome.randomGenome(frame.picturePanel.getCurrentPicture().getWidth(), frame.picturePanel
             .getCurrentPicture().getHeight());
         frame.trianglePanel.displayGenome(g);
-        frame.buttonPanel.setFitness(g.getFitness(frame.picturePanel.getCurrentPicture(), 5));
+       // frame.buttonPanel.setFitness(g.getFitness(frame.picturePanel.getCurrentPicture(), 5));
       }
     });
 
@@ -186,7 +191,7 @@ public class MainFrameController
           Genome g = Genome.randomGenome(frame.picturePanel.getCurrentPicture().getWidth(), frame.picturePanel
               .getCurrentPicture().getHeight());
           frame.trianglePanel.displayGenome(g);
-          frame.buttonPanel.setFitness(g.getFitness(frame.picturePanel.getCurrentPicture(), 5));
+          //frame.buttonPanel.setFitness(g.getFitness(frame.picturePanel.getCurrentPicture(), 5));
 
         }
         chooser.setCurrentDirectory(f);
@@ -196,13 +201,13 @@ public class MainFrameController
         {
           System.out.println(curFile.toString());
           ArrayList<Triangle> xmlArrayListTriangle = new XMLParser().parser(curFile);
-          // if (xmlArrayListTriangle == null)
-          // {
-          // JOptionPane.showMessageDialog(null,
-          // "Sorry the file you selected was not in the correct xml format we expected"
-          // + "\n\n click ok to continue");
-          // }
-          // else
+          if (xmlArrayListTriangle == null)
+          {
+            JOptionPane.showMessageDialog(null,
+                "Sorry the file you selected was not in the correct xml format we expected"
+                    + "\n\n click ok to continue");
+          }
+          else
           {
             // TODO need make a new genome with the arraylist xmlArrayListTriangle and add it to a tribe..
           }
@@ -210,7 +215,10 @@ public class MainFrameController
       }
     });
 
-<<<<<<< HEAD
+    tribe = new Tribe("Tribe 1", frame.picturePanel.getCurrentPicture().getWidth(), frame.picturePanel
+        .getCurrentPicture().getHeight(), frame.picturePanel.getCurrentPicture(), new ArrayList<Integer>());
+    tribe.start();
+
     int width = frame.picturePanel.getCurrentPicture().getWidth();
     int height = frame.picturePanel.getCurrentPicture().getHeight();
     ArrayList<Integer> colorList = frame.picturePanel.pictureColorValues(LoadPictures.bImage1);
@@ -219,30 +227,9 @@ public class MainFrameController
 
     frame.trianglePanel.displayGenome(g);
 
-    long fitness = Fitness.getFitness(frame.picturePanel.getCurrentPicture(), g, 5);
-    frame.buttonPanel.setFitness(fitness);
+//    long fitness = g.getFitness(frame.picturePanel.getCurrentPicture(), 5);
+//    frame.buttonPanel.setFitness(fitness);
 
-    tribe = new Tribe("Tribe 1", frame.picturePanel.getCurrentPicture().getWidth(), frame.picturePanel
-        .getCurrentPicture().getHeight(), frame.picturePanel.getCurrentPicture(), new ArrayList<Integer>());
-    tribe.start();
-
-=======
- 
-      
-      int width = frame.picturePanel.getCurrentPicture().getWidth();
-      int height = frame.picturePanel.getCurrentPicture().getHeight();
-      ArrayList<Integer> colorList = frame.picturePanel.pictureColorValues(LoadPictures.bImage1);
-      
-      Genome g = Genome.randomGenome(width, height);
-      
-      frame.trianglePanel.displayGenome(g);
-      
-      long fitness = g.getFitness(frame.picturePanel.getCurrentPicture(), 5);
-      frame.buttonPanel.setFitness(fitness);
-
-      
-      
->>>>>>> fae5626dd00a67c9ef8fe47b4dc83dec93dabe82
     /**
      * show table
      */
@@ -267,7 +254,7 @@ public class MainFrameController
         JOptionPane.showMessageDialog(null, "Message", "File saved", JOptionPane.INFORMATION_MESSAGE);
         try
         {
-          new PrintStatsFile("file2").writeToFile(null);
+          new PrintStatsFile("file2").writeToFile(true,null);
         }
         catch (IOException e1)
         {
@@ -299,21 +286,17 @@ public class MainFrameController
 
     Timer timer = new Timer();
     timer.scheduleAtFixedRate(new TimerTask() {
-      int sec = 0;
-      int min = 0;
+      
 
       @Override
       public void run()
       {
         synchronized (tribe)
         {
+          generationspersec = totalgenerations - generationspersec;
           totalgenerations = totalmutations + totalcrossovers;
-          statsArray[0] = totalmutations;
-          statsArray[1] = totalcrossovers;
-          statsArray[2] = totalgenomes;
-          statsArray[3] = totalgenerations;
-          statsArray[4] = 4;
-          statsArray[5] = 5;
+          frame.buttonPanel.updateGUIStats( totalgenerations,  totalmutations,  totalcrossovers,  totalgenomes,  generationspersec,  99,  99,  99,  99);
+          
         }
         if (!tribe.isInterrupted() && !paused)
         {
@@ -342,18 +325,26 @@ public class MainFrameController
       @Override
       public void run()
       {
-        Integer[] arr = new Integer[7];
-        totalgenerations = totalmutations + totalcrossovers;
-        arr[0] = totalmutations;
-        arr[1] = totalcrossovers;
-        arr[2] = totalgenomes;
-        arr[3] = totalgenerations;
-        arr[4] = 4;
-        arr[5] = 5;
+        
+        synchronized (tribe)
+        {
+          //totalgenerations = totalmutations + totalcrossovers;
+          statsArray[0] = min;
+          statsArray[1] = sec;
+          statsArray[2] = totalgenerations;
+          statsArray[3] = totalmutations;
+          statsArray[4] = totalcrossovers;
+          statsArray[5] = 0; //totaltribes;
+          statsArray[6] = 0; //totalgenomes;
+          statsArray[7] = 0; //bestfit;
+          statsArray[8] = 0; //averagefitness;
+          
+        }
+       
 
         try
         {
-          new PrintStatsFile("file3").writeToFile(arr);
+          new PrintStatsFile("file3").writeToFile(false,statsArray);
         }
         catch (IOException e)
         {
@@ -373,7 +364,7 @@ public class MainFrameController
     {
       tribe.quickSortGenomes();
       frame.trianglePanel.displayGenome(g);
-      frame.buttonPanel.setFitness(g.getFitness(frame.picturePanel.getCurrentPicture(), 5));
+     // frame.buttonPanel.setFitness(g.getFitness(frame.picturePanel.getCurrentPicture(), 5));
     }
   }
 

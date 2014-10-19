@@ -21,26 +21,27 @@ public class PrintStatsFile
     }
   }
 
-  public void writeToFile(Object[] obj) throws IOException
+  public void writeToFile(boolean newfile,Integer[] stats) throws IOException
   {
-    FileWriter writer = new FileWriter(this.address, true);
+    FileWriter writer = new FileWriter(this.address, newfile);
 
     writer.write("----------------------Statistics Print 1------------------------"
         + System.getProperty("line.separator"));
     writer.write("Total Time Running" + System.getProperty("line.separator"));
-    writer.write("m:s 0,0" + System.getProperty("line.separator"));
-    writer.write( System.getProperty("line.separator"));
+    writer.write("m:s "+stats[0]+":"+stats[1] + System.getProperty("line.separator"));
+    //writer.write( System.getProperty("line.separator"));
     writer.write("Total Generations" + System.getProperty("line.separator") );
-    writer.write("0" + System.getProperty("line.separator"));
+    writer.write(stats[2] + System.getProperty("line.separator"));
     writer.write("Hill Climbing Generations" + System.getProperty("line.separator"));
-    writer.write("0" + System.getProperty("line.separator"));
+    writer.write(stats[3] + System.getProperty("line.separator"));
     writer.write("Genetic Algorithm Generations" + System.getProperty("line.separator"));
-    writer.write("0" + System.getProperty("line.separator"));
-    writer.write("Current Tribe Fitness Total Best fitness" + System.getProperty("line.separator"));
-    writer.write("0" + System.getProperty("line.separator"));
+    writer.write(stats[4] + System.getProperty("line.separator"));
     writer.write("Tribe/Population Diversity" + System.getProperty("line.separator"));
-    writer.write("# of tribes 0" + System.getProperty("line.separator"));
-    writer.write("average fitness of tribes 0" + System.getProperty("line.separator"));
+    writer.write("# of tribes "+stats[5] + System.getProperty("line.separator"));
+    writer.write("# of genomes "+stats[6] + System.getProperty("line.separator"));
+    writer.write("Overall Best fitness" + System.getProperty("line.separator"));
+    writer.write(stats[7] + System.getProperty("line.separator"));
+    writer.write("average fitness of tribes " +stats[8]+ System.getProperty("line.separator"));
     writer.write("----------------------------------------------------------------"
         + System.getProperty("line.separator"));
     writer.flush();
@@ -48,17 +49,13 @@ public class PrintStatsFile
     System.out.println("Wrote file");
   }
 
-  
+  /**
+   * main for testing
+   * @param args
+   */
   public static void main(String[] args)
   {
-    try
-    {
-      new PrintStatsFile("file1").writeToFile(null);
-    }
-    catch (IOException e)
-    {
-      e.printStackTrace();
-    }
+    
   }
 
 }

@@ -35,14 +35,14 @@ public class ButtonPanel extends JPanel
 
   private JLabel triangleAmountL = new JLabel("Triangles 200");
   private JLabel tribeNumL = new JLabel("Tribe/Thread Amount");
-  private JLabel uptimeL = new JLabel("Total Uptime min:sec ");
-  private JLabel genPerSecL = new JLabel("gen/sec ");
-  private JLabel hcGensL = new JLabel("Total Mutations 0");
-  private JLabel gaGensL = new JLabel("Total Crossovers 0");
-  private JLabel totalGenomes = new JLabel("Total Genomes");
-  private JLabel totalGenerationsL = new JLabel("Total Generations ");
-  private JLabel currentTribeBestL = new JLabel("Current Tribe # 0, Best fit # 0");
-  private JLabel totalBestGeneL = new JLabel("Best Overall Tribe # 0, Best fit # 0");
+  private JLabel uptimeL = new JLabel("Total Uptime min:sec 00000");
+  private JLabel genPerSecL = new JLabel("gen/sec 00000");
+  private JLabel hcGensL = new JLabel("Total Mutations 0000000");
+  private JLabel gaGensL = new JLabel("Total Crossovers 00000");
+  private JLabel totalGenomes = new JLabel("Total Genomes 00000");
+  private JLabel totalGenerationsL = new JLabel("Total Generations 000000");
+  private JLabel currentTribeBestL = new JLabel("Current Tribe # 000, fit # 00000000");
+  private JLabel totalBestGeneL = new JLabel("Best Tribe # 000, fit # 00000000");
 
   /**
    * All of the values that need to be stored for information about the triangles
@@ -300,16 +300,32 @@ public class ButtonPanel extends JPanel
    * @param hc
    * @param ga
    */
-  public void updateGUIStats(int total, int hc, int ga)
+  
+  
+  /*
+   * 
+   * 
+    genPerSecL = "gen/sec "
+    hcGensL = "Total Mutations 0";
+    gaGensL = "Total Crossovers 0"
+    totalGenomes = "Total Genomes"
+    totalGenerationsL = "Total Generations "
+    currentTribeBestL = "Current Tribe # 0, Best fit # 0"
+    totalBestGeneL = "Best Overall Tribe # 0, Best fit # 0"
+   * 
+   * 
+   * 
+   */
+  public void updateGUIStats(int total, int hc, int ga, int genomes, int gensPerSec, int ct, int ctbf, int bt, int btf)
   {
 
-    totalGenerationsL.setText("Total Generations 0");
-    genPerSecL.setText("blah");
-    hcGensL.setText("Total Mutations 0");
-    gaGensL.setText("Total Crossovers 0");
-    totalGenomes.setText("Total Genomes 0");
-    currentTribeBestL.setText("Currently Tribe # 0, Best fit # 0");
-    totalBestGeneL.setText("blah");
+    totalGenerationsL.setText("Total Generations " + total);
+    genPerSecL.setText("gen/sec " + gensPerSec);
+    hcGensL.setText("Total Mutations " + hc);
+    gaGensL.setText("Total Crossovers " + ga);
+    totalGenomes.setText("Total Genomes " + genomes);
+    currentTribeBestL.setText("Current Tribe # "+ ct +", fit # " + ctbf);
+    totalBestGeneL.setText("Best Tribe # " + bt +", fit # " + btf);
   }
 
   public boolean getPauseState()

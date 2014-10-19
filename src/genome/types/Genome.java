@@ -125,6 +125,7 @@ public class Genome
    ************************************************************************************/
   public Genome()
   {
+    
   }
 
   /************************************************************************************
@@ -547,6 +548,8 @@ public class Genome
       goodOutCome = checkFit(fitBefore); 
       if(!goodOutCome) {t = undo;}
       System.out.println("option "+randomNum+"\ttriangle # "+i);
+      
+      MainFrameController.totalmutations++;
     }
     
   }

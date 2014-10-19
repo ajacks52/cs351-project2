@@ -107,21 +107,13 @@ public class Tribe extends Thread
 
     for (Genome g : genomes)
     {
-<<<<<<< HEAD
-      // Genome g = iter.next();
-      for (int i = 0; i < 200; i++)
-      {
-        hc.oneChange(g, i);
-=======
         for (int i = 0; i < 200; i++)
         {
           g.oneChange(i);
         }
         System.out.println("picking new genome");
->>>>>>> fae5626dd00a67c9ef8fe47b4dc83dec93dabe82
       }
       System.out.println("picking new genome");
-    }
 
   }
 
