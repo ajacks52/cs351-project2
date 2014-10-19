@@ -44,8 +44,6 @@ public class GeneticAlg
    *********************************************************************************/
   public void doublePointCrossOver(Genome parent1, Genome parent2, Genome child1, Genome child2, int cross1, int cross2)
   {
-    child1 = new Genome();
-    child2 = new Genome();
 
     for (int i = 0; i < cross1; i++)
     {

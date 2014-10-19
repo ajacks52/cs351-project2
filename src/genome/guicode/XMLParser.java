@@ -45,6 +45,11 @@ public class XMLParser
       System.out.println("Root element :" + doc.getDocumentElement().getNodeName());
 
       NodeList nList = doc.getElementsByTagName("triangle");
+      if (doc.getElementsByTagName("triangle") == null)
+      {
+        return null;
+      }
+
 
       System.out.println("----------------------------");
 
@@ -55,11 +60,7 @@ public class XMLParser
 
         System.out.println(nNode.getNodeName());
 
-        if (!nNode.getNodeName().equals("genome"))
-        {
-          return null;
-        }
-
+   
         if (nNode.getNodeType() == Node.ELEMENT_NODE)
         {
           Triangle t = new Triangle(null, null, null, temp);
