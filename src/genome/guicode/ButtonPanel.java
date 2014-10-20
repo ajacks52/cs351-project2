@@ -318,7 +318,6 @@ public class ButtonPanel extends JPanel
    */
   public void updateGUIStats(int total, int hc, int ga, int genomes, int gensPerSec, int ct, int ctbf, int bt, int btf)
   {
-
     totalGenerationsL.setText("Total Generations " + total);
     genPerSecL.setText("gen/sec " + gensPerSec);
     hcGensL.setText("Total Mutations " + hc);

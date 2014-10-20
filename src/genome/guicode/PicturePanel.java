@@ -53,7 +53,7 @@ public class PicturePanel extends JPanel
    ********************************************************************************/
   public void setPicture(String imageName)
   {
-    currentImage = LoadPictures.picturesMap.get(imageName);
+    this.currentImage = LoadPictures.picturesMap.get(imageName);
     pictureColorValues(currentImage);
 
     try
@@ -65,11 +65,21 @@ public class PicturePanel extends JPanel
       e.printStackTrace();
     }
     repaint();
+    
+    colorList = new ArrayList<Integer>();
+    for(int x = 0; x < currentImage.getWidth(); x++)
+    {
+      for(int y = 0; y < currentImage.getHeight(); y++)
+      {
+        colorList.add(currentImage.getRGB(x, y));
+      }
+    }
   }
   
   /**
    * 
    * @param bImage
+   * @return ArrayList<Integer> of colors
    */
   public ArrayList<Integer> pictureColorValues(BufferedImage bImage)
   {
@@ -84,23 +94,22 @@ public class PicturePanel extends JPanel
     return colorList;
   }
   
+  
+  /**
+   * 
+   * @return ArrayList<Integer> of colors
+   */
+  public ArrayList<Integer> pictureColorValues()
+  {
+    return colorList;
+  }
+  
+  
   public ColorModel getColorModelCurrentImage()
   {
     return currentImage.getColorModel();
   }
   
-  /**
-   * 
-   */
-  public ArrayList<Integer> getColorList()
-  {
-    return colorList;
-  }
-  
-  public void setColorList(ArrayList<Integer> cl)
-  {
-    colorList = cl;
-  }
   
   /********************************************************************************
    * 

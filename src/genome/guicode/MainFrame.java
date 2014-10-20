@@ -41,9 +41,9 @@ public class MainFrame extends Thread
     containerPanel = new JPanel(new BorderLayout());
     buttonPanel = new ButtonPanel();
 
-    picturePanel = new PicturePanel(LoadPictures.bImage1.getWidth(), LoadPictures.bImage1.getHeight(),
-        LoadPictures.bImage1);
-    trianglePanel = new TrianglePanel(LoadPictures.bImage1.getWidth(), LoadPictures.bImage1.getHeight());
+    picturePanel = new PicturePanel(LoadPictures.bImage9.getWidth(), LoadPictures.bImage9.getHeight(),
+        LoadPictures.bImage9);
+    trianglePanel = new TrianglePanel(LoadPictures.bImage9.getWidth(), LoadPictures.bImage9.getHeight());
 
   }
 
