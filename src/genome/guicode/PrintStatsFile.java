@@ -25,7 +25,7 @@ public class PrintStatsFile
   {
     FileWriter writer = new FileWriter(this.address, newfile);
 
-    writer.write("----------------------Statistics Print 1------------------------"
+    writer.write("----------------------Statistics "+stats[0]+"--------------------------------"
         + System.getProperty("line.separator"));
     writer.write("Total Time Running" + System.getProperty("line.separator"));
     writer.write("m:s "+stats[0]+":"+stats[1] + System.getProperty("line.separator"));

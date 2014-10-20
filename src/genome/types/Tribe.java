@@ -17,13 +17,13 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
-import java.util.concurrent.CopyOnWriteArrayList;
+//import java.util.concurrent.CopyOnWriteArrayList;
 
 import javax.imageio.ImageIO;
 
 public class Tribe extends Thread
 {
-  public CopyOnWriteArrayList<Genome> genomes;
+  public ArrayList<Genome> genomes;
   public static final int TRIBE_SIZE = 24;
   public int width;
   public int height;
@@ -40,7 +40,7 @@ public class Tribe extends Thread
     this.height = height;
     this.bImage = bImage;
 
-    genomes = new CopyOnWriteArrayList<Genome>();
+    genomes = new ArrayList<Genome>();
     /* copy on write arraylists don't have ConcurrentModificationException when using an Iterators */
     for (int i = 0; i < TRIBE_SIZE; i++)
     {
@@ -55,7 +55,10 @@ public class Tribe extends Thread
   private void sortGenomes()
   {
     doneSorting = true;
-//    System.out.println("slow sort started");
+    System.out.println("slow sort started");
+    ArrayList<Genome> copy = new ArrayList<Genome>();
+    copy =  genomes;
+
     Collections.sort(genomes, new Comparator<Genome>() {
       @Override
       public int compare(Genome o1, Genome o2)
@@ -65,7 +68,9 @@ public class Tribe extends Thread
         return (int) (f1 - f2);
       }
     });
-//    System.out.println("slow sort ended");
+    genomes = copy;
+    System.out.println("slow sort ended");
+
     doneSorting = false;
   }
 
@@ -73,7 +78,9 @@ public class Tribe extends Thread
   {
     synchronized (this)
     {
-    Collections.sort(genomes, new Comparator<Genome>() {
+      ArrayList<Genome> copy = new ArrayList<Genome>();
+      copy =  genomes;
+    Collections.sort(copy, new Comparator<Genome>() {
       @Override
       public int compare(Genome o1, Genome o2)
       {
@@ -82,6 +89,7 @@ public class Tribe extends Thread
         return (int) (f1 - f2);
       }
     });
+    genomes = copy;
     }
   }
 
@@ -89,6 +97,8 @@ public class Tribe extends Thread
   {
     synchronized (genomes)
     {
+
+      
       int div4 = TRIBE_SIZE / 4;
       List<Genome> parents = genomes.subList(0, div4 * 2);
       for (int i = 0; i < div4; i++)
@@ -103,6 +113,19 @@ public class Tribe extends Thread
 
   private void mutateAll()
   {
+//<<<<<<< HEAD
+//
+//    for (int j = 0; j < genomes.size(); j++)
+//    {
+//        for (int i = 0; i < 200; i++)
+//        {
+//          genomes.get(j).oneChange(i);
+//        }
+//        System.out.println("picking new genome");
+//      }
+//      System.out.println("picking new genome");
+//
+//=======
     for (Genome g : genomes)
     {
       g.hillClimbing();

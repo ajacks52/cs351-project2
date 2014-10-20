@@ -1,10 +1,18 @@
 ----------------------Statistics Print 1------------------------
 Total Time Running
+<<<<<<< HEAD
+m:s 18:19
+Total Generations
+2985
+Hill Climbing Generations
+2975
+=======
 m:s 0:0
 Total Generations
 0
 Hill Climbing Generations
 0
+>>>>>>> 761268dea3d79e0b6fe80c589306e64a3a7aa9a3
 Genetic Algorithm Generations
 0
 Tribe/Population Diversity

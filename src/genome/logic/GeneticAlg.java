@@ -1,6 +1,7 @@
 package genome.logic;
 
 import genome.Constants;
+import genome.guicode.MainFrameController;
 import genome.types.Genome;
 
 public class GeneticAlg
@@ -30,6 +31,10 @@ public class GeneticAlg
     {
       child1.getTriangles()[i] = parent2.getTriangles()[i];
       child2.getTriangles()[i] = parent1.getTriangles()[i];
+    }
+    synchronized (this)
+    {
+      MainFrameController.totalcrossovers+=2;
     }
   }
 
