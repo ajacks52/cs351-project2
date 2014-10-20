@@ -169,17 +169,7 @@ public class TrianglePanel extends JPanel
    *******************************************************************************/
   public void paintComponent(Graphics canvas)
   {
-    canvas.clearRect(0, 0, width, height);
-    System.out.println("before wait");
-    try
-    {
-      Thread.sleep(1000);
-    } catch (InterruptedException e)
-    {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
-    }
-    System.out.println("after wait");
+//    System.out.println("paintComponent");
     if (paintCanvas == null || paintCanvas.getHeight() != height || paintCanvas.getWidth() != width)
     {
       paintCanvas = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);

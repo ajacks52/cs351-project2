@@ -1,7 +1,9 @@
 package genome.types;
 
 import genome.Constants;
+import genome.guicode.LoadPictures;
 import genome.guicode.MainFrameController;
+import genome.guicode.TrianglePanel;
 import genome.logic.GeneticAlg;
 
 import java.util.ArrayList;
@@ -12,6 +14,8 @@ import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.Polygon;
 import java.awt.image.BufferedImage;
+
+import javax.swing.JFrame;
 
 /************************************************************************************
  * @author Jordan Medlock 
@@ -189,14 +193,14 @@ public class Genome
   {
     if (fitness != -1 && image == this.image && scaledBy == lastScale) 
     {
-//      System.out.println("fast fitness");
+//      System.out.println("fast fitness: " + fitness + " image: " + image + " scaledBy: " + scaledBy);
       return fitness;
     } 
-//    System.out.println("slow fitness");
+    System.out.println("slow fitness");
     this.image = image;
     this.lastScale = scaledBy;
     BufferedImage phenome = getImage(200);
-//    System.out.println(a + " " + b);
+    System.out.println("phenome: " + phenome + "\nimage: " + image);
     if (image.getWidth() != phenome.getWidth()) return 0;
     if (image.getHeight() != phenome.getHeight()) return 0;
     long sum = 0;
@@ -377,11 +381,12 @@ public class Genome
       {
         int delta = 100 * (Constants.random.nextInt(2) == 0 ? -1 : 1);
         int last = 0;
-        double lastFitness = getFitness(MainFrameController.getCurrentPict(), 5);
+        double lastFitness = getFitness(image, 5);
         boolean stop = false;
         boolean success = false;
-        while (delta == 1 || delta == -1)
+        while (delta != 1 || delta != -1)
         {
+          System.out.println("delta: " + delta);
           // make change
           success = changeValue(t,dir,delta);
           
@@ -501,7 +506,7 @@ public class Genome
   
   private boolean checkFit(double fitBefore)
   {
-     double fitAfter = getFitness(MainFrameController.getCurrentPict(), 5);
+     double fitAfter = getFitness(image, 5);
     
     System.out.println("fit before " + fitBefore + " fit after "+ fitAfter);
     if (fitAfter < fitBefore)
@@ -513,5 +518,28 @@ public class Genome
     return false;
   }
 
+  public static void main(String[] args)
+  {
+    BufferedImage image = LoadPictures.bImage9;
+    int width = image.getWidth();
+    int height = image.getHeight();
+    JFrame frame = new JFrame();
+    frame.setPreferredSize(new Dimension(width, height));
+    TrianglePanel panel = new TrianglePanel(width, height);
+    
+    frame.add(panel);
+    frame.setVisible(true);
+    Genome g = Genome.randomGenome(width, height);
+    System.out.println(g.getFitness(image, 5));
+    for (int i=0; i < 100; i++)
+    {
+      g.hillClimbing();
+      
+      System.out.println("fitness: " + g.getFitness(image, 5));
+      
+      panel.displayGenome(g);
+    }
+
+  }
   
 }
