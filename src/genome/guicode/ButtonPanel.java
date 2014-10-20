@@ -49,7 +49,7 @@ public class ButtonPanel extends JPanel
    */
   private int triangleAmount = 0;
   private int bestTribe = 0;
-  private long fit = 0;
+  private double fit = 0;
   private int tribeNum = 0;
   private int time = 0;
   private int gen = 0;
@@ -245,9 +245,9 @@ public class ButtonPanel extends JPanel
     triangleAmountL.setText("Triangles " + i);
   }
 
-  public void setFitness(long i)
+  public void setFitness(double d)
   {
-    fit = i;
+    fit = d;
     totalBestGeneL.setText("Best Tribe # " + bestTribe + ", fit # " + fit);
   }
 

@@ -84,6 +84,7 @@ public class TrianglePanel extends JPanel
   
   public void displayGenome(Genome g)
   {
+    System.out.println("displayGenome");
     this.width = g.getDimension().width;
     this.height = g.getDimension().height;
     this.triangles = g.triangles;
@@ -168,6 +169,17 @@ public class TrianglePanel extends JPanel
    *******************************************************************************/
   public void paintComponent(Graphics canvas)
   {
+    canvas.clearRect(0, 0, width, height);
+    System.out.println("before wait");
+    try
+    {
+      Thread.sleep(1000);
+    } catch (InterruptedException e)
+    {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
+    System.out.println("after wait");
     if (paintCanvas == null || paintCanvas.getHeight() != height || paintCanvas.getWidth() != width)
     {
       paintCanvas = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);

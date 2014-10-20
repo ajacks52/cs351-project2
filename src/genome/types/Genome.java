@@ -2,12 +2,14 @@ package genome.types;
 
 import genome.Constants;
 import genome.guicode.MainFrameController;
+import genome.logic.GeneticAlg;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Point;
 import java.awt.Polygon;
 import java.awt.image.BufferedImage;
 
@@ -22,8 +24,9 @@ public class Genome
   public BufferedImage phenotype;
   public BufferedImage resizedPhenotype;
   private BufferedImage image;
-  private long fitness = -1;
+  private double fitness = -1.0;
   private int lastScale = 5;
+  private GeneticAlg geneticAlg = new GeneticAlg();
  
 
   /************************************************************************************
@@ -106,18 +109,7 @@ public class Genome
   
   public void mateWith(Genome father, Genome daughter, Genome son, int crossoverPoint)
   {
-    Genome mother = this;
-    for (int i=0; i < crossoverPoint && i < 200; i++)
-    {
-      daughter.triangles[i] = mother.triangles[i];
-      son.triangles[i] = father.triangles[i];
-    }
-    
-    for (int i=crossoverPoint; i < 200; i++)
-    {
-      daughter.triangles[i] = father.triangles[i];
-      son.triangles[i] = mother.triangles[i];
-    }
+    geneticAlg.singlePointCrossOver(this, father, daughter, son, crossoverPoint);
   }
   
   /************************************************************************************
@@ -193,14 +185,14 @@ public class Genome
     return true;
   }
   
-  public long getFitness(BufferedImage image, int scaledBy)
+  public double getFitness(BufferedImage image, int scaledBy)
   {
     if (fitness != -1 && image == this.image && scaledBy == lastScale) 
     {
 //      System.out.println("fast fitness");
       return fitness;
     } 
-    System.out.println("slow fitness");
+//    System.out.println("slow fitness");
     this.image = image;
     this.lastScale = scaledBy;
     BufferedImage phenome = getImage(200);
@@ -230,338 +222,291 @@ public class Genome
       }
 //      System.out.println(sum);
     }
-    fitness = sum;
-    return sum * scaledBy * scaledBy;
+    fitness = sum * scaledBy * scaledBy / image.getHeight() / image.getWidth();
+    return fitness;
   }
   
-  /********************************************************************
-   * Changes one of the x coords
-   *******************************************************************/
-  public void addX(int i)
+  
+  private boolean changeX1(int triangle, int delta)
   {
     fitness = -1;
-    Triangle t = triangles[i];
-    int rand = Constants.random.nextInt(2);
-    if (rand == 0 && t.getPoint1().x < dimension.width)
-      t.getPoint1().x++;
-    if (rand == 1 && t.getPoint1().x < dimension.width)
-      t.getPoint2().x++;
-    if (rand == 2 && t.getPoint1().x < dimension.width)
-      t.getPoint3().x++;
-
+    Triangle t = triangles[triangle];
+    Point p = t.getPoint1();
+    if (p.x + delta >= dimension.width) return false;
+    if (p.x + delta < 0) return false;
+    p.x += delta;
+    return true;
   }
-
-  /********************************************************************
-   * Changes one of the x coords
-   *******************************************************************/
-  public void subX(int i)
+  
+  private boolean changeY1(int triangle, int delta)
   {
     fitness = -1;
-    Triangle t = triangles[i];
-    int rand = Constants.random.nextInt(2);
-    if (rand == 0 && t.getPoint1().x > 0)
-      t.getPoint1().x--;
-    if (rand == 1 && t.getPoint2().x > 0)
-      t.getPoint2().x--;
-    if (rand == 2 && t.getPoint3().x > 0)
-      t.getPoint3().x--;
-
+    Triangle t = triangles[triangle];
+    Point p = t.getPoint1();
+    if (p.y + delta >= dimension.height) return false;
+    if (p.y + delta < 0) return false;
+    p.y += delta;
+    return true;
   }
-
-  /********************************************************************
-   * Changes one of the y coords
-   *******************************************************************/
-  public void addY(int i)
+  
+  private boolean changeX2(int triangle, int delta)
   {
     fitness = -1;
-    Triangle t = triangles[i];
-    int rand = Constants.random.nextInt(2);
-    if (rand == 0 && t.getPoint1().y < dimension.height)
-      t.getPoint1().y++;
-    if (rand == 1 && t.getPoint2().y < dimension.height)
-      t.getPoint2().y++;
-    if (rand == 2 && t.getPoint3().y < dimension.height)
-      t.getPoint3().y++;
-
+    Triangle t = triangles[triangle];
+    Point p = t.getPoint2();
+    if (p.x + delta >= dimension.width) return false;
+    if (p.x + delta < 0) return false;
+    p.x += delta;
+    return true;
   }
-
-  /********************************************************************
-   * Changes one of the y coords
-   *******************************************************************/
-  public void subY(int i)
+  
+  private boolean changeY2(int triangle, int delta)
   {
     fitness = -1;
-    Triangle t = triangles[i];
-    int rand = Constants.random.nextInt(2);
-    if (rand == 0 && t.getPoint1().y > 0)
-      t.getPoint1().y--;
-    if (rand == 1 && t.getPoint2().y > 0)
-      t.getPoint2().y--;
-    if (rand == 2 && t.getPoint3().y > 0)
-      t.getPoint3().y--;
+    Triangle t = triangles[triangle];
+    Point p = t.getPoint2();
+    if (p.y + delta >= dimension.height) return false;
+    if (p.y + delta < 0) return false;
+    p.y += delta;
+    return true;
   }
-
-  /********************************************************************
-   * Increments the red rgb value
-   *******************************************************************/
-  public void addRed(int i)
+  
+  private boolean changeX3(int triangle, int delta)
   {
     fitness = -1;
-    Triangle t = triangles[i];
-    if (t.getRed() < 255)
-      t.setRed(t.getRed() + 1);
+    Triangle t = triangles[triangle];
+    Point p = t.getPoint3();
+    if (p.x + delta >= dimension.width) return false;
+    if (p.x + delta < 0) return false;
+    p.x += delta;
+    return true;
   }
-
-  /********************************************************************
-   * Increments the green rgb value
-   *******************************************************************/
-  public void addGreen(int i)
+  
+  private boolean changeY3(int triangle, int delta)
   {
     fitness = -1;
-    Triangle t = triangles[i];
-    if (t.getGreen() < 255)
-      t.setGreen(t.getGreen() + 1);
+    Triangle t = triangles[triangle];
+    Point p = t.getPoint3();
+    if (p.y + delta >= dimension.height) return false;
+    if (p.y + delta < 0) return false;
+    p.y += delta;
+    return true;
   }
-
-  /********************************************************************
-   * Increments the blue rgb value
-   *******************************************************************/
-  public void addBlue(int i)
+  
+  private boolean changeRed(int triangle, int delta)
   {
     fitness = -1;
-    Triangle t = triangles[i];
-    if (t.getBlue() < 255)
-      t.setBlue(t.getBlue() + 1);
+    Triangle t = triangles[triangle];
+    int red = t.getRed();
+    if (red + delta > 255) return false;
+    if (red + delta < 0) return false;
+    t.setRed(red + delta);
+    return true;
   }
-
-  /********************************************************************
-   * Increments the alpha rgb value
-   *******************************************************************/
-  public void addAlpha(int i)
+  
+  private boolean changeGreen(int triangle, int delta)
   {
     fitness = -1;
-    Triangle t = triangles[i];
-    if (t.getAlpha() < 255)
-      t.setAlpha(t.getAlpha() + 1);
+    Triangle t = triangles[triangle];
+    int green = t.getGreen();
+    if (green + delta > 255) return false;
+    if (green + delta < 0) return false;
+    t.setGreen(green + delta);
+    return true;
   }
-
-  /********************************************************************
-   * Decrements the red rgb value
-   *******************************************************************/
-  public void minusRed(int i)
+  
+  private boolean changeBlue(int triangle, int delta)
   {
     fitness = -1;
-    Triangle t = triangles[i];
-    if (t.getRed() > 0)
-      t.setRed(t.getRed() - 1);
+    Triangle t = triangles[triangle];
+    int blue = t.getBlue();
+    if (blue + delta > 255) return false;
+    if (blue + delta < 0) return false;
+    t.setBlue(blue + delta);
+    return true;
   }
-
-  /********************************************************************
-   * Decrements the green rgb value
-   *******************************************************************/
-  public void minusGreen(int i)
+  
+  private boolean changeAlpha(int triangle, int delta)
   {
     fitness = -1;
-    Triangle t = triangles[i];
-    if (t.getGreen() > 0)
-      t.setGreen(t.getGreen() - 1);
+    Triangle t = triangles[triangle];
+    int alpha = t.getAlpha();
+    if (alpha + delta > 255) return false;
+    if (alpha + delta < 0) return false;
+    t.setAlpha(alpha + delta);
+    return true;
   }
-
-  /********************************************************************
-   * Decrements the blue rgb value
-   *******************************************************************/
-  public void minusBlue(int i)
+  
+  private int getValue(int t, int dir)
   {
-    fitness = -1;
-    Triangle t = triangles[i];
-    if (t.getBlue() > 0)
-      t.setBlue(t.getBlue() - 1);
-  }
-
-  /********************************************************************
-   * Decrements the alpha rgb value
-   *******************************************************************/
-  public void minusAlpha(int i)
-  {
-    fitness = -1;
-    Triangle t = triangles[i];
-    if (t.getAlpha() > 0)
-      t.setAlpha(t.getAlpha() - 1);
-  }
-
-  /********************************************************************
-   * Changes the red rgb value randomly
-   *******************************************************************/
-  public void randomRed(int i)
-  {
-    fitness = -1;
-    Triangle t = triangles[i];
-    t.setRed(Constants.random.nextInt(255));
-  }
-
-  /********************************************************************
-   * Changes the green rgb value randomly
-   *******************************************************************/
-  public void randomGreen(int i)
-  {
-    fitness = -1;
-    Triangle t = triangles[i];
-    t.setGreen(Constants.random.nextInt(255));
-  }
-
-  /********************************************************************
-   * Changes the blue rgb value randomly
-   *******************************************************************/
-  public void randomBlue(int i)
-  {
-    fitness = -1;
-    Triangle t = triangles[i];
-    t.setBlue(Constants.random.nextInt(255));
-  }
-
-  /********************************************************************
-   * Changes the alpha rgb value randomly
-   *******************************************************************/
-  public void randomAlpha(int i)
-  {
-    fitness = -1;
-    Triangle t = triangles[i];
-    t.setAlpha(Constants.random.nextInt(255));
-  }
-
-  /********************************************************************
-   * Moves all the x,y points of a triangle
-   *******************************************************************/
-  public void moveTriangle(int i)
-  {
-    fitness = -1;
-    Triangle t = triangles[i];
-    t.getPoint1().x = Constants.random.nextInt(dimension.width);
-    t.getPoint1().y = Constants.random.nextInt(dimension.height);
-    t.getPoint2().x = Constants.random.nextInt(dimension.width);
-    t.getPoint2().y = Constants.random.nextInt(dimension.height);
-    t.getPoint3().x = Constants.random.nextInt(dimension.width);
-    t.getPoint3().y = Constants.random.nextInt(dimension.height);
-  }
-
-  /********************************************************************
-   * Changes the position where the triangle is drawn Copies the n-1 triangle and pastes the nth triangle in the the n-1
-   * spot and then the n-1 triangle to the nth spot (swap)
-   *******************************************************************/
-  public void reLayerTriangle(int triangle)
-  {
-    fitness = -1;
-    Genome g = this;
-    if (triangle > 0)
+    switch (dir)
     {
-
-      Triangle t = g.getTriangles()[triangle - 1].copy();
-
-      g.getTriangles()[triangle - 1] = g.getTriangles()[triangle];
-      g.getTriangles()[triangle] = t;
+    case 0:
+      return triangles[t].getPoint1().x;
+    case 1:
+      return triangles[t].getPoint1().y;
+    case 2:
+      return triangles[t].getPoint2().x;
+    case 3:
+      return triangles[t].getPoint2().y;
+    case 4:
+      return triangles[t].getPoint3().x;
+    case 5:
+      return triangles[t].getPoint3().y;
+    case 6:
+      return triangles[t].getRed();
+    case 7:
+      return triangles[t].getGreen();
+    case 8:
+      return triangles[t].getBlue();
+    case 9:
+      return triangles[t].getAlpha();
     }
-    else
-    {
-      Triangle t = g.getTriangles()[triangle + 1].copy();
-
-      g.getTriangles()[triangle + 1] = g.getTriangles()[triangle];
-      g.getTriangles()[triangle] = t;
-    }
+    return 0;
   }
   
   
-
-
   /********************************************************************
    * aplies one of the previous methods to the genome only once
    *******************************************************************/
-  public void oneChange(int i)
+  public void hillClimbing()
   {
-    Triangle t = triangles[i];
-    int randomNum = Constants.random.nextInt(14);
-    boolean goodOutCome = true;
-    
-
-    while (goodOutCome)
-    {   
-      long fitBefore = getFitness(MainFrameController.getCurrentPict(), 5);
-      Triangle undo = t.copy();
-
-      switch (randomNum)
+    for (int t=0; t < 200; t++)
+    {
+      for (int dir=0; dir < 10; dir++)
       {
-      case 0:
-        addAlpha(i);
-        break;
-      case 1:
-        addBlue(i);
-        break;
-      case 2:
-        addGreen(i);
-        break;
-      case 3:
-        addRed(i);
-        break;
-      case 4:
-        addX(i);
-        break;
-      case 5:
-        addY(i);
-        break;
-      case 7:
-        moveTriangle(i);
-        break;
-      case 8:
-        minusAlpha(i);
-        break;
-      case 9:
-        minusBlue(i);
-        break;
-      case 10:
-        minusGreen(i);
-        break;
-      case 11:
-        minusRed(i);
-        break;
-      case 12:
-        subX(i);
-        break;
-      case 13:
-        subY(i);
-        break;
-      case 14:
-        randomAlpha(i);
-        break;
-      case 15:
-        randomRed(i);
-        break;
-      case 16:
-        randomBlue(i);
-        break;
-      case 17:
-        randomGreen(i);
-        break;
-      case 18:
-        reLayerTriangle(i);
-        break;
+        int delta = 100 * (Constants.random.nextInt(2) == 0 ? -1 : 1);
+        int last = 0;
+        double lastFitness = getFitness(MainFrameController.getCurrentPict(), 5);
+        boolean stop = false;
+        boolean success = false;
+        while (delta == 1 || delta == -1)
+        {
+          // make change
+          success = changeValue(t,dir,delta);
+          
+          // decision tree
+          if (success)
+          {
+            success = checkFit(lastFitness);
+            if (success)
+            {
+              System.out.println("Lastfitness: " + lastFitness + " Fitness: " + fitness + " delta: " + (lastFitness - fitness));
+              last += delta;
+            }
+            else
+            {
+              changeValue(t,dir,-delta); // reset
+              
+              if (!stop)
+              {
+                last = 0;
+                delta *= -1;
+                stop = true;
+              }
+              else
+              {
+                break;
+              }
+            }
+          }
+          else
+          {
+            delta /= 2;
+          }
+        }
+        
       }
-   // checks if the hill climbing was successful
-      goodOutCome = checkFit(fitBefore); 
-      if(!goodOutCome) {t = undo;}
-      System.out.println("option "+randomNum+"\ttriangle # "+i);
-      
-      MainFrameController.totalmutations++;
     }
-    
   }
 
-  private boolean checkFit(long fitBefore)
+  private boolean setValue(int t, int dir, int value)
   {
-     long fitAfter = getFitness(MainFrameController.getCurrentPict(), 5);
+    int delta = value - getValue(t,dir);
+    boolean success = true;
+    switch (dir)
+    {
+    case 0:
+      success = changeX1(t, delta);
+      break;
+    case 1:
+      success = changeY1(t, delta);
+      break;
+    case 2:
+      success = changeX2(t, delta);
+      break;
+    case 3:
+      success = changeY2(t, delta);
+      break;
+    case 4:
+      success = changeX3(t, delta);
+      break;
+    case 5:
+      success = changeY3(t, delta);
+      break;
+    case 6:
+      success = changeRed(t, delta);
+      break;
+    case 7:
+      success = changeGreen(t, delta);
+      break;
+    case 8:
+      success = changeBlue(t, delta);
+      break;
+    case 9:
+      success = changeAlpha(t, delta);
+      break;
+    }
+    return success;
+  }
+  
+  private boolean changeValue(int t, int dir, int delta)
+  {
+    boolean success = true;
+    switch (dir)
+    {
+    case 0:
+      success = changeX1(t, delta);
+      break;
+    case 1:
+      success = changeY1(t, delta);
+      break;
+    case 2:
+      success = changeX2(t, delta);
+      break;
+    case 3:
+      success = changeY2(t, delta);
+      break;
+    case 4:
+      success = changeX3(t, delta);
+      break;
+    case 5:
+      success = changeY3(t, delta);
+      break;
+    case 6:
+      success = changeRed(t, delta);
+      break;
+    case 7:
+      success = changeGreen(t, delta);
+      break;
+    case 8:
+      success = changeBlue(t, delta);
+      break;
+    case 9:
+      success = changeAlpha(t, delta);
+      break;
+    }
+    return success;
+  }
+  
+  private boolean checkFit(double fitBefore)
+  {
+     double fitAfter = getFitness(MainFrameController.getCurrentPict(), 5);
     
-    //System.out.println("fit before " + fitBefore + " fit after "+ fitAfter);
+    System.out.println("fit before " + fitBefore + " fit after "+ fitAfter);
     if (fitAfter < fitBefore)
     {
-      System.out.println(fitAfter + " " + fitBefore);
+//      System.out.println(fitAfter + " " + fitBefore);
 
       return true;
     }

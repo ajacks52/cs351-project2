@@ -23,7 +23,10 @@ public class Triangle
   private Point point2;
   private Point point3;
 
-  private int rgba;
+  private int red;
+  private int green;
+  private int blue;
+  private int alpha;
 
   /************************************************************************************
    * 
@@ -37,10 +40,7 @@ public class Triangle
    ************************************************************************************/
   public Triangle(int x1, int y1, int x2, int y2, int x3, int y3, int rgba)
   {
-    point1 = new Point(x1, y1);
-    point2 = new Point(x2, y2);
-    point3 = new Point(x3, y3);
-    this.rgba = rgba;
+    this(new Point(x1, y1), new Point(x2, y2), new Point(x3, y3), rgba);
   }
 
   /************************************************************************************
@@ -55,7 +55,11 @@ public class Triangle
     point1 = p1;
     point2 = p2;
     point3 = p3;
-    this.rgba = rgba;
+    Color color = new Color(rgba, true);
+    red = color.getRed();
+    green = color.getGreen();
+    blue = color.getBlue();
+    alpha = color.getAlpha();
   }
 
   /************************************************************************************
@@ -206,7 +210,7 @@ public class Triangle
    ************************************************************************************/
   public int getRed()
   {
-    return (rgba >> 24) & 0xFF;
+    return red;
   }
 
   /************************************************************************************
@@ -215,8 +219,7 @@ public class Triangle
    ************************************************************************************/
   public void setRed(int red)
   {
-    rgba = rgba & 0x00FFFFFF;
-    rgba = rgba | ((red & 0xFF) << 24);
+    this.red = red & 0xFF;
   }
 
   /************************************************************************************
@@ -225,7 +228,7 @@ public class Triangle
    ************************************************************************************/
   public int getGreen()
   {
-    return (rgba >> 6) & 0xFF;
+    return green;
   }
 
   /************************************************************************************
@@ -234,8 +237,7 @@ public class Triangle
    ************************************************************************************/
   public void setGreen(int green)
   {
-    rgba = rgba & 0xFF00FFFF;
-    rgba = rgba | ((green & 0xFF) << 16);
+    this.green = green & 0xFF;
   }
 
   /************************************************************************************
@@ -244,7 +246,7 @@ public class Triangle
    ************************************************************************************/
   public int getBlue()
   {
-    return (rgba >> 8) & 0xFF;
+    return blue;
   }
 
   /************************************************************************************
@@ -253,8 +255,7 @@ public class Triangle
    ************************************************************************************/
   public void setBlue(int blue)
   {
-    rgba = rgba & 0xFFFF00FF;
-    rgba = rgba | ((blue & 0xFF) << 8);
+    this.blue = blue & 0xFF;
   }
 
   /************************************************************************************
@@ -263,7 +264,7 @@ public class Triangle
    ************************************************************************************/
   public int getAlpha()
   {
-    return (rgba >> 0) & 0xFF;
+    return alpha;
   }
 
   /************************************************************************************
@@ -272,8 +273,7 @@ public class Triangle
    ************************************************************************************/
   public void setAlpha(int alpha)
   {
-    rgba = rgba & 0xFFFFFF00;
-    rgba = rgba | ((alpha & 0xFF) << 0);
+    this.alpha = alpha & 0xFF;
   }
 
   /************************************************************************************
@@ -304,6 +304,11 @@ public class Triangle
    ************************************************************************************/
   public Triangle copy()
   {
-    return new Triangle(point1,point2,point3,rgba);
+    Triangle t =  new Triangle(point1,point2,point3,0);
+    t.alpha = alpha;
+    t.red = red;
+    t.green = green;
+    t.blue = blue;
+    return t;
   }
 }
