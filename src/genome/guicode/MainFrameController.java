@@ -283,8 +283,9 @@ public class MainFrameController
     frame.disableMenu();
     frame.picturePanel.setPicture("triangles.png");
     bi = frame.picturePanel.getCurrentPicture();
-    ArrayList<Integer> colorList = frame.picturePanel.pictureColorValues(frame.picturePanel.getCurrentPicture());
-    // frame.picturePanel.setColorList(colorList);
+
+    ArrayList<Integer> colorList = new ArrayList(); //frame.picturePanel.pictureColorValues(frame.picturePanel.getCurrentPicture());
+    //frame.picturePanel.setColorList(colorList);
     smallBi = PictureResize.resize(bi, Constants.RESIZED_PICTURE_SIZE, Constants.RESIZED_PICTURE_SIZE);
     LoadPictures.currentPicture(frame.picturePanel.getCurrentPicture());
 
@@ -295,22 +296,20 @@ public class MainFrameController
       @Override
       public void run()
       {
-        // synchronized (tribe)
-        {
-          generationspersec = totalgenerations - generationspersec;
-          totalgenerations = totalmutations + totalcrossovers;
-          frame.buttonPanel.updateGUIStats(totalgenerations, totalmutations, totalcrossovers, totalgenomes,
-              generationspersec, 99, 99, 99, 99);
 
-        }
-        if (!paused)
+        generationspersec = totalgenerations - generationspersec;
+        totalgenerations = totalmutations + totalcrossovers;
+        frame.buttonPanel.updateGUIStats( totalgenerations,  totalmutations,  totalcrossovers,  totalgenomes,  generationspersec,  99,  99,  99,  99);
+        System.out.println("1****\n****\n****\n");
+        //if (!tribe.isInterrupted())
+        if(!paused)
         {
-          // synchronized (tribe)
-          {
-            // System.out.println("\tbest genome's hashcode " + tribe.genomes.get(0).hashCode());
-            // if (!tribe.doneSorting)
+          System.out.println("2****\n****\n****\n");
+
+           // synchronized (tribe.genomes)
             {
-              // displayGenome(tribe.genomes.get(0));
+        //      System.out.println("\tbest genome's hashcode " + tribe.genomes.get(0).hashCode());
+         //     displayGenome(tribe.genomes.get(0));
             }
             if (sec == 59)
             {
@@ -320,7 +319,8 @@ public class MainFrameController
             sec++;
             frame.buttonPanel.setTime(min, sec);
             // frame.buttonPanel.setGen(generations,hc_generations, ga_generations);
-          }
+            System.out.println("3****\n****\n****\n");
+
         }
       }
     }, 0, 1000L);
@@ -387,15 +387,14 @@ public class MainFrameController
   {
     synchronized (frame)
     {
-      // TODO need to loop over all the threads and display the best tribe
-      long best = 1000000000L; // really big number
+      double best = 1000000000L; // really big number
       Genome bestG = null;
       if (threads.get(0).genomes != null)
       {
         for (int i = 0; i < threads.size(); i++)
         {
           Genome genome = threads.get(i).genomes.get(0);
-          long current = genome.getFitness(genome.resizedPhenotype, 10);
+          double current = genome.getFitness(genome.resizedPhenotype, 10);
           if (current < best)
           {
             best = current;
@@ -406,6 +405,7 @@ public class MainFrameController
         frame.buttonPanel.setFitness(best);
       }
     }
+
   }
 
   /***************************************************************************************************

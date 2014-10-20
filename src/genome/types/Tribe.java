@@ -58,17 +58,19 @@ public class Tribe extends Thread
     System.out.println("slow sort started");
     ArrayList<Genome> copy = new ArrayList<Genome>();
     copy =  genomes;
+
     Collections.sort(genomes, new Comparator<Genome>() {
       @Override
       public int compare(Genome o1, Genome o2)
       {
-        long f1 = o1.getFitness(bImage, 5);
-        long f2 = o2.getFitness(bImage, 5);
+        double f1 = o1.getFitness(bImage, 5);
+        double f2 = o2.getFitness(bImage, 5);
         return (int) (f1 - f2);
       }
     });
     genomes = copy;
     System.out.println("slow sort ended");
+
     doneSorting = false;
   }
 
@@ -82,8 +84,8 @@ public class Tribe extends Thread
       @Override
       public int compare(Genome o1, Genome o2)
       {
-        long f1 = o1.getFitness(bImage, 5);
-        long f2 = o2.getFitness(bImage, 5);
+        double f1 = o1.getFitness(bImage, 5);
+        double f2 = o2.getFitness(bImage, 5);
         return (int) (f1 - f2);
       }
     });
@@ -93,31 +95,41 @@ public class Tribe extends Thread
 
   private void breedGenomes()
   {
-    int div4 = TRIBE_SIZE / 4;
-    List<Genome> parents = genomes.subList(0, div4 * 2);
-    Collections.shuffle(parents);
-    for (int i = 0; i < div4; i++)
+    synchronized (genomes)
     {
-      genAlg.singlePointCrossOver(parents.get(i), parents.get(i + div4), genomes.get(i + div4 * 2),
-      genomes.get(i + div4 * 3), Constants.random.nextInt(200));
+
       
+      int div4 = TRIBE_SIZE / 4;
+      List<Genome> parents = genomes.subList(0, div4 * 2);
+      for (int i = 0; i < div4; i++)
+      {
+        parents.get(i).mateWith(parents.get(i + div4), genomes.get(i + div4 * 2), 
+            genomes.get(i + div4 * 3), Constants.random.nextInt(200));
+      
+        MainFrameController.totalcrossovers++;
+      }
     }
-    sortGenomes();
   }
 
   private void mutateAll()
   {
-
-    for (int j = 0; j < genomes.size(); j++)
+//<<<<<<< HEAD
+//
+//    for (int j = 0; j < genomes.size(); j++)
+//    {
+//        for (int i = 0; i < 200; i++)
+//        {
+//          genomes.get(j).oneChange(i);
+//        }
+//        System.out.println("picking new genome");
+//      }
+//      System.out.println("picking new genome");
+//
+//=======
+    for (Genome g : genomes)
     {
-        for (int i = 0; i < 200; i++)
-        {
-          genomes.get(j).oneChange(i);
-        }
-        System.out.println("picking new genome");
-      }
-      System.out.println("picking new genome");
-
+      g.hillClimbing();
+    }
   }
 
   public void run()
@@ -126,15 +138,18 @@ public class Tribe extends Thread
     for (int step = 0; !this.isInterrupted(); step++)
     {
       long start = System.currentTimeMillis();
-      System.out.println("Sorting genomes: "+step);
-      sortGenomes();
+//      System.out.println("Sorting genomes: "+step);
+      synchronized (genomes)
+      {
+        sortGenomes();
+      }
       yield();
-      System.out.println("Breeding genomes");
+//      System.out.println("Breeding genomes");
       breedGenomes();
       // breed best half of best half with worst half of best half
 
-      System.out.println("best fit " + genomes.indexOf(0));
-      System.out.println("Mutating genomes");
+//      System.out.println("best fit " + genomes.indexOf(0));
+//      System.out.println("Mutating genomes");
 
       mutateAll();
 
