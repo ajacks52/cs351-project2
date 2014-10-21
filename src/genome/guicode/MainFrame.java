@@ -1,11 +1,8 @@
 package genome.guicode;
 
-import genome.types.Triangle;
-
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
 
 import javax.swing.*;
 
@@ -115,6 +112,9 @@ public class MainFrame extends Thread
     appendStats.addActionListener(al);
   }
   
+  /***************************************************************************************************
+   * 
+   **************************************************************************************************/
   public void disableMenu()
   {
     showTable.setEnabled(false); 
@@ -124,6 +124,9 @@ public class MainFrame extends Thread
    
   }
   
+  /***************************************************************************************************
+   * 
+   **************************************************************************************************/
   public void enableMenu()
   {
     showTable.setEnabled(true); 
@@ -150,11 +153,14 @@ public class MainFrame extends Thread
   }
 }
 
+/***************************************************************************************************
+ * 
+ **************************************************************************************************/
 class MenuActionListener implements ActionListener
 {
   public void actionPerformed(ActionEvent e)
   {
-    System.out.println("Selected: " + e.getActionCommand());
+    //System.out.println("Selected: " + e.getActionCommand());
 
   }
 }

@@ -18,6 +18,24 @@ average fitness of tribes 0
 ----------------------------------------------------------------
 ----------------------Statistics 0--------------------------------
 Total Time Running
+m:s 0:5
+Total Generations
+0
+Hill Climbing Generations
+0
+Genetic Algorithm Generations
+0
+Generations per Second
+0
+Tribe/Population Diversity
+# of tribes 0
+# of genomes 0
+Overall Best fitness
+0
+average fitness of tribes 0
+----------------------------------------------------------------
+----------------------Statistics 0--------------------------------
+Total Time Running
 m:s 0:6
 Total Generations
 0
@@ -36,51 +54,15 @@ average fitness of tribes 0
 ----------------------------------------------------------------
 ----------------------Statistics 0--------------------------------
 Total Time Running
-m:s 0:12
+m:s 0:13
 Total Generations
-0
+23
 Hill Climbing Generations
-0
+5
 Genetic Algorithm Generations
-0
+18
 Generations per Second
 0
-Tribe/Population Diversity
-# of tribes 0
-# of genomes 0
-Overall Best fitness
-0
-average fitness of tribes 0
-----------------------------------------------------------------
-----------------------Statistics 0--------------------------------
-Total Time Running
-m:s 0:18
-Total Generations
-16266841
-Hill Climbing Generations
-16260739
-Genetic Algorithm Generations
-6102
-Generations per Second
-4837951
-Tribe/Population Diversity
-# of tribes 0
-# of genomes 0
-Overall Best fitness
-0
-average fitness of tribes 0
-----------------------------------------------------------------
-----------------------Statistics 0--------------------------------
-Total Time Running
-m:s 0:19
-Total Generations
-35143897
-Hill Climbing Generations
-35130721
-Genetic Algorithm Generations
-13176
-Generations per Second
-4603873
 Tribe/Population Diversity
 # of tribes 0
 # of genomes 0
