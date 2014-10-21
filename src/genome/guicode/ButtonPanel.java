@@ -31,18 +31,18 @@ public class ButtonPanel extends JPanel
   private JSlider triangleSlider = new JSlider(JSlider.HORIZONTAL, 0, 200, 200);
   private JComboBox<String> pictureComboBox;
   private JComboBox<String> genomeComboBox;
-  private JFormattedTextField statsFileTextField = new JFormattedTextField();
+  JFormattedTextField statsFileTextField = new JFormattedTextField();
 
   private JLabel triangleAmountL = new JLabel("Triangles 200");
   private JLabel tribeNumL = new JLabel("Tribe/Thread Amount");
-  private JLabel uptimeL = new JLabel("Total Uptime min:sec 00000");
-  private JLabel genPerSecL = new JLabel("gen/sec 00000");
-  private JLabel hcGensL = new JLabel("Total Mutations 0000000");
-  private JLabel gaGensL = new JLabel("Total Crossovers 00000");
-  private JLabel totalGenomes = new JLabel("Total Genomes 00000");
-  private JLabel totalGenerationsL = new JLabel("Total Generations 000000");
-  private JLabel currentTribeBestL = new JLabel("Current Tribe # 000, fit # 00000000");
-  private JLabel totalBestGeneL = new JLabel("Best Tribe # 000, fit # 00000000");
+  private JLabel uptimeL = new JLabel("Total Uptime min:sec 0000000");
+  private JLabel genPerSecL = new JLabel("gen/sec 000000000");
+  private JLabel hcGensL = new JLabel("Total Mutations 00000000000");
+  private JLabel gaGensL = new JLabel("Total Crossovers 00000000000");
+  private JLabel totalGenomes = new JLabel("Total Genomes 000000000");
+  private JLabel totalGenerationsL = new JLabel("Total Generations 00000000000");
+  private JLabel currentTribeBestL = new JLabel("Current Tribe # 0000, fit # 000000000000");
+  private JLabel totalBestGeneL = new JLabel("Best Tribe # 0000, fit # 000000000000");
 
   /**
    * All of the values that need to be stored for information about the triangles
@@ -159,17 +159,8 @@ public class ButtonPanel extends JPanel
       }
     });
 
-    statsFileTextField.addFocusListener(new FocusListener() {
-      public void focusGained(FocusEvent e)
-      {
-        statsFileTextField.setText("");
-      }
 
-      public void focusLost(FocusEvent e)
-      {
-        // nothing
-      }
-    });
+
 
     add(statsFileTextField);
     add(genomeComboBox);
