@@ -384,7 +384,7 @@ public class Genome
         double lastFitness = getFitness(image, 5);
         boolean stop = false;
         boolean success = false;
-        while (delta != 1 || delta != -1)
+        while (delta > 1 || delta < -1)
         {
           System.out.println("delta: " + delta);
           // make change
