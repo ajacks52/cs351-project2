@@ -21,9 +21,9 @@ public class PrintStatsFile
     }
   }
 
-  public void writeToFile(boolean newfile,Integer[] stats) throws IOException
+  public void writeToFile(boolean append,int[] stats) throws IOException
   {
-    FileWriter writer = new FileWriter(this.address, newfile);
+    FileWriter writer = new FileWriter(this.address, append);
 
     writer.write("----------------------Statistics "+stats[0]+"--------------------------------"
         + System.getProperty("line.separator"));
@@ -36,6 +36,8 @@ public class PrintStatsFile
     writer.write(stats[3] + System.getProperty("line.separator"));
     writer.write("Genetic Algorithm Generations" + System.getProperty("line.separator"));
     writer.write(stats[4] + System.getProperty("line.separator"));
+    writer.write("Generations per Second" + System.getProperty("line.separator"));
+    writer.write(stats[9] + System.getProperty("line.separator"));
     writer.write("Tribe/Population Diversity" + System.getProperty("line.separator"));
     writer.write("# of tribes "+stats[5] + System.getProperty("line.separator"));
     writer.write("# of genomes "+stats[6] + System.getProperty("line.separator"));

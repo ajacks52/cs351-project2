@@ -379,6 +379,7 @@ public class Genome
     {
       for (int dir=0; dir < 10; dir++)
       {
+        
         int delta = 100 * (Constants.random.nextInt(2) == 0 ? -1 : 1);
         int last = 0;
         double lastFitness = getFitness(image, 5);
@@ -420,7 +421,11 @@ public class Genome
             delta /= 2;
           }
         }
-        
+        synchronized (MainFrameController.threads)
+        {
+          MainFrameController.totalmutations++;
+          MainFrameController.generationspersec++;
+        }
       }
     }
   }

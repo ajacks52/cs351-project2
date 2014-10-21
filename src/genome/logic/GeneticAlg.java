@@ -32,9 +32,10 @@ public class GeneticAlg
       child1.getTriangles()[i] = parent2.getTriangles()[i];
       child2.getTriangles()[i] = parent1.getTriangles()[i];
     }
-    synchronized (this)
+    synchronized ( MainFrameController.threads)
     {
       MainFrameController.totalcrossovers+=2;
+      MainFrameController.generationspersec+=2;
     }
   }
 
