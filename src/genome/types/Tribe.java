@@ -1,26 +1,23 @@
 package genome.types;
 
 import genome.Constants;
-import genome.guicode.LoadPictures;
 import genome.guicode.MainFrameController;
 import genome.logic.GeneticAlg;
 import genome.logic.PictureResize;
 
-import java.awt.Color;
-import java.awt.Graphics2D;
-import java.awt.Point;
 import java.awt.image.BufferedImage;
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 //import java.util.concurrent.CopyOnWriteArrayList;
 
-import javax.imageio.ImageIO;
 
+
+/***************************************************************************************************
+ * 
+ **************************************************************************************************/
 public class Tribe extends Thread
 {
   public ArrayList<Genome> genomes;
@@ -52,6 +49,9 @@ public class Tribe extends Thread
 
   }
 
+  /***************************************************************************************************
+   * 
+   **************************************************************************************************/
   private void sortGenomes()
   {
     doneSorting = true;
@@ -74,6 +74,9 @@ public class Tribe extends Thread
     doneSorting = false;
   }
 
+  /***************************************************************************************************
+   * 
+   **************************************************************************************************/
   public void quickSortGenomes()
   {
     synchronized (this)
@@ -93,6 +96,9 @@ public class Tribe extends Thread
     }
   }
 
+  /***************************************************************************************************
+   * 
+   **************************************************************************************************/
   private void breedGenomes()
   {
     synchronized (genomes)
@@ -111,6 +117,9 @@ public class Tribe extends Thread
     }
   }
 
+  /***************************************************************************************************
+   * 
+   **************************************************************************************************/
   private void mutateAll()
   {
 //<<<<<<< HEAD
@@ -157,6 +166,9 @@ public class Tribe extends Thread
     }
   }
 
+  /***************************************************************************************************
+   * 
+   **************************************************************************************************/
   public static void main(String[] args)
   {
     // System.out.println("Starting");

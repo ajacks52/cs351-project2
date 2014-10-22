@@ -4,6 +4,9 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 
+/***************************************************************************************************
+ * 
+ **************************************************************************************************/
 public class PrintStatsFile
 {
   String address = "data/statsFile.txt";
@@ -21,6 +24,9 @@ public class PrintStatsFile
     }
   }
 
+  /***************************************************************************************************
+   * 
+   **************************************************************************************************/
   public void writeToFile(boolean append,int[] stats) throws IOException
   {
     FileWriter writer = new FileWriter(this.address, append);
@@ -51,10 +57,12 @@ public class PrintStatsFile
     System.out.println("Wrote file");
   }
 
-  /**
-   * main for testing
-   * @param args
-   */
+
+  /***************************************************************************************************
+   *   main for testing
+   *   @param args
+   * 
+   **************************************************************************************************/
   public static void main(String[] args)
   {
     
