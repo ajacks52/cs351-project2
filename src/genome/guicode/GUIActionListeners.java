@@ -5,6 +5,7 @@ import genome.logic.PictureResize;
 import genome.types.Genome;
 import genome.types.Triangle;
 
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -30,13 +31,13 @@ public class GUIActionListeners
    * 
    **************************************************************************************************/
   public GUIActionListeners()
-  {   
+  {
   }
-  
+
   /***************************************************************************************************
    * 
    **************************************************************************************************/
-  public  void setListeners(MainFrame frame)
+  public void setListeners(MainFrame frame)
   {
     /*
      * All the action listeners are below pauseButton, picturePicker, genomePicker, tribeSelector, triangleSelector,
@@ -52,7 +53,6 @@ public class GUIActionListeners
       {
         if (frame.buttonPanel.setPause())
         {
-
           frame.buttonPanel.enableButtons();
           frame.enableMenu();
         }
@@ -77,7 +77,8 @@ public class GUIActionListeners
         String pictName = (String) cb.getSelectedItem();
         frame.picturePanel.setPicture(pictName);
         MainFrameController.bi = frame.picturePanel.getCurrentPicture();
-        MainFrameController.smallBi = PictureResize.resize(MainFrameController.bi, Constants.RESIZED_PICTURE_SIZE, Constants.RESIZED_PICTURE_SIZE);
+        MainFrameController.smallBi = PictureResize.resize(MainFrameController.bi, Constants.RESIZED_PICTURE_SIZE,
+            Constants.RESIZED_PICTURE_SIZE);
 
         ArrayList<Integer> colorList = frame.picturePanel.pictureColorValues(MainFrameController.smallBi);
         // frame.picturePanel.setColorList(colorList);
@@ -87,7 +88,6 @@ public class GUIActionListeners
         System.out.println("Selected picture: " + pictName);
       }
     });
-
 
     /*
      * tribeSelector
@@ -202,7 +202,6 @@ public class GUIActionListeners
     int height = frame.picturePanel.getCurrentPicture().getHeight();
     ArrayList<Integer> colorList = frame.picturePanel.pictureColorValues(LoadPictures.bImage1);
 
-
     /**
      * show table
      */
@@ -236,7 +235,7 @@ public class GUIActionListeners
         }
       }
     });
-    
+
     /*
      * 
      */
@@ -246,13 +245,21 @@ public class GUIActionListeners
       {
         @SuppressWarnings("unchecked")
         JComboBox<String> cb = (JComboBox<String>) e.getSource();
-        String currentTribe = (String) cb.getSelectedItem();
-      //  frame.trianglePanel.
 
+        // if (cb.getSelectedItem() != null)
+        // {
+
+        String currentTribe = (String) cb.getSelectedItem();
+        String subString = currentTribe.substring(5);
+        System.out.println(subString);
+        int index = Integer.parseInt(subString.trim());
+        frame.buttonPanel.setComboxGenomes(MainFrameController.threads.get(index - 1).genomes, (index - 1));
+        MainFrameController.displayedTribe = MainFrameController.threads.get(index - 1);
         System.out.println("Selected tribe: " + currentTribe);
+        // }
       }
     });
-    
+
     /*
      * 
      * 
@@ -263,13 +270,24 @@ public class GUIActionListeners
       {
         @SuppressWarnings("unchecked")
         JComboBox<String> cb = (JComboBox<String>) e.getSource();
-        String currentGenome = (String) cb.getSelectedItem();
-      //  frame.trianglePanel.
 
-        System.out.println("Selected tribe: " + currentGenome);
+        if (cb.getSelectedItem() != null)
+        {
+
+          String currentGenome = (String) cb.getSelectedItem();
+
+          System.out.println(currentGenome + "\n01234567890123456789012345");
+
+          String subString1 = currentGenome.substring(5, 9);
+          String subString2 = currentGenome.substring(16, 19);
+          int index1 = Integer.parseInt(subString2.trim());
+          int index2 = Integer.parseInt(subString1.trim());
+          MainFrameController.displayedGenome = MainFrameController.threads.get(index2).genomes.get(index1 - 1);
+          frame.trianglePanel.displayGenome(MainFrameController.displayedGenome);
+          System.out.println("Selected tribe: " + currentGenome);
+        }
       }
     });
-    
-  }
 
+  }
 }

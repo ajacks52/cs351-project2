@@ -29,11 +29,19 @@ public class MainFrameController
   volatile static int totalgenomes = 0;
   static int[] statsArray = new int[10];
   static String statsfileName = "statsFile";
-  int sec = 0;
-  int min = 0;
   boolean append = false;
   public static ArrayList<Tribe> threads = new ArrayList<Tribe>();
   volatile static boolean paused = false; // Run unless told to pause
+  int minutes; 
+  int seconds;
+  long timeNow;
+  long startTime;
+  long deltaTime = 0;
+  long stoppedTime = 0;
+  static Genome displayedGenome;
+  static Tribe displayedTribe;
+  static int thribesAmount = 0;
+
 
   /***************************************************************************************************
    * 
@@ -43,7 +51,7 @@ public class MainFrameController
     // SwingUtilities.invokeLater(new MainFrame());
     frame = new MainFrame();
     frame.start(); // needs to be changed so it'll sleep
-
+    startTime = System.currentTimeMillis();
     new GUIActionListeners().setListeners(frame);
 
     startGA_HC();
@@ -56,52 +64,35 @@ public class MainFrameController
    **************************************************************************************************/
   private void setTimers()
   {
+    
     Timer timer = new Timer();
     timer.scheduleAtFixedRate(new TimerTask() {
       @Override
       public void run()
       {
-        synchronized (threads)
-        {
-          totalgenerations = totalmutations + totalcrossovers;
-          frame.buttonPanel.updateGUIStats(totalgenerations, totalmutations, totalcrossovers, totalgenomes,
-              generationspersec, 99, 99, 99, 99);
-          statsArray[0] = min;
-          statsArray[1] = sec;
-          statsArray[2] = totalgenerations;
-          statsArray[3] = totalmutations;
-          statsArray[4] = totalcrossovers;
-          statsArray[5] = 0; // numberOfTribes;
-          statsArray[6] = 0; // totalgenomes;
-          statsArray[7] = 0; // bestfit;
-          statsArray[8] = 0; // averagefitness;
-          statsArray[9] = generationspersec;
-          generationspersec = 0;
-        }
+        
         System.out.println("1****\n****\n****\n");
         // if (!tribe.isInterrupted())
-        if (!paused)
+        timeNow = System.currentTimeMillis(); 
+
+        if(paused)
         {
-          System.out.println("2****\n****\n****\n");
-
-          // synchronized (tribe.genomes)
-          {
-            // System.out.println("\tbest genome's hashcode " + tribe.genomes.get(0).hashCode());
-            // displayGenome(tribe.genomes.get(0));
-          }
-          if (sec == 59)
-          {
-            sec = 0;
-            min++;
-          }
-          sec++;
-          frame.buttonPanel.setTime(min, sec);
-          // frame.buttonPanel.setGen(generations,hc_generations, ga_generations);
-          System.out.println("3****\n****\n****\n");
-
+          startTime = System.currentTimeMillis()-deltaTime;
         }
+        else if (!paused)
+        {
+          deltaTime = (timeNow - startTime);
+          System.out.println("2****\n****\n****\n");
+          int minutes = (int) ((deltaTime) / 60000); 
+          int seconds = (int) ((deltaTime) * 0.001);
+          seconds %= 60;   
+          
+          frame.buttonPanel.setTime(minutes, seconds);
+          System.out.println("3****\n****\n****\n");               
+        }
+        
       }
-    }, 0, 1000L);
+    }, 0, 500L);
 
     Timer displayGenome = new Timer();
     timer.scheduleAtFixedRate(new TimerTask() {
@@ -122,7 +113,7 @@ public class MainFrameController
           }
         }
       }
-    }, 0, 2000L);
+    }, 0, 1000L);
 
     Timer statsFileTimer = new Timer();
     statsFileTimer.scheduleAtFixedRate(new TimerTask() {
@@ -130,6 +121,24 @@ public class MainFrameController
       public void run()
       {
 
+        synchronized (threads)
+        {
+          totalgenerations = totalmutations + totalcrossovers;
+          frame.buttonPanel.updateGUIStats(totalgenerations, totalmutations, totalcrossovers, totalgenomes,
+              generationspersec);
+          statsArray[0] = minutes;
+          statsArray[1] = seconds;
+          statsArray[2] = totalgenerations;
+          statsArray[3] = totalmutations;
+          statsArray[4] = totalcrossovers;
+          statsArray[5] = 0; // numberOfTribes;
+          statsArray[6] = 0; // totalgenomes;
+          statsArray[7] = 0; // bestfit;
+          statsArray[8] = 0; // averagefitness;
+          statsArray[9] = generationspersec;
+          generationspersec = 0;
+        }
+        
         try
         {
           new PrintStatsFile(statsfileName).writeToFile(append, statsArray);
@@ -140,7 +149,7 @@ public class MainFrameController
           e.printStackTrace();
         }
       }
-    }, 0, 6000L);
+    }, 0, 60000L);
   }
 
   /***************************************************************************************************
@@ -160,6 +169,7 @@ public class MainFrameController
     LoadPictures.currentPicture(frame.picturePanel.getCurrentPicture());
 
     birthTribe();
+    frame.buttonPanel.setFitnessGenome(0,0);
 
   }
 
@@ -171,22 +181,27 @@ public class MainFrameController
   {
     synchronized (frame)
     {
-      double best = 1000000000L; // really big number
+      double bestfit = 10000000000L; // really big number
       Genome bestG = null;
+      int bestIndex = 0;
       if (threads.get(0).genomes != null)
       {
+       
         for (int i = 0; i < threads.size(); i++)
         {
-          Genome genome = threads.get(i).genomes.get(0);
-          double current = genome.getFitness(genome.getImage(200), 10);
-          if (current < best)
+          Genome genome = threads.get(i).genomes.get(0); //assuming index 0 is the most fit
+          double current = genome.getFitness(genome.getImage(200), 1);
+          if (current < bestfit)
           {
-            best = current;
-            bestG = genome;
+            bestfit = current;
+            bestG = genome;        
           }
         }
+       // displayedGenome
+       // frame.buttonPanel.setFitnessGenome(double,int);
         frame.trianglePanel.displayGenome(bestG);
-        frame.buttonPanel.setFitness(best);
+        frame.buttonPanel.setFitnessTotal(bestfit, bestIndex);
+        
       }
     }
 
@@ -204,8 +219,10 @@ public class MainFrameController
     Tribe tribe = new Tribe("Tribe 1", bImage.getWidth(), bImage.getHeight(), bImage,
         frame.picturePanel.pictureColorValues());
     tribe.start();
+    tribe.setName("Tribe " + (new Integer(++thribesAmount).toString()));
     totalgenomes += tribe.genomes.size();
     threads.add(tribe);
+    frame.buttonPanel.setComboxTribe(tribe);
   }
 
   /***************************************************************************************************
@@ -215,7 +232,10 @@ public class MainFrameController
   {
     totalgenomes -= threads.get(threads.size() - 1).genomes.size();
     threads.get(threads.size() - 1).interrupt();
+        
+    frame.buttonPanel.deleteComboxTribe(thribesAmount-1); 
     threads.remove(threads.size() - 1);
+    thribesAmount--;
   }
 
   /***************************************************************************************************

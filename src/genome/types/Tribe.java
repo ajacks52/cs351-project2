@@ -28,6 +28,7 @@ public class Tribe extends Thread
   private GeneticAlg genAlg = new GeneticAlg();
   public boolean doneSorting = false;
   private volatile boolean running = true; // Run unless told to pause
+  private int tribeNumber;
 
   public Tribe(String name, int width, int height, BufferedImage bImage, ArrayList<Integer> colorList)
   {
@@ -165,6 +166,7 @@ public class Tribe extends Thread
       // mutate all multiple times
     }
   }
+  
 
   /***************************************************************************************************
    * 
