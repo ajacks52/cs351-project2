@@ -282,7 +282,7 @@ public class GUIActionListeners
           String subString2 = currentGenome.substring(16, 19);
           int index1 = Integer.parseInt(subString2.trim());
           int index2 = Integer.parseInt(subString1.trim());
-          MainFrameController.displayedGenome = MainFrameController.threads.get(index2).genomes.get(index1 - 1);
+          MainFrameController.displayedGenome = MainFrameController.threads.get(index2-1).genomes.get(index1 - 1);
           frame.trianglePanel.displayGenome(MainFrameController.displayedGenome);
           System.out.println("Selected tribe: " + currentGenome);
         }

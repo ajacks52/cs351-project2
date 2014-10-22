@@ -216,7 +216,7 @@ public class ButtonPanel extends JPanel
     deleteComboxGenomes();
     for (int i = 0; i < genomes.size(); i++)
     {
-      modelgenomes.addElement("Tribe "+ index +"   Genome " + (i+1) + "   fitness: " + " " +new Double(genomes.get(i).getFitness()).toString() + i);
+      modelgenomes.addElement("Tribe "+ (index+1) +"   Genome " + (i+1) + "   fitness: " + " " +new Double(genomes.get(i).getFitness()).toString() + i);
     }
   }
 
