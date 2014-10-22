@@ -196,11 +196,11 @@ public class Genome
 //      System.out.println("fast fitness: " + fitness + " image: " + image + " scaledBy: " + scaledBy);
       return fitness;
     } 
-    System.out.println("slow fitness");
+//    System.out.println("slow fitness");
     this.image = image;
     this.lastScale = scaledBy;
     BufferedImage phenome = getImage(200);
-    System.out.println("phenome: " + phenome + "\nimage: " + image);
+//    System.out.println("phenome: " + phenome + "\nimage: " + image);
     if (image.getWidth() != phenome.getWidth()) return 0;
     if (image.getHeight() != phenome.getHeight()) return 0;
     long sum = 0;
@@ -221,18 +221,20 @@ public class Genome
         int bgreen = (brgb >> 8) & 0xFF;
         int bblue = (brgb >> 0) & 0xFF;
         //sum += Math.sqrt(Math.pow(ared-bred, 2) + Math.pow(agreen-bgreen, 2) + Math.pow(ablue-bblue, 2));
-        sum += (Math.abs(ared-bred) + Math.abs(agreen-bgreen) + Math.abs(ablue-bblue) + Math.abs(aalpha-balpha));
+        sum += ((ared-bred)*(ared-bred) + (agreen-bgreen)*(agreen-bgreen) + (ablue-bblue)*(ablue-bblue) + (aalpha-balpha)*(aalpha-balpha));
 
       }
 //      System.out.println(sum);
     }
-    fitness = sum * scaledBy * scaledBy / image.getHeight() / image.getWidth();
+    fitness = (double) sum * (double) scaledBy * (double) scaledBy / (double) image.getHeight() / (double) image.getWidth();
     return fitness;
   }
   
   
   private boolean changeX1(int triangle, int delta)
   {
+//    System.out.println("X1");
+    
     fitness = -1;
     Triangle t = triangles[triangle];
     Point p = t.getPoint1();
@@ -244,6 +246,8 @@ public class Genome
   
   private boolean changeY1(int triangle, int delta)
   {
+//    System.out.println("Y1");
+
     fitness = -1;
     Triangle t = triangles[triangle];
     Point p = t.getPoint1();
@@ -255,6 +259,8 @@ public class Genome
   
   private boolean changeX2(int triangle, int delta)
   {
+//    System.out.println("X2");
+
     fitness = -1;
     Triangle t = triangles[triangle];
     Point p = t.getPoint2();
@@ -266,6 +272,8 @@ public class Genome
   
   private boolean changeY2(int triangle, int delta)
   {
+//    System.out.println("Y2");
+
     fitness = -1;
     Triangle t = triangles[triangle];
     Point p = t.getPoint2();
@@ -277,6 +285,8 @@ public class Genome
   
   private boolean changeX3(int triangle, int delta)
   {
+//    System.out.println("X3");
+
     fitness = -1;
     Triangle t = triangles[triangle];
     Point p = t.getPoint3();
@@ -288,6 +298,8 @@ public class Genome
   
   private boolean changeY3(int triangle, int delta)
   {
+//    System.out.println("Y3");
+
     fitness = -1;
     Triangle t = triangles[triangle];
     Point p = t.getPoint3();
@@ -299,6 +311,8 @@ public class Genome
   
   private boolean changeRed(int triangle, int delta)
   {
+//    System.out.println("Red");
+
     fitness = -1;
     Triangle t = triangles[triangle];
     int red = t.getRed();
@@ -310,6 +324,8 @@ public class Genome
   
   private boolean changeGreen(int triangle, int delta)
   {
+//    System.out.println("Green");
+
     fitness = -1;
     Triangle t = triangles[triangle];
     int green = t.getGreen();
@@ -321,6 +337,8 @@ public class Genome
   
   private boolean changeBlue(int triangle, int delta)
   {
+//    System.out.println("Blue");
+
     fitness = -1;
     Triangle t = triangles[triangle];
     int blue = t.getBlue();
@@ -332,6 +350,8 @@ public class Genome
   
   private boolean changeAlpha(int triangle, int delta)
   {
+//    System.out.println("Alpha");
+
     fitness = -1;
     Triangle t = triangles[triangle];
     int alpha = t.getAlpha();
@@ -375,19 +395,19 @@ public class Genome
    *******************************************************************/
   public void hillClimbing()
   {
-    for (int t=0; t < 200; t++)
+//    for (int t=0; t < 200; t++)
+    for (int t=199; t >= 0; t--)
     {
-      for (int dir=0; dir < 10; dir++)
+//      int t = Constants.random.nextInt(200);
+      System.out.println("***\n***\n" + t + "\n***");
+      for (int i=0; i <= 1; i++) // the last triangles get less attention
       {
-        
-        int delta = 100 * (Constants.random.nextInt(2) == 0 ? -1 : 1);
-        int last = 0;
+        int dir = Constants.random.nextInt(10);
+        int delta = 32 * (Constants.random.nextInt(2) == 0 ? -1 : 1);
         double lastFitness = getFitness(image, 5);
-        boolean stop = false;
         boolean success = false;
         while (delta > 1 || delta < -1)
         {
-          System.out.println("delta: " + delta);
           // make change
           success = changeValue(t,dir,delta);
           
@@ -398,27 +418,16 @@ public class Genome
             if (success)
             {
               System.out.println("Lastfitness: " + lastFitness + " Fitness: " + fitness + " delta: " + (lastFitness - fitness));
-              last += delta;
             }
             else
             {
               changeValue(t,dir,-delta); // reset
-              
-              if (!stop)
-              {
-                last = 0;
-                delta *= -1;
-                stop = true;
-              }
-              else
-              {
-                break;
-              }
+              delta *= 0.5;
             }
           }
           else
           {
-            delta /= 2;
+            delta *= 0.5;
           }
         }
         synchronized (MainFrameController.threads)
@@ -513,7 +522,7 @@ public class Genome
   {
      double fitAfter = getFitness(image, 5);
     
-    System.out.println("fit before " + fitBefore + " fit after "+ fitAfter);
+//    System.out.println("fit before " + fitBefore + " fit after "+ fitAfter);
     if (fitAfter < fitBefore)
     {
 //      System.out.println(fitAfter + " " + fitBefore);
@@ -525,7 +534,7 @@ public class Genome
 
   public static void main(String[] args)
   {
-    BufferedImage image = LoadPictures.bImage9;
+    BufferedImage image = LoadPictures.bImage1;
     int width = image.getWidth();
     int height = image.getHeight();
     JFrame frame = new JFrame();
@@ -534,15 +543,14 @@ public class Genome
     
     frame.add(panel);
     frame.setVisible(true);
+    frame.setSize(new Dimension(width, height));
     Genome g = Genome.randomGenome(width, height);
     System.out.println(g.getFitness(image, 5));
     for (int i=0; i < 100; i++)
     {
-      g.hillClimbing();
-      
-      System.out.println("fitness: " + g.getFitness(image, 5));
-      
       panel.displayGenome(g);
+
+      g.hillClimbing();
     }
 
   }

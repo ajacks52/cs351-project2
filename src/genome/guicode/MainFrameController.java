@@ -227,11 +227,11 @@ public class MainFrameController
       }
     });
 
-    int width = frame.picturePanel.getCurrentPicture().getWidth();
-    int height = frame.picturePanel.getCurrentPicture().getHeight();
-    ArrayList<Integer> colorList = frame.picturePanel.pictureColorValues(LoadPictures.bImage1);
+//    int width = frame.picturePanel.getCurrentPicture().getWidth();
+//    int height = frame.picturePanel.getCurrentPicture().getHeight();
+//    ArrayList<Integer> colorList = frame.picturePanel.pictureColorValues(LoadPictures.bImage1);
 
-    Genome g = Genome.randomGenome(width, height);
+//    Genome g = Genome.randomGenome(width, height);
 
     // frame.trianglePanel.displayGenome(g);
 
@@ -284,10 +284,10 @@ public class MainFrameController
 
     frame.buttonPanel.disableButtons();
     frame.disableMenu();
-    frame.picturePanel.setPicture("triangles.png");
+    frame.picturePanel.setPicture("Leonardo_da_Vinci-Mona-Lisa-460x363.png");
     bi = frame.picturePanel.getCurrentPicture();
 
-    ArrayList<Integer> colorList = new ArrayList(); // frame.picturePanel.pictureColorValues(frame.picturePanel.getCurrentPicture());
+     // frame.picturePanel.pictureColorValues(frame.picturePanel.getCurrentPicture());
     // frame.picturePanel.setColorList(colorList);
     smallBi = PictureResize.resize(bi, Constants.RESIZED_PICTURE_SIZE, Constants.RESIZED_PICTURE_SIZE);
     LoadPictures.currentPicture(frame.picturePanel.getCurrentPicture());
