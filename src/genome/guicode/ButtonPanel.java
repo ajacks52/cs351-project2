@@ -2,9 +2,12 @@ package genome.guicode;
 
 import genome.Constants;
 
+import genome.types.Genome;
+import genome.types.Tribe;
+
+
 import java.awt.*;
 import java.awt.event.*;
-import java.util.ArrayList;
 import java.util.Set;
 import java.util.Vector;
 
@@ -48,8 +51,8 @@ public class ButtonPanel extends JPanel
   private JLabel totalBestGeneL = new JLabel("Best Tribe # 0000, fit # 000000000000");
   private JLabel displayedTribe = new JLabel("Displayed Tribe ");
   private JLabel displayedGenome = new JLabel("Displayed Genome ");
-  Vector<String> tribesCB = new Vector<String>(1000);
-  Vector<String> genomesCB = new Vector<String>(2000);
+  Vector<String> tribesCB = new Vector<String>();
+  Vector<String> genomesCB = new Vector<String>();
 
   final DefaultComboBoxModel<String> modelgenomes = new DefaultComboBoxModel<String>(genomesCB);
   final DefaultComboBoxModel<String> modeltribes = new DefaultComboBoxModel<String>(tribesCB);
@@ -210,26 +213,43 @@ public class ButtonPanel extends JPanel
   /**
    * 
    */
-  public void setComboxGenomes(Object[] genomes)
+  public void setComboxGenomes(Genome[] genomes, int index)
   {
+    deleteComboxGenomes();
     for (int i = 0; i < genomes.length; i++)
     {
-      modelgenomes.addElement(" " + i);
+      modelgenomes.addElement("Tribe "+ (index+1) +"   Genome " + (i+1) + "   fitness: " + " " +new Double(genomes[i].getFitness()).toString() + i);
     }
   }
 
   /**
    * 
    */
-  public void setComboxTribes(Object[] tribes)
+  public void setComboxTribe(Tribe tribe)
   {
-    for (int i = 0; i < tribes.length; i++)
-    {
-      modeltribes.addElement(" " + i);
-    }
-
+    modeltribes.addElement(tribe.getName());   
   }
 
+  /**
+   * 
+   */
+  public void deleteComboxTribe(int index)
+  {
+    System.out.println("\n\n\n********************" + index + "***********************\n\n\n");
+
+    modeltribes.removeElementAt(index);;
+    deleteComboxGenomes();
+  }
+
+  /**
+   * 
+   */
+  public void deleteComboxGenomes()
+  {
+    modelgenomes.removeAllElements();
+  }
+
+  
   public void setTribeNumber(int i)
   {
     tribeNum = i;
@@ -249,10 +269,14 @@ public class ButtonPanel extends JPanel
    * 
    * @param d
    */
-  public void setFitness(double d)
+  public void setFitnessTotal(double bestFit, int bestT)
   {
-    fit = d;
-    totalBestGeneL.setText("Best Tribe # " + bestTribe + ", fit # " + fit);
+    totalBestGeneL.setText("Best Tribe # " + bestT + ", fit # " + bestFit);
+  }
+
+  public void setFitnessGenome(double genomeFit, int currentT)
+  {
+    currentTribeBestL.setText("Current Tribe # " + currentT + ", fit # " + genomeFit);
   }
 
   /**
@@ -331,15 +355,15 @@ public class ButtonPanel extends JPanel
    * @param bt
    * @param btf
    **************************************************************************************************/
-  public void updateGUIStats(int total, int hc, int ga, int genomes, int gensPerSec, int ct, int ctbf, int bt, int btf)
+  public void updateGUIStats(int total, int hc, int ga, int genomes, int gensPerSec)
   {
     totalGenerationsL.setText("Total Generations " + total);
     genPerSecL.setText("gen/sec " + gensPerSec);
     hcGensL.setText("Total Mutations " + hc);
     gaGensL.setText("Total Crossovers " + ga);
     totalGenomes.setText("Total Genomes " + genomes);
-    currentTribeBestL.setText("Current Tribe # " + ct + ", fit # " + ctbf);
-    totalBestGeneL.setText("Best Tribe # " + bt + ", fit # " + btf);
+    // currentTribeBestL.setText("Current Tribe # " + ct + ", fit # " + ctbf);
+    // totalBestGeneL.setText("Best Tribe # " + bt + ", fit # " + btf);
   }
 
   /***************************************************************************************************
@@ -373,7 +397,6 @@ public class ButtonPanel extends JPanel
     tribeSpinner.addChangeListener(cl);
   }
 
-
   public void addPicturePickerActionListener(ActionListener al)
   {
     pictureComboBox.addActionListener(al);
@@ -383,8 +406,7 @@ public class ButtonPanel extends JPanel
   {
     pauseB.addActionListener(al);
   }
-  
-  
+
   public void addGenomeCBListener(ActionListener al)
   {
     genomeComboBox.addActionListener(al);
