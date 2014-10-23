@@ -1,179 +1,101 @@
 package genome.types;
 
-import genome.Constants;
-import genome.guicode.MainFrameController;
-import genome.logic.GeneticAlg;
-import genome.logic.PictureResize;
+import genome.guicode.LoadPictures;
 
+import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
-import java.util.ArrayList;
-import java.util.Collections;
+import java.util.Arrays;
 import java.util.Comparator;
-import java.util.Iterator;
-import java.util.List;
-//import java.util.concurrent.CopyOnWriteArrayList;
 
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.Timer;
 
-
-/***************************************************************************************************
- * 
- **************************************************************************************************/
 public class Tribe extends Thread
 {
-  public ArrayList<Genome> genomes;
-  public static final int TRIBE_SIZE = 24;
-  public int width;
-  public int height;
-  public BufferedImage bImage;
-  private GeneticAlg genAlg = new GeneticAlg();
-  public boolean doneSorting = false;
-  private volatile boolean running = true; // Run unless told to pause
-
-  public Tribe(String name, int width, int height, BufferedImage bImage, ArrayList<Integer> colorList)
+  public static final int TRIBE_SIZE = 8;
+  public Genome[] genomes = new Genome[TRIBE_SIZE];
+  public static BufferedImage currentImage;
+  
+  public Tribe(String name, BufferedImage currentImage)
   {
     super(name);
-
-    this.width = width;
-    this.height = height;
-    this.bImage = bImage;
-
-    genomes = new ArrayList<Genome>();
-    /* copy on write arraylists don't have ConcurrentModificationException when using an Iterators */
-    for (int i = 0; i < TRIBE_SIZE; i++)
+    
+    this.currentImage = currentImage;
+    for (int i=0; i < TRIBE_SIZE; i++)
     {
-      // genomes.add(Genome.randomGenome(width, height));
-      Genome g = new Genome(Triangle.randomGenome(200, width, height, colorList), width, height);
-      g.resizedPhenotype = PictureResize.resize(bImage, Constants.RESIZED_PICTURE_SIZE, Constants.RESIZED_PICTURE_SIZE);
-      genomes.add(g);
+      genomes[i] = new Genome(currentImage);
     }
-
   }
-
-  /***************************************************************************************************
-   * 
-   **************************************************************************************************/
-  private void sortGenomes()
+  
+  public void sortGenomes()
   {
-    doneSorting = true;
-    System.out.println("slow sort started");
-    ArrayList<Genome> copy = new ArrayList<Genome>();
-    copy =  genomes;
-
-    Collections.sort(genomes, new Comparator<Genome>() {
+    Arrays.sort(genomes, new Comparator<Genome>()
+    {
       @Override
       public int compare(Genome o1, Genome o2)
       {
-        double f1 = o1.getFitness(bImage, 5);
-        double f2 = o2.getFitness(bImage, 5);
+        double f1 = o1.getFitness();
+        double f2 = o2.getFitness();
         return (int) (f1 - f2);
       }
     });
-    genomes = copy;
-    System.out.println("slow sort ended");
-
-    doneSorting = false;
   }
-
-  /***************************************************************************************************
-   * 
-   **************************************************************************************************/
-  public void quickSortGenomes()
+  
+  public void breedGenomes()
   {
-    synchronized (this)
+    int div4 = TRIBE_SIZE/4;
+    for (int i=0; i < div4; i++)
     {
-      ArrayList<Genome> copy = new ArrayList<Genome>();
-      copy =  genomes;
-    Collections.sort(copy, new Comparator<Genome>() {
-      @Override
-      public int compare(Genome o1, Genome o2)
-      {
-        double f1 = o1.getFitness(bImage, 5);
-        double f2 = o2.getFitness(bImage, 5);
-        return (int) (f1 - f2);
-      }
-    });
-    genomes = copy;
-    }
-  }
-
-  /***************************************************************************************************
-   * 
-   **************************************************************************************************/
-  private void breedGenomes()
-  {
-    synchronized (genomes)
-    {
-
+      Genome[] subset = new Genome[] {genomes[i], genomes[i+div4], genomes[i+2*div4], genomes[i+3*div4]};
+      subset[0].hillClimbing();
+      subset[1].hillClimbing();
       
-      int div4 = TRIBE_SIZE / 4;
-      List<Genome> parents = genomes.subList(0, div4 * 2);
-      for (int i = 0; i < div4; i++)
-      {
-        parents.get(i).mateWith(parents.get(i + div4), genomes.get(i + div4 * 2), 
-            genomes.get(i + div4 * 3), Constants.random.nextInt(200));
+      subset[0].mateWith(subset[1], subset[2], subset[3]);
       
-        MainFrameController.totalcrossovers++;
-      }
     }
   }
-
-  /***************************************************************************************************
-   * 
-   **************************************************************************************************/
-  private void mutateAll()
-  {
-//<<<<<<< HEAD
-//
-//    for (int j = 0; j < genomes.size(); j++)
-//    {
-//        for (int i = 0; i < 200; i++)
-//        {
-//          genomes.get(j).oneChange(i);
-//        }
-//        System.out.println("picking new genome");
-//      }
-//      System.out.println("picking new genome");
-//
-//=======
-    for (Genome g : genomes)
-    {
-      g.hillClimbing();
-    }
-  }
-
+  
   public void run()
   {
-    System.out.println("running tribe: "+ getName());
-    for (int step = 0; !this.isInterrupted(); step++)
+    System.out.println("Running tribe: " + getName());
+    for (int step=0; true; step++)
     {
-      long start = System.currentTimeMillis();
-//      System.out.println("Sorting genomes: "+step);
-      synchronized (genomes)
-      {
-        sortGenomes();
-      }
-      yield();
-//      System.out.println("Breeding genomes");
+      sortGenomes();
       breedGenomes();
-      // breed best half of best half with worst half of best half
-
-//      System.out.println("best fit " + genomes.indexOf(0));
-//      System.out.println("Mutating genomes");
-
-      mutateAll();
-
-      // mutate all multiple times
     }
   }
-
-  /***************************************************************************************************
-   * 
-   **************************************************************************************************/
-  public static void main(String[] args)
+  
+  public static void main(String args[])
   {
-    // System.out.println("Starting");
-    // BufferedImage bImage = LoadPictures.bImage1;
-    //
-    // new Tribe("Tribe 1", bImage.getWidth(), bImage.getHeight(),bImage).start();
+    BufferedImage monaLisa = LoadPictures.bImage1;
+    int width = monaLisa.getWidth();
+    int height = monaLisa.getHeight();
+    final Tribe tribe = new Tribe("tribe",monaLisa);
+    System.out.println(tribe.genomes[0].getFitness());
+    JFrame frame = new JFrame();
+    final JPanel panel = new JPanel()
+    {
+      public void paintComponent(Graphics g)
+      {
+        tribe.genomes[0].drawToGraphics(g);
+      }
+    };
+    tribe.start();
+    frame.add(panel);
+    frame.setSize(new Dimension(width + 50, height + 50));
+    frame.setVisible(true);
+    
+    Timer t = new Timer(1000, new ActionListener()
+    {
+      @Override
+      public void actionPerformed(ActionEvent e)
+      {
+        panel.repaint();
+      }
+    });
   }
 }

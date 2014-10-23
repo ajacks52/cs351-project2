@@ -1,314 +1,116 @@
 package genome.types;
 
-import genome.Constants;
-import genome.guicode.PicturePanel;
-
 import java.awt.Color;
-import java.awt.Point;
-import java.awt.Polygon;
-import java.awt.image.ColorModel;
-import java.util.ArrayList;
-import java.util.Random;
 
-import com.sun.corba.se.impl.orbutil.closure.Constant;
-
-/**********************************************************************************
- * @author Jordan Medlock 
- * @author Adam Mitchell
- * 
- **********************************************************************************/
+/**
+ * Triangle
+ * @author jem
+ *
+ */
 public class Triangle
 {
-  private Point point1;
-  private Point point2;
-  private Point point3;
-
-  private int red;
-  private int green;
-  private int blue;
-  private int alpha;
-
-  /************************************************************************************
-   * 
-   * @param x1
-   * @param y1
-   * @param x2
-   * @param y2
-   * @param x3
-   * @param y3
-   * @param rgba
-   ************************************************************************************/
-  public Triangle(int x1, int y1, int x2, int y2, int x3, int y3, int rgba)
-  {
-    this(new Point(x1, y1), new Point(x2, y2), new Point(x3, y3), rgba);
-  }
-
-  /************************************************************************************
-   * 
-   * @param p1
-   * @param p2
-   * @param p3
-   * @param rgba
-   ***********************************************************************************/
-  public Triangle(Point p1, Point p2, Point p3, int rgba)
-  {
-    point1 = p1;
-    point2 = p2;
-    point3 = p3;
-    Color color = new Color(rgba, true);
-    red = color.getRed();
-    green = color.getGreen();
-    blue = color.getBlue();
-    alpha = color.getAlpha();
-  }
-
-  /************************************************************************************
-   *
-   * 
-   * @param width
-   * @param height
-   * @return
-   *************************************************************************************/
-  public static Triangle randomTriangleIn(int width, int height, ArrayList<Integer> colorList)
-  {
-    Random rand = Constants.random;
-    
-//    System.out.println(colorList.size());
-    int rgb;
-    if (colorList.size() == 0) 
-    {
-      rgb = Constants.random.nextInt();
-    } 
-    else 
-    {
-      rgb = colorList.get(rand.nextInt(colorList.size()));
-    }
-    Color c = new Color(rgb);
-    int red = c.getRed();
-    int green = c.getGreen();
-    int blue = c.getBlue();
-    
-    
-    Triangle t = new Triangle(scaledRandom(width), scaledRandom(height), scaledRandom(width),
-        scaledRandom(height), scaledRandom(width), scaledRandom(height), rand.nextInt());
-    t.setRed(red);
-    t.setGreen(green);
-    t.setBlue(blue);
-    return t;
-  }
+  private short[] arr = new short[10];
   
-  /************************************************************************************
-   * 
-   * @param width
-   * @return
-   *************************************************************************************/
-  private static int scaledRandom(int width)
-  {
-    double x = Constants.random.nextInt(width) / (double) width;
-    x = x - 0.5;
-    x *= x * (Constants.random.nextInt()%2==0? -1.0: 1.0);
-    x *= 4.0;
-    x += (x < 0? 1.0 : 0.0);
-    x *= width;
-    return (int)x;
-  }
-
-  /************************************************************************************
-   * 
-   * @param count
-   * @param width
-   * @param height
-   * @return
-   *************************************************************************************/
-  public static ArrayList<Triangle> randomGenome(int count, int width, int height, ArrayList<Integer> colorList)
-  {
-    ArrayList<Triangle> ts = new ArrayList<Triangle>(count);
-    Point p = new Point(Constants.random.nextInt(width), Constants.random.nextInt(height)); 
-    
-
-   if (colorList.size() > 0)
-   {
-     ts.add(new Triangle(0,0,0,height,p.x,p.y,colorList.get(Constants.random.nextInt(colorList.size()))));
-     ts.add(new Triangle(width,height,width,0,p.x,p.y,colorList.get(Constants.random.nextInt(colorList.size()))));
-     ts.add(new Triangle(0,0,width,0,p.x,p.y,colorList.get(Constants.random.nextInt(colorList.size()))));
-     ts.add(new Triangle(width,height,0,height,p.x,p.y,colorList.get(Constants.random.nextInt(colorList.size()))));
-   } 
-   else 
-   {
-     ts.add(new Triangle(0,0,0,height,p.x,p.y,Constants.random.nextInt()));
-     ts.add(new Triangle(width,height,width,0,p.x,p.y,Constants.random.nextInt()));
-     ts.add(new Triangle(0,0,width,0,p.x,p.y,Constants.random.nextInt()));
-     ts.add(new Triangle(width,height,0,height,p.x,p.y,Constants.random.nextInt()));
-
-   }
-   
-    for (int i = 4; i < count; i++)
-    {
-      ts.add(randomTriangleIn(width, height, colorList));
-    }
-    return ts;
-  }
-  
-
-  /************************************************************************************
-   * 
-   * @return Point
-   ************************************************************************************/
-  public Point getPoint1()
-  {
-    return point1;
-  }
-
-  /************************************************************************************
-   * 
-   * @param point1
-   ************************************************************************************/
-  public void setPoint1(Point point1)
-  {
-    this.point1 = point1;
-  }
-
   /**
-   * 
-   * @return Point
+   * width, height are the size of the image you are trying to emulate
    */
-  public Point getPoint2()
+  public static int width;
+  public static int height;
+  
+  /**
+   * getGene
+   * @param type of the gene that you want
+   * @return the value at a particular gene within the triangle
+   */
+  public short getGene(GeneType type)
   {
-    return point2;
+    return arr[type.ordinal()];
   }
-
-  /************************************************************************************
-   * 
-   * @param point2
-   ************************************************************************************/
-  public void setPoint2(Point point2)
+  
+  /**
+   * setGene
+   * @param type of the gene you want to set
+   * @param value you want to set it to
+   * @return true if the value is within the range for that gene
+   */
+  public boolean setGene(GeneType type, short value)
   {
-    this.point2 = point2;
+    if (type.inBounds(value))
+    {
+      arr[type.ordinal()] = value;
+      return true;
+    }
+    return false;
   }
-
-  /************************************************************************************
-   * 
-   * @return Point
-   ************************************************************************************/
-  public Point getPoint3()
+  
+  
+  /**
+   * getXs
+   * @return an array of ints to be used in the fillPolygon method
+   */
+  public int[] getXs()
   {
-    return point3;
+    return new int[] {getGene(GeneType.X1), getGene(GeneType.X2), getGene(GeneType.X3)};
   }
-
-  /************************************************************************************
-   * 
-   * @param point3
-   ************************************************************************************/
-  public void setPoint3(Point point3)
+  
+  /**
+   * getYs
+   * @return an array of ints to be used in the fillPolygon method
+   */
+  public int[] getYs()
   {
-    this.point3 = point3;
+    return new int[] {getGene(GeneType.Y1), getGene(GeneType.Y2), getGene(GeneType.Y3)};
   }
-
-  /************************************************************************************
-   * 
-   * @return int red rgb value
-   ************************************************************************************/
-  public int getRed()
-  {
-    return red;
-  }
-
-  /************************************************************************************
-   * 
-   * @param red
-   ************************************************************************************/
-  public void setRed(int red)
-  {
-    this.red = red & 0xFF;
-  }
-
-  /************************************************************************************
-   * 
-   * @return int green rgb value
-   ************************************************************************************/
-  public int getGreen()
-  {
-    return green;
-  }
-
-  /************************************************************************************
-   * 
-   * @param green
-   ************************************************************************************/
-  public void setGreen(int green)
-  {
-    this.green = green & 0xFF;
-  }
-
-  /************************************************************************************
-   * 
-   * @return int blue rgb value
-   ************************************************************************************/
-  public int getBlue()
-  {
-    return blue;
-  }
-
-  /************************************************************************************
-   * 
-   * @param blue
-   ************************************************************************************/
-  public void setBlue(int blue)
-  {
-    this.blue = blue & 0xFF;
-  }
-
-  /************************************************************************************
-   * 
-   * @return int alpha
-   ************************************************************************************/
-  public int getAlpha()
-  {
-    return alpha;
-  }
-
-  /************************************************************************************
-   * 
-   * @param alpha
-   ************************************************************************************/
-  public void setAlpha(int alpha)
-  {
-    this.alpha = alpha & 0xFF;
-  }
-
-  /************************************************************************************
-   * 
-   * @return
-   ************************************************************************************/
-  public Polygon getPolygon()
-  {
-    Polygon p = new Polygon();
-    p.addPoint(point1.x, point1.y);
-    p.addPoint(point2.x, point2.y);
-    p.addPoint(point3.x, point3.y);
-    return p;
-  }
-
-  /************************************************************************************
-   * 
-   * @return
-   ************************************************************************************/
+  
+  /**
+   * getColor
+   * @return a Color object representing the color of the triangle
+   */
   public Color getColor()
   {
-    return new Color(getRed(), getGreen(), getBlue(), getAlpha());
+    return new Color(getGene(GeneType.RED),getGene(GeneType.GREEN),getGene(GeneType.BLUE),getGene(GeneType.ALPHA));
   }
   
-  /************************************************************************************
-   * 
-   * @return
-   ************************************************************************************/
-  public Triangle copy()
+  /**
+   * GeneType
+   * @author jem
+   * Holds the type for the individual genes
+   */
+  public static enum GeneType 
   {
-    Triangle t =  new Triangle(point1,point2,point3,0);
-    t.alpha = alpha;
-    t.red = red;
-    t.green = green;
-    t.blue = blue;
-    return t;
+    X1(0,Triangle.width), 
+    Y1(0,Triangle.height),
+    X2(0,Triangle.width), 
+    Y2(0,Triangle.height), 
+    X3(0,Triangle.width), 
+    Y3(0,Triangle.height), 
+    RED(0,256), 
+    GREEN(0,256), 
+    BLUE(0,256), 
+    ALPHA(0,256);
+    
+    /**
+     * upper and lower bounds for the gene
+     * the lower is inclusive
+     * the upper is exclusive
+     */
+    public int lower;
+    public int upper;
+    
+    GeneType(int lower, int upper)
+    {
+      this.lower = lower;
+      this.upper = upper;
+    }
+    
+    /**
+     * inBounds checks if the value is in the bounds for that gene type
+     * @param value
+     * @return
+     */
+    public boolean inBounds(short value)
+    {
+      return (value >= lower) && (value < upper);
+    }
   }
 }

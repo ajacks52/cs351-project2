@@ -24,13 +24,13 @@ public class GeneticAlg
    
     for (int i = 0; i < crossover; i++)
     {
-      child1.getTriangles()[i] = parent1.getTriangles()[i];
-      child2.getTriangles()[i] = parent2.getTriangles()[i];
+      child1.triangles[i] = parent1.triangles[i];
+      child2.triangles[i] = parent2.triangles[i];
     }
     for (int i = crossover; i < Constants.GENOME_SIZE; i++)
     {
-      child1.getTriangles()[i] = parent2.getTriangles()[i];
-      child2.getTriangles()[i] = parent1.getTriangles()[i];
+      child1.triangles[i] = parent2.triangles[i];
+      child2.triangles[i] = parent1.triangles[i];
     }
     synchronized ( MainFrameController.threads)
     {
@@ -53,18 +53,18 @@ public class GeneticAlg
 
     for (int i = 0; i < cross1; i++)
     {
-      child1.getTriangles()[i] = parent1.getTriangles()[i];
-      child2.getTriangles()[i] = parent2.getTriangles()[i];
+      child1.triangles[i] = parent1.triangles[i];
+      child2.triangles[i] = parent2.triangles[i];
     }
     for (int i = cross1; i < cross2; i++)
     {
-      child1.getTriangles()[i] = parent2.getTriangles()[i];
-      child2.getTriangles()[i] = parent1.getTriangles()[i];
+      child1.triangles[i] = parent2.triangles[i];
+      child2.triangles[i] = parent1.triangles[i];
     }
     for (int i = cross2; i < Constants.GENOME_SIZE; i++)
     {
-      child1.getTriangles()[i] = parent2.getTriangles()[i];
-      child2.getTriangles()[i] = parent1.getTriangles()[i];
+      child1.triangles[i] = parent2.triangles[i];
+      child2.triangles[i] = parent1.triangles[i];
     }
 
   }
@@ -85,14 +85,14 @@ public class GeneticAlg
     {
       for (; n < stop; n++)
       {
-        child1.getTriangles()[n] = parent2.getTriangles()[n];
-        child2.getTriangles()[n] = parent1.getTriangles()[n];
+        child1.triangles[n] = parent2.triangles[n];
+        child2.triangles[n] = parent1.triangles[n];
       }
       stop += 2;
       for (; n < stop; n++)
       {
-        child1.getTriangles()[n] = parent2.getTriangles()[n];
-        child2.getTriangles()[n] = parent1.getTriangles()[n];
+        child1.triangles[n] = parent2.triangles[n];
+        child2.triangles[n] = parent1.triangles[n];
       }
     }
   }

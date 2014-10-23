@@ -149,8 +149,7 @@ public class GUIActionListeners
       public void actionPerformed(ActionEvent e)
       {
         // TODO needs to be the current genome
-        new WriteXMLFile().generate(new Genome(Triangle.randomGenome(200, 200, 200,
-            frame.picturePanel.pictureColorValues(frame.picturePanel.getCurrentPicture())), 200, 200));
+//        new WriteXMLFile().generate();
       }
     });
 
@@ -211,8 +210,8 @@ public class GUIActionListeners
       public void actionPerformed(ActionEvent e)
       {
         // TODO need to pass in the current genome not just a random one
-        new TableStats().showTableData(new Genome(Triangle.randomGenome(200, 200, 200,
-            frame.picturePanel.pictureColorValues(frame.picturePanel.getCurrentPicture())), 200, 200));
+//        new TableStats().showTableData(new Genome(Triangle.randomGenome(200, 200, 200,
+//            frame.picturePanel.pictureColorValues(frame.picturePanel.getCurrentPicture())), 200, 200));
       }
     });
 

@@ -1,5 +1,7 @@
 package genome.guicode;
 
+import genome.Constants;
+
 import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
@@ -28,7 +30,7 @@ public class ButtonPanel extends JPanel
 
   private SpinnerModel spinnerModel = new SpinnerNumberModel(1, 1, 2000, 1);
   private JSpinner tribeSpinner = new JSpinner(spinnerModel);
-  private JSlider triangleSlider = new JSlider(JSlider.HORIZONTAL, 0, 200, 200);
+  private JSlider triangleSlider = new JSlider(JSlider.HORIZONTAL, 0, Constants.GENOME_SIZE, Constants.GENOME_SIZE);
   private JComboBox<String> pictureComboBox;
   private JComboBox<String> genomeComboBox;
   private JComboBox<String> tribeComboBox;

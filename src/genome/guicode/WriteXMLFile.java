@@ -2,6 +2,7 @@ package genome.guicode;
 
 import genome.Constants;
 import genome.types.Genome;
+import genome.types.Triangle.GeneType;
 
 import java.io.File;
 
@@ -54,46 +55,12 @@ public class WriteXMLFile
         // set attribute to staff element
         triangle.setAttribute("id", Integer.toString(i));
 
-        // x1 element
-        Element x1 = doc.createElement("x1");
-        x1.appendChild(doc.createTextNode(Integer.toString((genome.triangles[i].getPoint1().x))));
-        triangle.appendChild(x1);
-        // y1 element
-        Element y1 = doc.createElement("y1");
-        y1.appendChild(doc.createTextNode(Integer.toString((genome.triangles[i].getPoint1().y))));
-        triangle.appendChild(y1);
-        // x2 element
-        Element x2 = doc.createElement("x2");
-        x2.appendChild(doc.createTextNode(Integer.toString((genome.triangles[i].getPoint2().x))));
-        triangle.appendChild(x2);
-        // y2 element
-        Element y2 = doc.createElement("y2");
-        y2.appendChild(doc.createTextNode(Integer.toString((genome.triangles[i].getPoint2().y))));
-        triangle.appendChild(y2);
-        // x3 element
-        Element x3 = doc.createElement("x3");
-        x3.appendChild(doc.createTextNode(Integer.toString((genome.triangles[i].getPoint3().x))));
-        triangle.appendChild(x3);
-        // y3 element
-        Element y3 = doc.createElement("y3");
-        y3.appendChild(doc.createTextNode(Integer.toString((genome.triangles[i].getPoint3().y))));
-        triangle.appendChild(y3);
-        // r element
-        Element r = doc.createElement("r");
-        r.appendChild(doc.createTextNode(Integer.toString((genome.triangles[i].getRed()))));
-        triangle.appendChild(r);
-        // g element
-        Element g = doc.createElement("g");
-        g.appendChild(doc.createTextNode(Integer.toString((genome.triangles[i].getBlue()))));
-        triangle.appendChild(g);
-        // b element
-        Element b = doc.createElement("b");
-        b.appendChild(doc.createTextNode(Integer.toString((genome.triangles[i].getGreen()))));
-        triangle.appendChild(b);
-        // t element
-        Element t = doc.createElement("t");
-        t.appendChild(doc.createTextNode(Integer.toString((genome.triangles[i].getAlpha()))));
-        triangle.appendChild(t);
+        for (GeneType t : GeneType.values())
+        {
+          Element x1 = doc.createElement(t.toString());
+          x1.appendChild(doc.createTextNode(Short.toString((genome.triangles[i].getGene(t)))));
+          triangle.appendChild(x1);
+        }
       }
 
       // write the content into xml file

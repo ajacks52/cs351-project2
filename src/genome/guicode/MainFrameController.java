@@ -39,8 +39,8 @@ public class MainFrameController
    * 
    **************************************************************************************************/
   public MainFrameController()
-  {
-    // SwingUtilities.invokeLater(new MainFrame());
+  {    
+    
     frame = new MainFrame();
     frame.start(); // needs to be changed so it'll sleep
 
@@ -79,17 +79,9 @@ public class MainFrameController
           statsArray[9] = generationspersec;
           generationspersec = 0;
         }
-        System.out.println("1****\n****\n****\n");
-        // if (!tribe.isInterrupted())
         if (!paused)
         {
-          System.out.println("2****\n****\n****\n");
 
-          // synchronized (tribe.genomes)
-          {
-            // System.out.println("\tbest genome's hashcode " + tribe.genomes.get(0).hashCode());
-            // displayGenome(tribe.genomes.get(0));
-          }
           if (sec == 59)
           {
             sec = 0;
@@ -97,14 +89,10 @@ public class MainFrameController
           }
           sec++;
           frame.buttonPanel.setTime(min, sec);
-          // frame.buttonPanel.setGen(generations,hc_generations, ga_generations);
-          System.out.println("3****\n****\n****\n");
-
         }
       }
     }, 0, 1000L);
 
-    Timer displayGenome = new Timer();
     timer.scheduleAtFixedRate(new TimerTask() {
       @Override
       public void run()
@@ -155,7 +143,6 @@ public class MainFrameController
     frame.picturePanel.setPicture("triangles.png");
     bi = frame.picturePanel.getCurrentPicture();
 
-    ArrayList<Integer> colorList = new ArrayList(); // frame.picturePanel.pictureColorValues(frame.picturePanel.getCurrentPicture());
     // frame.picturePanel.setColorList(colorList);
     smallBi = PictureResize.resize(bi, Constants.RESIZED_PICTURE_SIZE, Constants.RESIZED_PICTURE_SIZE);
     LoadPictures.currentPicture(frame.picturePanel.getCurrentPicture());
@@ -178,8 +165,8 @@ public class MainFrameController
       {
         for (int i = 0; i < threads.size(); i++)
         {
-          Genome genome = threads.get(i).genomes.get(0);
-          double current = genome.getFitness(genome.getImage(200), 10);
+          Genome genome = threads.get(i).genomes[0];
+          double current = genome.getFitness();
           if (current < best)
           {
             best = current;
@@ -202,10 +189,9 @@ public class MainFrameController
   {
     BufferedImage bImage = frame.picturePanel.getCurrentPicture();
     System.out.println("in tribe's picture is " + bImage.getHeight());
-    Tribe tribe = new Tribe("Tribe 1", bImage.getWidth(), bImage.getHeight(), bImage,
-        frame.picturePanel.pictureColorValues());
+    Tribe tribe = new Tribe("Tribe 1", bImage);
     tribe.start();
-    totalgenomes += tribe.genomes.size();
+    totalgenomes += tribe.genomes.length;
     threads.add(tribe);
   }
 
@@ -214,7 +200,7 @@ public class MainFrameController
    **************************************************************************************************/
   static void killTribe()
   {
-    totalgenomes -= threads.get(threads.size() - 1).genomes.size();
+    totalgenomes -= threads.get(threads.size() - 1).genomes.length;
     threads.get(threads.size() - 1).interrupt();
     threads.remove(threads.size() - 1);
   }

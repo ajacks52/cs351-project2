@@ -2,614 +2,203 @@ package genome.types;
 
 import genome.Constants;
 import genome.guicode.LoadPictures;
-import genome.guicode.MainFrameController;
-import genome.guicode.TrianglePanel;
-import genome.logic.GeneticAlg;
+import genome.types.Triangle.GeneType;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.Point;
-import java.awt.Polygon;
 import java.awt.image.BufferedImage;
+import java.util.Random;
 
 import javax.swing.JFrame;
+import javax.swing.JPanel;
 
-/************************************************************************************
- * @author Jordan Medlock 
- * @author Adam Mitchell
- ************************************************************************************/
 public class Genome
 {
-  public Triangle[] triangles = new Triangle[Constants.GENOME_SIZE];
-  private Dimension dimension = new Dimension();
-  public BufferedImage phenotype;
-  public BufferedImage resizedPhenotype;
-  private BufferedImage image;
-  private double fitness = -1.0;
-  private int lastScale = 5;
-  private GeneticAlg geneticAlg = new GeneticAlg();
- 
-
-  /************************************************************************************
-   * One of 3 constructors takes an arraylist of triangles
-   * 
-   * @param tris
-   ************************************************************************************/
-  public Genome(List<Triangle> tris, int x, int y)
-  {
-    dimension.width = x;
-    dimension.height = y;
-
-    for (int i = 0; i < Constants.GENOME_SIZE; i++)
-    {
-      triangles[i] = tris.get(i);
-    }
-  }
+  public Triangle triangles[] = new Triangle[Constants.GENOME_SIZE];
   
-  /***************************************************************************************************
-   * 
-   **************************************************************************************************/
-  public static Genome randomGenome(int width, int height)
+  public static BufferedImage currentImage;
+  private BufferedImage phenome;
+  
+  private double fitness = -1.0;
+  
+  public boolean reset = true;
+  
+  private static Random random = new Random();
+  
+  private MutationMethod method = MutationMethod.values()[random.nextInt(3)];
+  
+  public Genome(BufferedImage currentImage)
   {
-    Genome g = new Genome();
-    g.dimension.width = width;
-    g.dimension.height = height;
+    Genome.currentImage = currentImage;
+    Triangle.width = currentImage.getWidth();
+    Triangle.height = currentImage.getHeight();
     for (int i=0; i < Constants.GENOME_SIZE; i++)
     {
-      g.triangles[i] = Triangle.randomTriangleIn(width, height, new ArrayList());
+      triangles[i] = new Triangle();
+      for (GeneType type : GeneType.values())
+      {
+        triangles[i].setGene(type, (short) random.nextInt(type.upper));
+      }
     }
-    return g;
   }
   
-  /***************************************************************************************************
-   * 
-   **************************************************************************************************/
-  public BufferedImage getImage(int count)
+  public BufferedImage getPhenome(int count)
   {
-    phenotype = new BufferedImage(dimension.width,dimension.height,BufferedImage.TYPE_INT_RGB);
-    Graphics g = phenotype.getGraphics();
-    this.drawToCanvas(g, count);
-    return phenotype;
-  }
-  
-  
-  /***************************************************************************************************
-   * 
-   **************************************************************************************************/
-  public int hammingDistance(Genome other)
-  { 
-    int sum = 0;
-    for (int i=0; i < 200; i++)
+    if (reset)
     {
-      Triangle t = this.triangles[i];
-      Triangle o = other.triangles[i];
-      
-      int diff1 = t.getPoint1().x - o.getPoint1().x;
-      sum += (diff1==0? 0 : 1);
-      diff1 = t.getPoint1().y - o.getPoint1().y;
-      sum += (diff1==0? 0 : 1);
-      
-      diff1 = t.getPoint2().x - o.getPoint2().x;
-      sum += (diff1==0? 0 : 1);
-      diff1 = t.getPoint2().y - o.getPoint2().y;
-      sum += (diff1==0? 0 : 1);
-
-      diff1 = t.getPoint3().x - o.getPoint3().x;
-      sum += (diff1==0? 0 : 1);
-      diff1 = t.getPoint3().y - o.getPoint3().y;
-      sum += (diff1==0? 0 : 1);
-      
-      diff1 = t.getRed() - o.getRed();
-      sum += (diff1==0? 0 : 1);
-      
-      diff1 = t.getGreen() - o.getGreen();
-      sum += (diff1==0? 0 : 1);
-      
-      diff1 = t.getBlue() - o.getBlue();
-      sum += (diff1==0? 0 : 1);
-      
-      diff1 = t.getAlpha() - o.getAlpha();
-      sum += (diff1==0? 0 : 1);
+      if (phenome == null || phenome.getWidth() != currentImage.getWidth() || phenome.getHeight() != currentImage.getHeight()) 
+      {
+        phenome = new BufferedImage(currentImage.getWidth(), currentImage.getHeight(), BufferedImage.TYPE_INT_ARGB);
+        phenome.getGraphics().setColor(Color.WHITE);
+        phenome.getGraphics().fillRect(0, 0, currentImage.getWidth(), currentImage.getHeight());
+      }
+      else
+      {
+        phenome.getGraphics().setColor(Color.WHITE);
+        phenome.getGraphics().fillRect(0, 0, currentImage.getWidth(), currentImage.getHeight());
+      }
     }
-    return sum;
-  }
- 
-  
-  public void mateWith(Genome father, Genome daughter, Genome son, int crossoverPoint)
-  {
-    geneticAlg.singlePointCrossOver(this, father, daughter, son, crossoverPoint);
-  }
-  
-  /************************************************************************************
-   * another constructor 
-   ************************************************************************************/
-  public Genome()
-  {
     
+    drawToGraphics(phenome.getGraphics());
+    
+    return phenome;
   }
-
-  /************************************************************************************
-   * 
-   * @param g
-   * @param count
-   ************************************************************************************/
-  public void drawToCanvas(Graphics g, int count)
+  
+  public void drawToGraphics(Graphics g)
   {
-    int i = 0;
     for (Triangle t : triangles)
     {
-      if (i++ >= count)
-        break;
-      if (t == null)
-        continue;
       g.setColor(t.getColor());
-      Polygon p = t.getPolygon();
-      g.fillPolygon(p);
+      g.fillPolygon(t.getXs(), t.getYs(), 3);
     }
-  }
-
-  /************************************************************************************
-   * 
-   * @return
-   ************************************************************************************/
-  public Triangle[] getTriangles()
-  {
-    return triangles;
-  }
-
-  /************************************************************************************
-   * 
-   * @return
-   ************************************************************************************/
-  public Dimension getDimension()
-  {
-    return dimension;
-  }
-
-  /************************************************************************************
-   * 
-   * @return
-   ************************************************************************************/
-  public Genome copy()
-  {
-    Genome cp = new Genome();
-    for (int i = 0; i < Constants.GENOME_SIZE; i++)
-    {
-      cp.triangles[i] = triangles[i].copy();
-    }
-    return cp;
   }
   
-  /***************************************************************************************************
-   * 
-   **************************************************************************************************/
-  public boolean equals(Genome other)
+  public double getFitness()
   {
-    if (this == other) return true;
-    for (int i=0; i < Constants.GENOME_SIZE; i++)
+    if (reset)
     {
-      if (!this.triangles[i].equals(other.triangles[i]))
-      {
-        return false;
-      }
-    }
-    return true;
-  }
-  
-  /***************************************************************************************************
-   * 
-   **************************************************************************************************/
-  public double getFitness(BufferedImage image, int scaledBy)
-  {
-    if (fitness != -1 && image == this.image && scaledBy == lastScale) 
-    {
-//      System.out.println("fast fitness: " + fitness + " image: " + image + " scaledBy: " + scaledBy);
+      fitness = Fitness.getFitness(getPhenome(Constants.GENOME_SIZE), currentImage, 5);
+      reset = false;
       return fitness;
-    } 
-//    System.out.println("slow fitness");
-    this.image = image;
-    this.lastScale = scaledBy;
-    BufferedImage phenome = getImage(200);
-//    System.out.println("phenome: " + phenome + "\nimage: " + image);
-    if (image.getWidth() != phenome.getWidth()) return 0;
-    if (image.getHeight() != phenome.getHeight()) return 0;
-    long sum = 0;
-    
-    for (int j=0; j < image.getHeight(); j+= scaledBy)
+    }
+    else
     {
-      for (int i=0; i < image.getWidth(); i+= scaledBy)
+      return fitness;
+    }
+  }
+  
+  public boolean makeChange(int triangle, GeneType gene, short value)
+  {
+    reset = true;
+    return triangles[triangle].setGene(gene, value);
+  }
+  
+  public boolean changeWithDelta(int triangle, GeneType gene, short delta)
+  {
+    reset = true;
+    Triangle t = triangles[triangle];
+    return t.setGene(gene, (short) (t.getGene(gene) + delta));
+  }
+  
+  public boolean hillClimbOnce(MutationMethod method)
+  {
+    double fitBefore = getFitness();
+    int t = random.nextInt(Constants.GENOME_SIZE);
+    GeneType type = GeneType.values()[random.nextInt(10)];
+    short delta = 0;
+    boolean success = false;
+    switch (method)
+    {
+    case GAUSSIAN:
+      delta = (short) (random.nextGaussian() * 25.6);
+      success = changeWithDelta(t, type, delta);
+      break;
+    case RANDOM:
+      delta = (short) random.nextInt(type.upper);
+      success = makeChange(t, type, delta);
+      break;
+    case INCREMENT:
+      delta = (short) (random.nextInt(2)==0?-20:20);
+      success = changeWithDelta(t, type, delta);
+      break;
+    }
+    if (success)
+    {
+      success = getFitness() < fitBefore;
+      if (success) System.out.println(fitBefore - getFitness());
+      
+      if (!success)
       {
-        int argb = image.getRGB(i, j);
-        int aalpha = (argb >> 24) & 0xff;
-        int ared = (argb >> 16) & 0xFF;
-        int agreen = (argb >> 8) & 0xFF;
-        int ablue = (argb >> 0) & 0xFF;
-        
-        int brgb = phenome.getRGB(i, j);
-        int balpha = (argb >> 24) & 0xff;
-        int bred = (brgb >> 16) & 0xFF;
-        int bgreen = (brgb >> 8) & 0xFF;
-        int bblue = (brgb >> 0) & 0xFF;
-        //sum += Math.sqrt(Math.pow(ared-bred, 2) + Math.pow(agreen-bgreen, 2) + Math.pow(ablue-bblue, 2));
-        sum += ((ared-bred)*(ared-bred) + (agreen-bgreen)*(agreen-bgreen) + (ablue-bblue)*(ablue-bblue) + (aalpha-balpha)*(aalpha-balpha));
-
+        changeWithDelta(t,type,(short) -delta);
       }
-//      System.out.println(sum);
     }
-    fitness = (double) sum * (double) scaledBy * (double) scaledBy / (double) image.getHeight() / (double) image.getWidth();
-    return fitness;
+    return success;
   }
   
-  /***************************************************************************************************
-   * 
-   **************************************************************************************************/
-  private boolean changeX1(int triangle, int delta)
-  {
-//    System.out.println("X1");
-    
-    fitness = -1;
-    Triangle t = triangles[triangle];
-    Point p = t.getPoint1();
-    if (p.x + delta >= dimension.width) return false;
-    if (p.x + delta < 0) return false;
-    p.x += delta;
-    return true;
-  }
-  
-  /***************************************************************************************************
-   * 
-   **************************************************************************************************/
-  private boolean changeY1(int triangle, int delta)
-  {
-//    System.out.println("Y1");
-
-    fitness = -1;
-    Triangle t = triangles[triangle];
-    Point p = t.getPoint1();
-    if (p.y + delta >= dimension.height) return false;
-    if (p.y + delta < 0) return false;
-    p.y += delta;
-    return true;
-  }
-  
-  /***************************************************************************************************
-   * 
-   **************************************************************************************************/
-  private boolean changeX2(int triangle, int delta)
-  {
-//    System.out.println("X2");
-
-    fitness = -1;
-    Triangle t = triangles[triangle];
-    Point p = t.getPoint2();
-    if (p.x + delta >= dimension.width) return false;
-    if (p.x + delta < 0) return false;
-    p.x += delta;
-    return true;
-  }
-  
-  /***************************************************************************************************
-   * 
-   **************************************************************************************************/
-  private boolean changeY2(int triangle, int delta)
-  {
-//    System.out.println("Y2");
-
-    fitness = -1;
-    Triangle t = triangles[triangle];
-    Point p = t.getPoint2();
-    if (p.y + delta >= dimension.height) return false;
-    if (p.y + delta < 0) return false;
-    p.y += delta;
-    return true;
-  }
-  
-  /***************************************************************************************************
-   * 
-   **************************************************************************************************/
-  private boolean changeX3(int triangle, int delta)
-  {
-//    System.out.println("X3");
-
-    fitness = -1;
-    Triangle t = triangles[triangle];
-    Point p = t.getPoint3();
-    if (p.x + delta >= dimension.width) return false;
-    if (p.x + delta < 0) return false;
-    p.x += delta;
-    return true;
-  }
-  
-  /***************************************************************************************************
-   * 
-   **************************************************************************************************/
-  private boolean changeY3(int triangle, int delta)
-  {
-//    System.out.println("Y3");
-
-    fitness = -1;
-    Triangle t = triangles[triangle];
-    Point p = t.getPoint3();
-    if (p.y + delta >= dimension.height) return false;
-    if (p.y + delta < 0) return false;
-    p.y += delta;
-    return true;
-  }
-  
-  /***************************************************************************************************
-   * 
-   **************************************************************************************************/
-  private boolean changeRed(int triangle, int delta)
-  {
-//    System.out.println("Red");
-
-    fitness = -1;
-    Triangle t = triangles[triangle];
-    int red = t.getRed();
-    if (red + delta > 255) return false;
-    if (red + delta < 0) return false;
-    t.setRed(red + delta);
-    return true;
-  }
-  
-  /***************************************************************************************************
-   * 
-   **************************************************************************************************/
-  private boolean changeGreen(int triangle, int delta)
-  {
-//    System.out.println("Green");
-
-    fitness = -1;
-    Triangle t = triangles[triangle];
-    int green = t.getGreen();
-    if (green + delta > 255) return false;
-    if (green + delta < 0) return false;
-    t.setGreen(green + delta);
-    return true;
-  }
-  
-  /***************************************************************************************************
-   * 
-   **************************************************************************************************/
-  private boolean changeBlue(int triangle, int delta)
-  {
-//    System.out.println("Blue");
-
-    fitness = -1;
-    Triangle t = triangles[triangle];
-    int blue = t.getBlue();
-    if (blue + delta > 255) return false;
-    if (blue + delta < 0) return false;
-    t.setBlue(blue + delta);
-    return true;
-  }
-  
-  /***************************************************************************************************
-   * 
-   **************************************************************************************************/
-  private boolean changeAlpha(int triangle, int delta)
-  {
-//    System.out.println("Alpha");
-
-    fitness = -1;
-    Triangle t = triangles[triangle];
-    int alpha = t.getAlpha();
-    if (alpha + delta > 255) return false;
-    if (alpha + delta < 0) return false;
-    t.setAlpha(alpha + delta);
-    return true;
-  }
-  
-  /***************************************************************************************************
-   * 
-   **************************************************************************************************/
-  private int getValue(int t, int dir)
-  {
-    switch (dir)
-    {
-    case 0:
-      return triangles[t].getPoint1().x;
-    case 1:
-      return triangles[t].getPoint1().y;
-    case 2:
-      return triangles[t].getPoint2().x;
-    case 3:
-      return triangles[t].getPoint2().y;
-    case 4:
-      return triangles[t].getPoint3().x;
-    case 5:
-      return triangles[t].getPoint3().y;
-    case 6:
-      return triangles[t].getRed();
-    case 7:
-      return triangles[t].getGreen();
-    case 8:
-      return triangles[t].getBlue();
-    case 9:
-      return triangles[t].getAlpha();
-    }
-    return 0;
-  }
-  
-  
-  /********************************************************************
-   * aplies one of the previous methods to the genome only once
-   *******************************************************************/
   public void hillClimbing()
   {
-//    for (int t=0; t < 200; t++)
-    for (int t=199; t >= 0; t--)
+    for (int i=0; i < 1000; i++)
     {
-//      int t = Constants.random.nextInt(200);
-      System.out.println("***\n***\n" + t + "\n***");
-      for (int i=0; i <= 1; i++) // the last triangles get less attention
+      System.out.print(i + " - ");
+      hillClimbOnce(method);
+      if (i%100==0)
       {
-        int dir = Constants.random.nextInt(10);
-        int delta = 32 * (Constants.random.nextInt(2) == 0 ? -1 : 1);
-        double lastFitness = getFitness(image, 5);
-        boolean success = false;
-        while (delta > 1 || delta < -1)
-        {
-          // make change
-          success = changeValue(t,dir,delta);
-          
-          // decision tree
-          if (success)
-          {
-            success = checkFit(lastFitness);
-            if (success)
-            {
-              System.out.println("Lastfitness: " + lastFitness + " Fitness: " + fitness + " delta: " + (lastFitness - fitness));
-            }
-            else
-            {
-              changeValue(t,dir,-delta); // reset
-              delta *= 0.5;
-            }
-          }
-          else
-          {
-            delta *= 0.5;
-          }
-        }
-        synchronized (MainFrameController.threads)
-        {
-          MainFrameController.totalmutations++;
-          MainFrameController.generationspersec++;
-        }
+        method = MutationMethod.values()[(method.ordinal() + 1)%3];
       }
     }
+    method = MutationMethod.values()[(method.ordinal() + 1)%3];
+    System.out.println(method);
   }
-
-  /***************************************************************************************************
-   * 
-   **************************************************************************************************/
-  private boolean setValue(int t, int dir, int value)
+  // 200 
+  
+  public void mateWith(Genome father, Genome son, Genome daughter)
   {
-    int delta = value - getValue(t,dir);
-    boolean success = true;
-    switch (dir)
+    int crossover = (int) ((random.nextGaussian() * 15.0) + 100.0);
+    while (crossover < 0 || crossover >= Constants.GENOME_SIZE)
     {
-    case 0:
-      success = changeX1(t, delta);
-      break;
-    case 1:
-      success = changeY1(t, delta);
-      break;
-    case 2:
-      success = changeX2(t, delta);
-      break;
-    case 3:
-      success = changeY2(t, delta);
-      break;
-    case 4:
-      success = changeX3(t, delta);
-      break;
-    case 5:
-      success = changeY3(t, delta);
-      break;
-    case 6:
-      success = changeRed(t, delta);
-      break;
-    case 7:
-      success = changeGreen(t, delta);
-      break;
-    case 8:
-      success = changeBlue(t, delta);
-      break;
-    case 9:
-      success = changeAlpha(t, delta);
-      break;
+      crossover = (int) ((random.nextGaussian() * 15.0) + 100.0);
     }
-    return success;
+    for (int i = 0; i < crossover; i++)
+    {
+      son.triangles[i] = this.triangles[i];
+      daughter.triangles[i] = father.triangles[i];
+    }
+    for (int i = crossover; i < Constants.GENOME_SIZE; i++)
+    {
+      son.triangles[i] = father.triangles[i];
+      daughter.triangles[i] = this.triangles[i];
+    }
   }
   
-  /***************************************************************************************************
-   * 
-   **************************************************************************************************/ 
-  private boolean changeValue(int t, int dir, int delta)
+  private static enum MutationMethod
   {
-    boolean success = true;
-    switch (dir)
-    {
-    case 0:
-      success = changeX1(t, delta);
-      break;
-    case 1:
-      success = changeY1(t, delta);
-      break;
-    case 2:
-      success = changeX2(t, delta);
-      break;
-    case 3:
-      success = changeY2(t, delta);
-      break;
-    case 4:
-      success = changeX3(t, delta);
-      break;
-    case 5:
-      success = changeY3(t, delta);
-      break;
-    case 6:
-      success = changeRed(t, delta);
-      break;
-    case 7:
-      success = changeGreen(t, delta);
-      break;
-    case 8:
-      success = changeBlue(t, delta);
-      break;
-    case 9:
-      success = changeAlpha(t, delta);
-      break;
-    }
-    return success;
+    GAUSSIAN, RANDOM, INCREMENT
   }
   
-  /***************************************************************************************************
-   * 
-   **************************************************************************************************/
-  private boolean checkFit(double fitBefore)
-  {
-     double fitAfter = getFitness(image, 5);
-    
-//    System.out.println("fit before " + fitBefore + " fit after "+ fitAfter);
-    if (fitAfter < fitBefore)
-    {
-//      System.out.println(fitAfter + " " + fitBefore);
-
-      return true;
-    }
-    return false;
-  }
-
-  /***************************************************************************************************
-   * 
-   **************************************************************************************************/
   public static void main(String[] args)
   {
-    BufferedImage image = LoadPictures.bImage1;
-    int width = image.getWidth();
-    int height = image.getHeight();
+    BufferedImage monaLisa = LoadPictures.bImage1;
+    int width = monaLisa.getWidth();
+    int height = monaLisa.getHeight();
+    final Genome genome = new Genome(monaLisa);
+    System.out.println(genome.getFitness());
     JFrame frame = new JFrame();
-    frame.setPreferredSize(new Dimension(width, height));
-    TrianglePanel panel = new TrianglePanel(width, height);
+    JPanel panel = new JPanel()
+    {
+      public void paintComponent(Graphics g)
+      {
+        genome.drawToGraphics(g);
+      }
+    };
     
     frame.add(panel);
+    frame.setSize(new Dimension(width + 50, height + 50));
     frame.setVisible(true);
-    frame.setSize(new Dimension(width, height));
-    Genome g = Genome.randomGenome(width, height);
-    System.out.println(g.getFitness(image, 5));
-    for (int i=0; i < 100; i++)
+    for (int i=0; true; i++)
     {
-      panel.displayGenome(g);
-
-      g.hillClimbing();
+      genome.hillClimbing();
+      panel.repaint();
     }
-
   }
-  
 }

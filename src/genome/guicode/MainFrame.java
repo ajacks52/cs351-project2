@@ -1,5 +1,7 @@
 package genome.guicode;
 
+import genome.Constants;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -40,7 +42,7 @@ public class MainFrame extends Thread
 
     picturePanel = new PicturePanel(LoadPictures.bImage9.getWidth(), LoadPictures.bImage9.getHeight(),
         LoadPictures.bImage9);
-    trianglePanel = new TrianglePanel(LoadPictures.bImage9.getWidth(), LoadPictures.bImage9.getHeight());
+    trianglePanel = new TrianglePanel();
 
   }
 
@@ -81,7 +83,7 @@ public class MainFrame extends Thread
 
     mainFrame.setJMenuBar(bar);
 
-    trianglePanel.setTriangleCount(200);
+    trianglePanel.setTriangleCount(Constants.GENOME_SIZE);
     containerPanel.add(picturePanel, BorderLayout.WEST);
     containerPanel.add(trianglePanel, BorderLayout.EAST);
     containerPanel.add(buttonPanel, BorderLayout.PAGE_END);

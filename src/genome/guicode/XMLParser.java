@@ -2,6 +2,7 @@ package genome.guicode;
 
 import genome.Constants;
 import genome.types.Triangle;
+import genome.types.Triangle.GeneType;
 
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.DocumentBuilder;
@@ -63,39 +64,27 @@ public class XMLParser
    
         if (nNode.getNodeType() == Node.ELEMENT_NODE)
         {
-          Triangle t = new Triangle(null, null, null, temp);
+          Triangle t = new Triangle();
           Element data = (Element) nNode;
 
-          if (data.getElementsByTagName("x1") == null)
+          if (data.getElementsByTagName(GeneType.X1.toString()) == null)
           {
             return null;
           }
 
-          t.setPoint1(new Point(Integer.valueOf(data.getElementsByTagName("x1").item(0).getTextContent()), Integer
-              .valueOf(data.getElementsByTagName("y1").item(0).getTextContent())));
-          t.setPoint2(new Point(Integer.valueOf(data.getElementsByTagName("x2").item(0).getTextContent()), Integer
-              .valueOf(data.getElementsByTagName("y2").item(0).getTextContent())));
-          t.setPoint3(new Point(Integer.valueOf(data.getElementsByTagName("x3").item(0).getTextContent()), Integer
-              .valueOf(data.getElementsByTagName("y3").item(0).getTextContent())));
-          t.setRed(Integer.valueOf(data.getElementsByTagName("r").item(0).getTextContent()));
-          t.setGreen(Integer.valueOf(data.getElementsByTagName("g").item(0).getTextContent()));
-          t.setBlue(Integer.valueOf(data.getElementsByTagName("b").item(0).getTextContent()));
-          t.setAlpha(Integer.valueOf(data.getElementsByTagName("t").item(0).getTextContent()));
+          for (GeneType type : GeneType.values())
+          {
+            t.setGene(type, Short.valueOf(data.getElementsByTagName(type.toString()).item(0).getTextContent()));
+          }
           triList.add(Integer.valueOf(data.getAttribute("id")), t);
 
           if (Constants.DEBUG)
           {
             System.out.println("index : " + data.getAttribute("id"));
-            System.out.println("x1 : " + data.getElementsByTagName("x1").item(0).getTextContent());
-            System.out.println("y1 : " + data.getElementsByTagName("y1").item(0).getTextContent());
-            System.out.println("x2: " + data.getElementsByTagName("x2").item(0).getTextContent());
-            System.out.println("y2 : " + data.getElementsByTagName("y2").item(0).getTextContent());
-            System.out.println("x3 : " + data.getElementsByTagName("x3").item(0).getTextContent());
-            System.out.println("y3 : " + data.getElementsByTagName("y3").item(0).getTextContent());
-            System.out.println("r : " + data.getElementsByTagName("r").item(0).getTextContent());
-            System.out.println("g: " + data.getElementsByTagName("g").item(0).getTextContent());
-            System.out.println("b : " + data.getElementsByTagName("b").item(0).getTextContent());
-            System.out.println("t : " + data.getElementsByTagName("t").item(0).getTextContent());
+            for (GeneType type : GeneType.values())
+            {
+              System.out.println(type.toString() + " : " + data.getElementsByTagName(type.toString()).item(0).getTextContent());
+            }
           }
         }
       }
