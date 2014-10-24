@@ -33,8 +33,9 @@ public class WriteXMLFile
    * Writes an xml file based on the given genome. In our awesomely formatted genome genetic algorithm
    * xml format.
    * @param genome
+   * @return 
    **************************************************************************************************/
-  public void generate(Genome genome)
+  public boolean generate(Genome genome)
   {
     try
     {
@@ -77,5 +78,6 @@ public class WriteXMLFile
     {
       tfe.printStackTrace();
     }
+    return true;
   }
 }

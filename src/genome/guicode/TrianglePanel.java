@@ -14,7 +14,6 @@ public class TrianglePanel extends JPanel
   private final static int PANEL_H = 550;
   private final static int PANEL_W = 550;
   private Genome genome;
-  @SuppressWarnings("unused")
   private int count = 200;
 
   /*******************************************************************************

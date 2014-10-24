@@ -3,6 +3,7 @@ package genome.guicode;
 import genome.Constants;
 import genome.types.Genome;
 import genome.types.Tribe;
+import genome.unit_testing.AssertTests;
 
 import java.awt.image.BufferedImage;
 import java.io.IOException;
@@ -42,6 +43,7 @@ public class MainFrameController
   static int thribesAmount = 0;
   public static int numberOfTribes = 1;
   static int[] statsArray = new int[10];
+  public static boolean stop = false;
 
 
   /*******************************************************************************************************
@@ -49,6 +51,10 @@ public class MainFrameController
    ******************************************************************************************************/
   public MainFrameController()
   {
+    if(Constants.ASSERT)
+    {
+      new AssertTests();
+    }
     frame = new MainFrame();
     frame.start();
     startTime = System.currentTimeMillis();
@@ -222,10 +228,10 @@ public class MainFrameController
    *******************************************************************************************************/
   static void birthTribe()
   {
-    BufferedImage bImage = frame.picturePanel.getCurrentPicture();
+    BufferedImage bImage = bi;
+    System.out.println("picture size " + bImage.getWidth());
+
     Tribe tribe = new Tribe("Tribe", bImage);
-    
-    System.out.println("picture size" + bImage.getWidth());
     
     tribe.start();
     tribe.setName("Tribe " + (new Integer(++thribesAmount).toString()));
@@ -258,7 +264,6 @@ public class MainFrameController
     totalgenomes -= Constants.TRIBE_SIZE;
   }
 
-
   /*******************************************************************************************************
    * restart(BufferedImage bImage, ArrayList<Integer> clist) Sets up a new picture in the triangle panel restarts all
    * the treads/tribes clears out the tribe and genome combo boxes
@@ -268,22 +273,36 @@ public class MainFrameController
    *******************************************************************************************************/
   static void restart(BufferedImage bImage, ArrayList<Integer> clist)
   {
-    System.out.println("Restarting GA / HC with new picture");
-  
+    if(Constants.DEBUG)
+    {
+      System.out.println("Restarting GA / HC with new picture");
+    }
+    
+    if(bImage.getWidth() != bi.getWidth() || bImage.getHeight() != bi.getHeight())
+    {
+      try
+      {
+        Thread.sleep(100);
+      }
+      catch (InterruptedException e)
+      {
+        e.printStackTrace();
+      }
+    }
+    stop = true;
     frame.buttonPanel.deleteComboxTribeAll();
-    System.out.println("hi");
     
     for (int i = 0; i < threads.size(); i++)
     {
       killTribeRestart();
     }
     
-    System.out.println("made it!!!!!!");
-    System.out.println("Number of tribes to be made " + numberOfTribes);
     for (int i = 0; i < numberOfTribes; i++)
     {
       birthTribe();
     }
+    stop = false;
+
   }
 
   /*******************************************************************************************************
