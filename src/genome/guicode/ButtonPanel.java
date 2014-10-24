@@ -1,26 +1,23 @@
 package genome.guicode;
 
 import genome.Constants;
-
 import genome.types.Genome;
 import genome.types.Tribe;
 
-
 import java.awt.*;
 import java.awt.event.*;
-import java.util.Set;
-import java.util.Vector;
+import java.util.*;
 
 import javax.swing.*;
 import javax.swing.event.*;
 
-/*******************************************************************************
+/*******************************************************************************************************
  * 
  * @author Adam Mitchell
  * 
- * The control button for our program Pause, Next, Show Genome Table, Read Genome File, Write Genome File, Append Stats
- * File, Other control elements including sliders
- * ********************************************************************************/
+ * The controller for the buttons and drop-down menus in our program Buttons/menu items here are Pause, Next, Show
+ * Genome Table, Read Genome File, Write Genome File, Append Stats File, Other control elements including sliders
+ ********************************************************************************************************/
 @SuppressWarnings("serial")
 public class ButtonPanel extends JPanel
 {
@@ -30,15 +27,6 @@ public class ButtonPanel extends JPanel
    */
   private JButton pauseB = new JButton("Pause");
   private JButton nextB = new JButton("Next");
-
-  private SpinnerModel spinnerModel = new SpinnerNumberModel(1, 1, 2000, 1);
-  private JSpinner tribeSpinner = new JSpinner(spinnerModel);
-  private JSlider triangleSlider = new JSlider(JSlider.HORIZONTAL, 0, Constants.GENOME_SIZE, Constants.GENOME_SIZE);
-  private JComboBox<String> pictureComboBox;
-  private JComboBox<String> genomeComboBox;
-  private JComboBox<String> tribeComboBox;
-  JFormattedTextField statsFileTextField = new JFormattedTextField();
-
   private JLabel triangleAmountL = new JLabel("Triangles 200");
   private JLabel tribeNumL = new JLabel("Tribe/Thread Amount");
   private JLabel uptimeL = new JLabel("Total Uptime min:sec 0000000");
@@ -51,74 +39,65 @@ public class ButtonPanel extends JPanel
   private JLabel totalBestGeneL = new JLabel("Best Tribe # 0000, fit # 000000000000");
   private JLabel displayedTribe = new JLabel("Displayed Tribe ");
   private JLabel displayedGenome = new JLabel("Displayed Genome ");
-  Vector<String> tribesCB = new Vector<String>();
-  Vector<String> genomesCB = new Vector<String>();
+  private SpinnerModel spinnerModel = new SpinnerNumberModel(1, 1, 2000, 1);
+  private JSpinner tribeSpinner = new JSpinner(spinnerModel);
+  private JSlider triangleSlider = new JSlider(JSlider.HORIZONTAL, 0, Constants.GENOME_SIZE, Constants.GENOME_SIZE);
+  private JComboBox<String> pictureComboBox;
+  private JComboBox<String> genomeComboBox;
+  private JComboBox<String> tribeComboBox;
+  private Vector<String> tribesCB = new Vector<String>();
+  private Vector<String> genomesCB = new Vector<String>();
+  private DefaultComboBoxModel<String> modelgenomes = new DefaultComboBoxModel<String>(genomesCB);
+  private DefaultComboBoxModel<String> modeltribes = new DefaultComboBoxModel<String>(tribesCB);
+  JFormattedTextField statsFileTextField = new JFormattedTextField();
 
-  final DefaultComboBoxModel<String> modelgenomes = new DefaultComboBoxModel<String>(genomesCB);
-  final DefaultComboBoxModel<String> modeltribes = new DefaultComboBoxModel<String>(tribesCB);
+  private Color buttonPanelColor = new Color(199, 198, 207);
+  private Color pauseButtonColor = new Color(9, 219, 37);
 
-  /**
-   * All of the values that need to be stored for information about the triangles
-   */
-  private int triangleAmount = 0;
-  private int bestTribe = 0;
-  private double fit = 0;
-  private int tribeNum = 0;
-  private int time = 0;
-  private int gen = 0;
-  private Color bgcolor = new Color(171, 170, 179);
-  private Color bgcolor2 = new Color(199, 198, 207);
-  private Color bgcolor3 = new Color(9, 219, 37);
-  private Color bgcolor4 = new Color(199, 198, 207);
-
-  /**
+  /*******************************************************************************************************
    * Constructor Just sets up the panels
-   */
+   *******************************************************************************************************/
   public ButtonPanel()
   {
-
     setUpPanel();
-
   }
 
-  /**
-   * To be called in the constructor creates all the components and displays them at the end
-   */
+  /********************************************************************************************************
+   * To be called by the constructor creates all the components and displays them at the end
+   ********************************************************************************************************/
   private void setUpPanel()
   {
-
     this.setLayout(null); // Hand created layout
+    if (Constants.DEBUG)
+    {
+      System.out.println(LoadPictures.picturesMap);
+    }
     Set<String> keys = LoadPictures.picturesMap.keySet();
     String[] pictures = (String[]) keys.toArray(new String[keys.size()]);
-    System.out.println(LoadPictures.picturesMap);
     pictureComboBox = new JComboBox<String>(pictures);
     pictureComboBox.setSelectedIndex(0);
     genomeComboBox = new JComboBox<String>(modelgenomes);
     pictureComboBox.setSelectedIndex(0);
-    // genomeComboBox.setSelectedIndex(0);
     tribeComboBox = new JComboBox<String>(modeltribes);
-    // tribeComboBox.setSelectedIndex(0);
+
+    // Colors of the panel
+    this.setBackground(buttonPanelColor);
+    triangleSlider.setBackground(buttonPanelColor);
+    pictureComboBox.setBackground(buttonPanelColor);
+    genomeComboBox.setBackground(buttonPanelColor);
+    tribeComboBox.setBackground(buttonPanelColor);
+    tribeSpinner.setForeground(buttonPanelColor);
+    pauseB.setBackground(pauseButtonColor);
+    pauseB.setContentAreaFilled(false);
+    pauseB.setOpaque(true);
+    statsFileTextField.setText("name_of_stats_file.txt");
 
     // Layout the components
-
     int row0 = 5;
     int row = 41;
     int col0 = 15;
     int col = 115;
-
-    this.setBackground(bgcolor2);
-    triangleSlider.setBackground(bgcolor2);
-    pictureComboBox.setBackground(bgcolor2);
-    genomeComboBox.setBackground(bgcolor2);
-    tribeComboBox.setBackground(bgcolor2);
-    tribeSpinner.setForeground(bgcolor2);
-    pauseB.setBackground(bgcolor3);
-    pauseB.setContentAreaFilled(false);
-    pauseB.setOpaque(true);
-
-    Insets insets = this.getInsets();
     Dimension size;
-
     size = pauseB.getPreferredSize();
     pauseB.setBounds(col0, row0, size.width, size.height);
     nextB.setBounds(col, row0, size.width, size.height);
@@ -126,19 +105,14 @@ public class ButtonPanel extends JPanel
     size = pictureComboBox.getPreferredSize();
     pictureComboBox.setBounds(col * 2, row0, size.width - 5, size.height);
     // pictureComboBox.setSelectedIndex(7);
-
     size = tribeSpinner.getPreferredSize();
     tribeSpinner.setBounds((col * 5) + 10, row + 5, size.width - 15, size.height);
-
     size = triangleSlider.getPreferredSize();
     triangleSlider.setBounds(col, row + 5, size.width + 100, size.height);
-
     size = pictureComboBox.getPreferredSize();
     genomeComboBox.setBounds((col * 7) - 5, row0, size.width - 30, size.height);
-
     size = statsFileTextField.getPreferredSize();
     statsFileTextField.setBounds(col * 8, row * 3, size.width + 160, size.height);
-
     size = tribeNumL.getPreferredSize();
     tribeNumL.setBounds((col * 4), row + 5, size.width, size.height);
     size = triangleAmountL.getPreferredSize();
@@ -151,7 +125,6 @@ public class ButtonPanel extends JPanel
     totalGenerationsL.setBounds(col0, row * 3, size.width, size.height);
     size = genPerSecL.getPreferredSize();
     genPerSecL.setBounds(col * 6, row * 3, size.width, size.height);
-
     size = hcGensL.getPreferredSize();
     hcGensL.setBounds(col * 2, row * 3, size.width, size.height);
     size = gaGensL.getPreferredSize();
@@ -160,27 +133,14 @@ public class ButtonPanel extends JPanel
     totalGenomes.setBounds(col * 6, row * 2, size.width, size.height);
     size = currentTribeBestL.getPreferredSize();
     currentTribeBestL.setBounds(col * 4, row * 2, size.width, size.height);
-
     size = pictureComboBox.getPreferredSize();
     tribeComboBox.setBounds((col * 7) - 15, row + 5, size.width - 100, size.height);
-
     size = displayedTribe.getPreferredSize();
     displayedTribe.setBounds(col * 6, row + 5, size.width, size.height);
-
     size = displayedGenome.getPreferredSize();
     displayedGenome.setBounds(col * 6, row0, size.width, size.height);
-
     triangleSlider.setMinorTickSpacing(1);
     triangleSlider.setSnapToTicks(true);
-
-    statsFileTextField.setText("name_of_stats_file.txt");
-
-    statsFileTextField.addActionListener(new java.awt.event.ActionListener() {
-      public void actionPerformed(ActionEvent e)
-      {
-        System.out.println("action");
-      }
-    });
 
     add(statsFileTextField);
     add(genomeComboBox);
@@ -210,85 +170,105 @@ public class ButtonPanel extends JPanel
     }
   }
 
-  /**
+  /*********************************************************************************************************
+   * public void setComboxGenomes(Genome[] genomes, int index) Set the genomes in the genome combo box
    * 
-   */
+   * @param genomes
+   * []
+   * @param index
+   * int
+   ********************************************************************************************************/
   public void setComboxGenomes(Genome[] genomes, int index)
   {
     deleteComboxGenomes();
     for (int i = 0; i < genomes.length; i++)
     {
-      modelgenomes.addElement("Tribe "+ (index+1) +"   Genome " + (i+1) + "   fitness: " + " " +new Double(genomes[i].getFitness()).toString() + i);
+      modelgenomes.addElement("Tribe " + (index + 1) + "   Genome " + (i + 1) + "   fitness: " + " "
+          + new Double(genomes[i].getFitness()).toString() + i);
     }
   }
 
-  /**
+  /*********************************************************************************************************
+   * public void setComboxTribe(Tribe tribe) Set the new tribe in the tribe combo box
    * 
-   */
+   * @param Tribe
+   * tribe
+   ********************************************************************************************************/
   public void setComboxTribe(Tribe tribe)
   {
-    modeltribes.addElement(tribe.getName());   
+    modeltribes.addElement(tribe.getName());
   }
 
-  /**
+  /*********************************************************************************************************
+   * deletes a tribe in the tribe combo box last get deleted first
    * 
-   */
+   * deleteComboxTribe(int index)
+   * 
+   * @param int index
+   ********************************************************************************************************/
   public void deleteComboxTribe(int index)
   {
-    System.out.println("\n\n\n********************" + index + "***********************\n\n\n");
+    if (Constants.DEBUG)
+    {
+      System.out.println("*******" + index + "********");
+    }
 
     modeltribes.removeElementAt(index);;
     deleteComboxGenomes();
   }
 
-  /**
+  /*********************************************************************************************************
+   * public void deleteComboxGenomes()
    * 
-   */
+   ********************************************************************************************************/
   public void deleteComboxGenomes()
   {
     modelgenomes.removeAllElements();
   }
 
-  
-  public void setTribeNumber(int i)
-  {
-    tribeNum = i;
-  }
-
-  /**
+  /*********************************************************************************************************
+   * Sets the triangle amount value to the gui public void setTriangleNumber(int i)
    * 
    * @param i
-   */
+   ********************************************************************************************************/
   public void setTriangleNumber(int i)
   {
-    triangleAmount = i;
     triangleAmountL.setText("Triangles " + i);
   }
 
-  /**
+  /*********************************************************************************************************
+   * Sets the fitness value to the gui public void setFitnessTotal(double bestFit, int bestT)
    * 
-   * @param d
-   */
+   * @param bestFit
+   * @param bestT
+   ********************************************************************************************************/
   public void setFitnessTotal(double bestFit, int bestT)
   {
     totalBestGeneL.setText("Best Tribe # " + bestT + ", fit # " + bestFit);
   }
 
+  /*********************************************************************************************************
+   * public void setFitnessGenome(double genomeFit, int currentT)
+   * 
+   * @param genomeFit
+   * @param currentT
+   ********************************************************************************************************/
   public void setFitnessGenome(double genomeFit, int currentT)
   {
     currentTribeBestL.setText("Current Tribe # " + currentT + ", fit # " + genomeFit);
   }
 
-  /**
+  /*********************************************************************************************************
+   * Sets the game in paused state public boolean setPause()
    * 
-   * @return
-   */
+   * @return boolean
+   ********************************************************************************************************/
   public boolean setPause()
   {
     if (pauseB.getText().equalsIgnoreCase("pause"))
     {
       pauseB.setText("Start");
-      pauseB.setBackground(bgcolor3);
+      pauseB.setBackground(pauseButtonColor);
 
       return true;
     }
@@ -301,9 +281,9 @@ public class ButtonPanel extends JPanel
 
   }
 
-  /***************************************************************************************************
-   * 
-   **************************************************************************************************/
+  /*********************************************************************************************************
+   * disables the buttons / menus public void disableButtons()
+   *********************************************************************************************************/
   public void disableButtons()
   {
     nextB.setEnabled(false);
@@ -311,9 +291,9 @@ public class ButtonPanel extends JPanel
     triangleSlider.setEnabled(false);
   }
 
-  /***************************************************************************************************
-   * 
-   **************************************************************************************************/
+  /********************************************************************************************************
+   * enables the buttons / menus public void enableButtons()
+   *******************************************************************************************************/
   public void enableButtons()
   {
     nextB.setEnabled(true);
@@ -321,9 +301,9 @@ public class ButtonPanel extends JPanel
     triangleSlider.setEnabled(true);
   }
 
-  /***************************************************************************************************
-   * 
-   **************************************************************************************************/
+  /********************************************************************************************************
+   * Sets the gui's time public void setTime(int m, int s)
+   ********************************************************************************************************/
   public void setTime(int m, int s)
   {
     if (s < 10)
@@ -335,25 +315,15 @@ public class ButtonPanel extends JPanel
       uptimeL.setText("Uptime min:sec " + m + ":" + s);
   }
 
-  /*
-   * 
-   * 
-   * genPerSecL = "gen/sec " hcGensL = "Total Mutations 0"; gaGensL = "Total Crossovers 0" totalGenomes =
-   * "Total Genomes" totalGenerationsL = "Total Generations " currentTribeBestL = "Current Tribe # 0, Best fit # 0"
-   * totalBestGeneL = "Best Overall Tribe # 0, Best fit # 0"
-   */
-
   /***************************************************************************************************
+   * Updates the gui with the current stats public void updateGUIStats(int total, int hc, int ga, int genomes, int
+   * gensPerSec)
    * 
    * @param total
    * @param hc
    * @param ga
    * @param genomes
    * @param gensPerSec
-   * @param ct
-   * @param ctbf
-   * @param bt
-   * @param btf
    **************************************************************************************************/
   public void updateGUIStats(int total, int hc, int ga, int genomes, int gensPerSec)
   {
@@ -362,12 +332,10 @@ public class ButtonPanel extends JPanel
     hcGensL.setText("Total Mutations " + hc);
     gaGensL.setText("Total Crossovers " + ga);
     totalGenomes.setText("Total Genomes " + genomes);
-    // currentTribeBestL.setText("Current Tribe # " + ct + ", fit # " + ctbf);
-    // totalBestGeneL.setText("Best Tribe # " + bt + ", fit # " + btf);
   }
 
   /***************************************************************************************************
-   * 
+   * Returns the state of the pause button public boolean getPauseState()
    **************************************************************************************************/
   public boolean getPauseState()
   {
@@ -415,14 +383,5 @@ public class ButtonPanel extends JPanel
   public void addTribeCBActionListener(ActionListener al)
   {
     tribeComboBox.addActionListener(al);
-  }
-
-  /********************************************************************************
-   * Main for unit testing..
-   * 
-   * @param args
-   ********************************************************************************/
-  public static void main(String[] args)
-  {
   }
 }

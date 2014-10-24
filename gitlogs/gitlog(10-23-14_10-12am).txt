@@ -1,0 +1,466 @@
+commit 9fb2d0ebf284da69ee61358a98804d6e9d31d656
+Merge: f33fe7f 7ce863f
+Author: Adam Mitchell <adam@unm.edu>
+Date:   Wed Oct 22 10:27:26 2014 -0600
+
+    can select which genome to display from gui
+
+commit f33fe7fda0e5ef93393deec2e9faad29cc19c86e
+Author: Adam Mitchell <adam@unm.edu>
+Date:   Wed Oct 22 10:03:57 2014 -0600
+
+    can select which genome to display from gui
+
+commit 7ce863f232c8c8441c88a9fe288cdecbf79d2bb3
+Merge: cebaf83 07d9783
+Author: Jordan Medlock <jordanemedlock@gmail.com>
+Date:   Tue Oct 21 19:41:59 2014 -0600
+
+    merged files
+
+commit cebaf8328b2f311fac1a8bf475bc532d430eff91
+Author: Jordan Medlock <jordanemedlock@gmail.com>
+Date:   Tue Oct 21 19:39:25 2014 -0600
+
+    hill climbing improvements
+
+commit 07d97838efb2fcbeddd461584c6e88f4c670aea8
+Author: Adam Mitchell <adam@unm.edu>
+Date:   Tue Oct 21 10:05:02 2014 -0600
+
+    gui improvements
+
+commit b2662167d5a4a45a2c89bb544b87af8515569190
+Author: Adam Mitchell <adam@unm.edu>
+Date:   Mon Oct 20 21:24:47 2014 -0600
+
+    Updated gitignore
+
+commit c257d372868cf47fc1050eb13b7910fe2746069f
+Merge: a1a6dfd 86dc7e0
+Author: Jordan Medlock <jordanemedlock@gmail.com>
+Date:   Mon Oct 20 20:53:24 2014 -0600
+
+    Merge branch 'master' of https://github.com/bigcamel/project2
+
+commit a1a6dfd096dbce060644459b93ad2e619cb3d5b8
+Author: Jordan Medlock <jordanemedlock@gmail.com>
+Date:   Mon Oct 20 20:53:06 2014 -0600
+
+    stuff
+
+commit 86dc7e017c5bb4c11e14cd5bae7bf3fdbe6b6550
+Merge: e128cbc 660b9f7
+Author: Adam Mitchell <adam@unm.edu>
+Date:   Mon Oct 20 20:08:13 2014 -0600
+
+    Merge branch 'master' of https://github.com/bigcamel/project2
+
+commit e128cbc99ab4893e19a9799e52a5cfb921f11a45
+Author: Adam Mitchell <adam@unm.edu>
+Date:   Mon Oct 20 20:07:43 2014 -0600
+
+    gui is in good shape
+
+commit 660b9f73000670963dff5e3c289e33ef33d2b1ef
+Merge: f5ef8c4 c981e0a
+Author: Jordan Medlock <jordanemedlock@gmail.com>
+Date:   Mon Oct 20 09:07:48 2014 -0600
+
+    Merge branch 'master' of https://github.com/bigcamel/project2
+
+commit f5ef8c42e107c90a043bae058aa6c5f01baba7e6
+Author: Jordan Medlock <jordanemedlock@gmail.com>
+Date:   Mon Oct 20 09:07:42 2014 -0600
+
+    test code
+
+commit c981e0a7f50ea7cc07e4e42a9829f44d4813f667
+Merge: 51cfe9b 761268d
+Author: Adam Mitchell <adam@unm.edu>
+Date:   Mon Oct 20 09:02:21 2014 -0600
+
+    merged changes and picture chainging works
+
+commit 51cfe9b8b2c222eddbf1efb91c7f56090ef6783d
+Author: Adam Mitchell <adam@unm.edu>
+Date:   Mon Oct 20 08:50:43 2014 -0600
+
+    display new picture works now
+
+commit 761268dea3d79e0b6fe80c589306e64a3a7aa9a3
+Author: Jordan Medlock <jordanemedlock@gmail.com>
+Date:   Mon Oct 20 00:06:33 2014 -0600
+
+    improvements to the logic of hill climbing
+
+commit 880d2a0824ab9eefdb20d34392f62b842bfec780
+Merge: b9327fd 98f35fa
+Author: Jordan Medlock <jordanemedlock@gmail.com>
+Date:   Sun Oct 19 17:25:59 2014 -0600
+
+    deleted fitness
+
+commit b9327fd3207fed99734b7729ccfa9037feb6da21
+Author: Jordan Medlock <jordanemedlock@gmail.com>
+Date:   Sun Oct 19 17:24:29 2014 -0600
+
+    deleted fitness
+
+commit 98f35fa769467ec291a4dc62fa9dacf8d9fd1a09
+Author: Adam Mitchell <adam@unm.edu>
+Date:   Sun Oct 19 12:22:55 2014 -0600
+
+    hillclimbing gone
+
+commit a12d222b4e123cf0a84c8eee90c432ba48434ca7
+Merge: eafe4a2 fae5626
+Author: Adam Mitchell <adam@unm.edu>
+Date:   Thu Oct 16 22:28:21 2014 -0600
+
+    small changes
+
+commit eafe4a2584ce0de0e9c55ed6abadbfa44b8b322e
+Author: Adam Mitchell <adam@unm.edu>
+Date:   Thu Oct 16 22:25:40 2014 -0600
+
+    small changes
+
+commit fae5626dd00a67c9ef8fe47b4dc83dec93dabe82
+Merge: 5d746e9 6727bfb
+Author: Jordan Medlock <jordanemedlock@gmail.com>
+Date:   Thu Oct 16 21:55:04 2014 -0600
+
+    merged
+
+commit 5d746e908f5a68e70c3f5744e4dc5f42b694575b
+Author: Jordan Medlock <jordanemedlock@gmail.com>
+Date:   Thu Oct 16 21:52:40 2014 -0600
+
+    speed changes
+
+commit 6727bfb902e4e9e3e04c08610b5d476b7092b4f4
+Author: Adam Mitchell <adam@unm.edu>
+Date:   Thu Oct 16 20:00:45 2014 -0600
+
+    updated gui
+
+commit a301742a7d55c152ef6040ab58f85dac7ade9ee7
+Author: Adam Mitchell <adam@unm.edu>
+Date:   Thu Oct 16 19:58:12 2014 -0600
+
+    gui updates
+
+commit 3e3edc9f34df8f7b4565d50e104d4095b4c92b5b
+Merge: a6b43b0 2351504
+Author: Adam Mitchell <adam@unm.edu>
+Date:   Thu Oct 16 10:48:46 2014 -0600
+
+    changes
+
+commit a6b43b043c048e3c197a314144e9090606de0719
+Author: Adam Mitchell <adam@unm.edu>
+Date:   Thu Oct 16 10:40:40 2014 -0600
+
+    my changes
+
+commit 235150452cd0d0415cb22d05e86f330e6780f55f
+Merge: 9590547 3671d36
+Author: Jordan Medlock <jordanemedlock@gmail.com>
+Date:   Thu Oct 16 10:39:33 2014 -0600
+
+    merged
+
+commit 3671d36fdf19362f6bb2aeac9c3b65be9fbb1f8c
+Author: Adam Mitchell <adam@unm.edu>
+Date:   Tue Oct 14 16:12:55 2014 -0600
+
+    some cleaning up
+
+commit 95905479f6a914dcd0de1ef1756b50f0dc83c12d
+Merge: 3246ebf 2b8ddc0
+Author: Jordan Medlock <jordanemedlock@gmail.com>
+Date:   Tue Oct 14 12:14:41 2014 -0600
+
+    merged changes
+
+commit 3246ebf713e7a01b2bfc44f16b03d4f2cdac5784
+Author: Jordan Medlock <jordanemedlock@gmail.com>
+Date:   Tue Oct 14 11:56:31 2014 -0600
+
+    some stuff
+
+commit 2b8ddc09d8b6e71628d623be7203c07c40c3bbab
+Author: Adam Mitchell <adam@unm.edu>
+Date:   Tue Oct 14 11:55:17 2014 -0600
+
+    my changes
+
+commit 1b008dc1d2ec8c4e99f192a39052ab9dbd1a68ba
+Author: Jordan Medlock <jordanemedlock@gmail.com>
+Date:   Fri Oct 10 09:56:05 2014 -0600
+
+    started one "working" tribe
+
+commit fa13035d34638a86e6543bb924aa1b254690b022
+Author: Jordan Medlock <jordanemedlock@gmail.com>
+Date:   Thu Oct 9 19:12:12 2014 -0600
+
+    stuff
+
+commit 4592cd4f4c8c0bd00a96c2edd26ee781a838b085
+Author: Jordan Medlock <jordanemedlock@gmail.com>
+Date:   Wed Oct 8 13:43:50 2014 -0600
+
+    worked on tribe logic
+
+commit d344de0fd5c0007cf393da23d4bca45f72a13c0d
+Author: Jordan Medlock <jordanemedlock@gmail.com>
+Date:   Tue Oct 7 11:28:28 2014 -0600
+
+    some stuff
+
+commit db2c9da3effb7c478c671ee01f5898af2b9f8666
+Author: Jordan Medlock <jordanemedlock@gmail.com>
+Date:   Tue Oct 7 11:08:08 2014 -0600
+
+    small changes
+
+commit 68218ad5c78e0aec6c516c38bb34b610f4d85a9b
+Author: Jordan Medlock <jordanemedlock@gmail.com>
+Date:   Tue Oct 7 10:38:09 2014 -0600
+
+    changed the view to MVC
+
+commit 4a1104e8577c4ca3f4ae25244b8c15b13cf2258e
+Author: Adam Mitchell <adam@unm.edu>
+Date:   Sat Oct 4 17:25:52 2014 -0600
+
+    the hillclimbing and geneticAlg classes they are just big collections of methods to act upon a genome let me know if you like this design style it's still untested so use with cautiongit status
+
+commit bcf88837838138d98ecb44397812de9ca0a1c652
+Author: Jordan Medlock <jordanemedlock@gmail.com>
+Date:   Thu Oct 2 12:04:31 2014 -0600
+
+    added logic functions
+
+commit 2ae8cf8501da5818c06a0cf0d0f3fc0f10309df9
+Author: Adam Mitchell <adam@unm.edu>
+Date:   Thu Oct 2 11:37:29 2014 -0600
+
+    triangles are drawn from the correct color values
+
+commit b4b8b734e8f439417bdf6a49a6c119d0055d5191
+Author: Adam Mitchell <adam@unm.edu>
+Date:   Wed Oct 1 23:28:17 2014 -0600
+
+    my unit testing files
+
+commit 0d32527bdc6b9ce18c38892d4e9c345f041b2b55
+Author: Adam Mitchell <adam@unm.edu>
+Date:   Wed Oct 1 21:58:11 2014 -0600
+
+    updated the comments
+
+commit bb290f7b1645b1570e3a19203b992546ec195939
+Merge: 89344c1 4f13713
+Author: Adam Mitchell <adam@unm.edu>
+Date:   Wed Oct 1 16:15:20 2014 -0600
+
+    Merge branch 'master' of https://github.com/bigcamel/project2
+
+commit 4f13713ee3d8bc552b04a9a4b8702ecf0c671363
+Author: Jordan Medlock <jordanemedlock@gmail.com>
+Date:   Tue Sep 30 20:09:25 2014 -0600
+
+    Worked on random number generator to modify the placement of the triangles
+
+commit 89344c1062230c2f19a94bc1ac652deafd9f09bb
+Merge: ff7e743 6d51994
+Author: Adam Mitchell <adam@unm.edu>
+Date:   Tue Sep 30 11:42:58 2014 -0600
+
+    Merge branch 'master' of https://github.com/bigcamel/project2
+
+commit ff7e7433ada42fe1fc2004f421d4d4ea9505dffb
+Author: Adam Mitchell <adam@unm.edu>
+Date:   Tue Sep 30 11:42:34 2014 -0600
+
+    small change
+
+commit 6d519948e30e761f1211f83488bdc8f3b42740ac
+Author: Jordan Medlock <jordanemedlock@gmail.com>
+Date:   Tue Sep 30 11:42:14 2014 -0600
+
+    Added Genome class
+
+commit eb7d6f1475fecbc8575a5b900c473d11ada4efdc
+Author: Jordan Medlock <jordanemedlock@gmail.com>
+Date:   Tue Sep 30 11:01:34 2014 -0600
+
+    cleaned up
+
+commit 0a20ac9a43197543a686dd1a0decbd49a399afd4
+Author: Jordan Medlock <jordanemedlock@gmail.com>
+Date:   Mon Sep 29 22:04:56 2014 -0600
+
+    Added fitness and incorporated it into the GUI
+
+commit c314eab0e9abcf04b78de004832a22f0fe44f8fd
+Author: Adam Mitchell <adam@unm.edu>
+Date:   Sat Sep 27 13:48:20 2014 -0600
+
+    gui is working perfectly
+
+commit a1857630b96828d75558d15a505cae3f444d612f
+Author: Adam Mitchell <adam@unm.edu>
+Date:   Fri Sep 26 14:08:45 2014 -0600
+
+    gui works kindagit add --all
+
+commit f6ac2bb13b4afe098960f4082c38f3edf97a79eb
+Author: Adam Mitchell <adam@unm.edu>
+Date:   Thu Sep 25 21:37:18 2014 -0600
+
+    try drawing to the buffered image
+
+commit c30bccdac668698b35cc953751fa7827cba5cda2
+Author: Adam Mitchell <adam@unm.edu>
+Date:   Thu Sep 25 21:29:37 2014 -0600
+
+    working guigit add --all
+
+commit 656b2fc73756ff7c32470774bd05165cd163aef7
+Merge: 41cc605 e91a2fe
+Author: Adam Mitchell <adam@unm.edu>
+Date:   Thu Sep 25 18:39:38 2014 -0600
+
+    Merge branch 'master' of https://github.com/bigcamel/project2
+
+commit 41cc605375152100df8846394ceaf3d608f9f211
+Author: Adam Mitchell <adam@unm.edu>
+Date:   Thu Sep 25 18:38:36 2014 -0600
+
+    fixed the gui it's not quite perfect yet thou
+
+commit e91a2fe54b53c0f3930863daa909fa1ebad585be
+Author: Adam Mitchell <adam@unm.edu>
+Date:   Thu Sep 25 17:04:05 2014 -0600
+
+    Delete Leonardo_da_Vinci-Mona-Lisa-512x413.png
+
+commit 803a07b54626ef032ed1ef945e22f5448c26747f
+Author: Adam Mitchell <adam@unm.edu>
+Date:   Thu Sep 25 17:03:56 2014 -0600
+
+    Delete Hokusai-Great_Wave_Off_Kanagawa-512x352.png
+
+commit 3900b2dba0baed951ae4c25848b5febf5d961a7b
+Author: Adam Mitchell <adam@unm.edu>
+Date:   Thu Sep 25 17:03:47 2014 -0600
+
+    Delete Claude_Monet-Poppy_Fields-512x384.png
+
+commit 984a4a73052469ad05458cd5395c7120fe503e06
+Author: Jordan Medlock <jordanemedlock@gmail.com>
+Date:   Thu Sep 25 11:58:18 2014 -0600
+
+    some stuff
+
+commit 2d8b37af973a6fac4c3e7d35dd6aacbcf903cce0
+Merge: 9a48854 854b553
+Author: Jordan Medlock <jordanemedlock@gmail.com>
+Date:   Thu Sep 25 11:40:29 2014 -0600
+
+    merged
+
+commit 9a48854f47f52023e89fcdee619178f1b65b5587
+Author: Jordan Medlock <jordanemedlock@gmail.com>
+Date:   Thu Sep 25 11:38:54 2014 -0600
+
+    more fixes
+
+commit 854b553e2afccd1ac0cbfc27471a3efc3c1abfe7
+Merge: 03fbaec f0064ca
+Author: Adam Mitchell <adam@unm.edu>
+Date:   Thu Sep 25 11:32:01 2014 -0600
+
+    Merge branch 'master' of https://github.com/bigcamel/project2
+
+commit 03fbaeca63b9b7827e069a5cfa88e4a6a81041aa
+Author: Adam Mitchell <adam@unm.edu>
+Date:   Thu Sep 25 11:31:28 2014 -0600
+
+    my changes
+
+commit f0064cad048b323dabcf060df1f19b6c59c3d889
+Author: Jordan Medlock <jordanemedlock@gmail.com>
+Date:   Thu Sep 25 11:08:51 2014 -0600
+
+    Fixed the layout in TrianglePanel
+
+commit 438cfb99d7e6055f1f20509c70bb74a9b8ee672a
+Author: Adam Mitchell <adam@unm.edu>
+Date:   Wed Sep 24 17:56:55 2014 -0600
+
+    changed resources to images
+
+commit d90f34beb2d2cbd3a71067e298b6797cc3bf7873
+Author: Adam Mitchell <adam@unm.edu>
+Date:   Wed Sep 24 13:25:30 2014 -0600
+
+    changed your random number gen in Triangle.java
+
+commit 5f52cee7fb47f68d02adf627a17b2ca9a9591c32
+Author: Adam Mitchell <adam@unm.edu>
+Date:   Wed Sep 24 12:03:38 2014 -0600
+
+    changed your trianglepanel a little so it fits my mainframe
+
+commit 825661b5d7facb4d5d2f990fa41f7997ddcf94f1
+Author: Adam Mitchell <adam@unm.edu>
+Date:   Tue Sep 23 23:09:05 2014 -0600
+
+    working with layout managers sucksgit add --all
+
+commit 8173c954a100f85d2f031f6a2070ef36ad6f6bc3
+Author: Jordan Medlock <jordanemedlock@gmail.com>
+Date:   Tue Sep 23 20:42:27 2014 -0600
+
+    Fixed the null pointer exception in TrianglePanel
+
+commit eb44ab0cd3214a74fce85e9df12b1a9aeef9f59c
+Author: Adam Mitchell <adam@unm.edu>
+Date:   Tue Sep 23 20:25:18 2014 -0600
+
+    added the pictures to resources
+
+commit d1a24f9cbc2e7ba3c1e620fd4e215ab7c43d7dee
+Author: Jordan Medlock <jordanemedlock@gmail.com>
+Date:   Tue Sep 23 20:01:12 2014 -0600
+
+    added Constants, TrianglePanel, and Triangle
+
+commit 4c44ce383e55b916ccccfa6f83ea51c3abfe4786
+Author: Adam Mitchell <adam@unm.edu>
+Date:   Tue Sep 23 19:20:57 2014 -0600
+
+    added comments to the skeleton code
+
+commit 2a762f30ee5e3173825778f99890815b6651f36e
+Author: Adam Mitchell <adam@unm.edu>
+Date:   Tue Sep 23 19:14:56 2014 -0600
+
+    the skeleton of what I'm working on
+
+commit 551a8e7eaae143d924f61a9d915193262a8204b1
+Author: Adam Mitchell <adam@unm.edu>
+Date:   Tue Sep 23 18:56:01 2014 -0600
+
+    Create .gitignore
+
+commit be70b5d58daed3495f74b55d514861d26ee9f2b4
+Author: Adam Mitchell <adam@unm.edu>
+Date:   Tue Sep 23 18:51:16 2014 -0600
+
+    Initial commit

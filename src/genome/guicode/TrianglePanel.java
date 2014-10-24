@@ -97,6 +97,7 @@ public class TrianglePanel extends JPanel
   {
     if (genome != null)
     {
+      super.paintComponent(canvas);
       canvas.clearRect(25, 25, Genome.currentImage.getWidth(), Genome.currentImage.getHeight());
       canvas.translate(25, 25);
       genome.drawToGraphics(canvas);

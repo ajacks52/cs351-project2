@@ -1,42 +1,35 @@
 package genome.guicode;
 
 import genome.Constants;
-import genome.logic.PictureResize;
-import genome.types.Genome;
 import genome.types.Triangle;
 import genome.types.Tribe;
 
-import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import javax.swing.JComboBox;
-import javax.swing.JFileChooser;
-import javax.swing.JOptionPane;
-import javax.swing.JSlider;
-import javax.swing.JSpinner;
+import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 /***************************************************************************************************
- * 
+ * @author Adam Mitchell Simple class that holds all the actionlisteners used in the program
  **************************************************************************************************/
 public class GUIActionListeners
 {
   /***************************************************************************************************
-   * 
+   * Constructor called in MainFrameController
    **************************************************************************************************/
   public GUIActionListeners()
   {
   }
 
   /***************************************************************************************************
-   * 
+   * Simple class that holds all the actionlisteners used in the program
    **************************************************************************************************/
   public void setListeners(MainFrame frame)
   {
@@ -79,15 +72,16 @@ public class GUIActionListeners
         String pictName = (String) cb.getSelectedItem();
         frame.picturePanel.setPicture(pictName);
         MainFrameController.bi = frame.picturePanel.getCurrentPicture();
-        MainFrameController.smallBi = PictureResize.resize(MainFrameController.bi, Constants.RESIZED_PICTURE_SIZE,
-            Constants.RESIZED_PICTURE_SIZE);
 
         ArrayList<Integer> colorList = frame.picturePanel.pictureColorValues(MainFrameController.smallBi);
         // frame.picturePanel.setColorList(colorList);
         LoadPictures.currentPicture(MainFrameController.bi);
 
         MainFrameController.restart(MainFrameController.bi, colorList);
-        System.out.println("Selected picture: " + pictName);
+        if (Constants.DEBUG)
+        {
+          System.out.println("Selected picture: " + pictName);
+        }
       }
     });
 
@@ -98,9 +92,7 @@ public class GUIActionListeners
       @Override
       public void stateChanged(ChangeEvent e)
       {
-        // System.out.println("tribeSelector");
         int value = (int) ((JSpinner) e.getSource()).getValue();
-        frame.buttonPanel.setTribeNumber(value);
         if (value > MainFrameController.numberOfTribes)
         {
           MainFrameController.birthTribe();
@@ -122,7 +114,6 @@ public class GUIActionListeners
       @Override
       public void stateChanged(ChangeEvent e)
       {
-        // System.out.println("triangleSelector");
         int value = (int) ((JSlider) e.getSource()).getValue();
         frame.buttonPanel.setTriangleNumber(value);
         frame.trianglePanel.setTriangleCount(value);
@@ -151,7 +142,7 @@ public class GUIActionListeners
       public void actionPerformed(ActionEvent e)
       {
         // TODO needs to be the current genome
-//        new WriteXMLFile().generate();
+        // new WriteXMLFile().generate();
       }
     });
 
@@ -183,7 +174,10 @@ public class GUIActionListeners
         File curFile = chooser.getSelectedFile();
         if (!(curFile == null))
         {
-          System.out.println(curFile.toString());
+          if (Constants.DEBUG)
+          {
+            System.out.println(curFile.toString());
+          }
           ArrayList<Triangle> xmlArrayListTriangle = new XMLParser().parser(curFile);
           if (xmlArrayListTriangle == null)
           {
@@ -199,10 +193,6 @@ public class GUIActionListeners
       }
     });
 
-    int width = frame.picturePanel.getCurrentPicture().getWidth();
-    int height = frame.picturePanel.getCurrentPicture().getHeight();
-    ArrayList<Integer> colorList = frame.picturePanel.pictureColorValues(LoadPictures.bImage1);
-
     /**
      * show table
      */
@@ -211,8 +201,8 @@ public class GUIActionListeners
       public void actionPerformed(ActionEvent e)
       {
         // TODO need to pass in the current genome not just a random one
-//        new TableStats().showTableData(new Genome(Triangle.randomGenome(200, 200, 200,
-//            frame.picturePanel.pictureColorValues(frame.picturePanel.getCurrentPicture())), 200, 200));
+        // new TableStats().showTableData(new Genome(Triangle.randomGenome(200, 200, 200,
+        // frame.picturePanel.pictureColorValues(frame.picturePanel.getCurrentPicture())), 200, 200));
       }
     });
 
@@ -238,7 +228,7 @@ public class GUIActionListeners
     });
 
     /*
-     * 
+     * Tribe combo box action listener
      */
     frame.buttonPanel.addTribeCBActionListener(new ActionListener() {
       @Override
@@ -247,23 +237,20 @@ public class GUIActionListeners
         @SuppressWarnings("unchecked")
         JComboBox<String> cb = (JComboBox<String>) e.getSource();
 
-        // if (cb.getSelectedItem() != null)
-        // {
-
         String currentTribe = (String) cb.getSelectedItem();
         String subString = currentTribe.substring(5);
-        System.out.println(subString);
         int index = Integer.parseInt(subString.trim());
         frame.buttonPanel.setComboxGenomes(MainFrameController.threads.get(index - 1).genomes, (index - 1));
         MainFrameController.displayedTribe = MainFrameController.threads.get(index - 1);
-        System.out.println("Selected tribe: " + currentTribe);
-        // }
+        if (Constants.DEBUG)
+        {
+          System.out.println("Selected tribe: " + currentTribe);
+        }
       }
     });
 
     /*
-     * 
-     * 
+     * Genome combo box action listener
      */
     frame.buttonPanel.addGenomeCBListener(new ActionListener() {
       @Override
@@ -276,16 +263,16 @@ public class GUIActionListeners
         {
 
           String currentGenome = (String) cb.getSelectedItem();
-
-          System.out.println(currentGenome + "\n01234567890123456789012345");
-
           String subString1 = currentGenome.substring(5, 9);
           String subString2 = currentGenome.substring(16, 19);
           int index1 = Integer.parseInt(subString2.trim());
           int index2 = Integer.parseInt(subString1.trim());
-          MainFrameController.displayedGenome = MainFrameController.threads.get(index2-1).genomes[index1 - 1];
+          MainFrameController.displayedGenome = MainFrameController.threads.get(index2 - 1).genomes[index1 - 1];
           frame.trianglePanel.displayGenome(MainFrameController.displayedGenome);
-          System.out.println("Selected tribe: " + currentGenome);
+          if (Constants.DEBUG)
+          {
+            System.out.println("Selected tribe: " + currentGenome);
+          }
         }
       }
     });

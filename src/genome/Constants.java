@@ -2,22 +2,24 @@ package genome;
 /*********************************************************************************
  * @author Jordan Medlock 
  * @author Adam Mitchell
- * 
+ * a class to store static final variables to use throughout the project
  *********************************************************************************/
 import java.util.Random;
-/*********************************************************************************
- * Constants
- * @author jem
- * a class to store static final variables to use throughout the project
- ********************************************************************************/
+
 public class Constants
 {
   /*********************************************************************************
+   * Random random = new Random();
    * Random variable for the whole project
+   * GENOME_SIZE = 200;
+   * The size of a default genome 200 triangles 
+   * DEBUG = false;
+   * Print debugging messages and turn on assert testing
+   * RASTER = true;
+   * Using the raster image fitness method 10 times faster!
    ********************************************************************************/
   public static final Random random = new Random();
   public static final int GENOME_SIZE = 200;
-  public static final int RESIZED_PICTURE_SIZE = 100;
   public static boolean DEBUG = false;
   public static boolean RASTER = true;
 }
