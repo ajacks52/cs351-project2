@@ -1,11 +1,14 @@
 package genome.unit_testing;
 
-
 import genome.Constants;
+import genome.guicode.MainFrameController;
 import genome.types.Genome;
 import genome.types.Triangle;
+import genome.types.Triangle.GeneType;
 
 import java.awt.Dimension;
+
+import org.w3c.dom.Element;
 
 /**********************************************************************************
  * @author Adam Mitchell
@@ -25,43 +28,47 @@ public class GenomeTests
    ********************************************************************************/
   public static boolean ValidGenome(Genome g1)
   {
-    Triangle t[] = g1.getTriangles();
-    Dimension dim = g1.getDimension();
+    Triangle t[] = g1.triangles;
+    Dimension dim = new Dimension(MainFrameController.getCurrentPict().getWidth(), 
+        MainFrameController.getCurrentPict().getHeight());
 
     for (int i = 0; i < Constants.GENOME_SIZE; i++)
     {
 
-      if (t[i].getGreen() > 255 || t[i].getGreen() < 0)
+      if (t[i].getGene(GeneType.GREEN) > 255 || t[i].getGene(GeneType.GREEN) < 0)
       {
         System.err.println("Error: green out of range");
         return false;
       }
-      if (t[i].getRed() > 255 || t[i].getRed() < 0)
+      if (t[i].getGene(GeneType.RED) > 255 || t[i].getGene(GeneType.RED) < 0)
       {
         System.err.println("Error: red out of range");
         return false;
       }
-      if (t[i].getBlue() > 255 || t[i].getBlue() < 0)
+      if (t[i].getGene(GeneType.BLUE) > 255 || t[i].getGene(GeneType.BLUE) < 0)
       {
         System.err.println("Error: blue out of range");
         return false;
       }
-      if (t[i].getAlpha() > 255 || t[i].getAlpha() < 0)
+      if (t[i].getGene(GeneType.ALPHA) > 255 || t[i].getGene(GeneType.ALPHA) < 0)
       {
         System.err.println("Error: alpha out of range");
         return false;
       }
-      if (t[i].getPoint1().x > dim.width || t[i].getPoint1().y > dim.height)
+      if (t[i].getGene(GeneType.X1) > dim.width || t[i].getGene(GeneType.Y1) > dim.height
+          || t[i].getGene(GeneType.X1) < 0 || t[i].getGene(GeneType.Y1) < 0)
       {
         System.err.println("Error: Point1 out of range");
         return false;
       }
-      if (t[i].getPoint2().x > dim.width || t[i].getPoint2().y > dim.height)
+      if (t[i].getGene(GeneType.X2) > dim.width || t[i].getGene(GeneType.Y2) > dim.height
+          || t[i].getGene(GeneType.X2) < 0 || t[i].getGene(GeneType.Y2) < 0)
       {
         System.err.println("Error: Point2 out of range");
         return false;
       }
-      if (t[i].getPoint3().x > dim.width || t[i].getPoint3().y > dim.height)
+      if (t[i].getGene(GeneType.X3) > dim.width || t[i].getGene(GeneType.Y3) > dim.height
+          || t[i].getGene(GeneType.X3) < 0 || t[i].getGene(GeneType.Y3) < 0)
       {
         System.err.println("Error: Point3 out of range");
         return false;
@@ -87,53 +94,53 @@ public class GenomeTests
    ********************************************************************************/
   public static int HammingDistance(Genome g1, Genome g2)
   {
-    Triangle t1[] = g1.getTriangles();
-    Triangle t2[] = g2.getTriangles();
+    Triangle t1[] = g1.triangles;
+    Triangle t2[] = g2.triangles;
 
     int hammingDist = 0;
     for (int i = 0; i < Constants.GENOME_SIZE; i++)
     {
-      if (t1[i].getGreen() != t2[i].getGreen())
+      if (t1[i].getGene(GeneType.GREEN) != t2[i].getGene(GeneType.GREEN))
       {
         hammingDist++;
       }
-      if (t1[i].getRed() != t2[i].getRed())
+      if (t1[i].getGene(GeneType.RED) != t2[i].getGene(GeneType.RED))
       {
         hammingDist++;
       }
-      if (t1[i].getBlue() != t2[i].getBlue())
+      if (t1[i].getGene(GeneType.BLUE) != t2[i].getGene(GeneType.BLUE))
       {
         hammingDist++;
       }
-      if (t1[i].getAlpha() != t2[i].getAlpha())
+      if (t1[i].getGene(GeneType.ALPHA) != t2[i].getGene(GeneType.ALPHA))
       {
         hammingDist++;
       }
-      if (t1[i].getPoint1().x != t2[i].getPoint1().x)
-      {
-        hammingDist++;
-      }
-      if (t1[i].getPoint2().x != t2[i].getPoint2().x)
-      {
-        hammingDist++;
-      }
-      if (t1[i].getPoint3().x != t2[i].getPoint3().x)
-      {
-        hammingDist++;
-      }
-      if (t1[i].getPoint1().y != t2[i].getPoint1().y)
-      {
-        hammingDist++;
-      }
-      if (t1[i].getPoint2().y != t2[i].getPoint2().y)
-      {
-        hammingDist++;
-      }
-      if (t1[i].getPoint3().y != t2[i].getPoint3().y)
-      {
-        hammingDist++;
-      }
+      if (t1[i].getGene(GeneType.X1) != t2[i].getGene(GeneType.X1))
 
+      {
+        hammingDist++;
+      }
+      if (t1[i].getGene(GeneType.Y1) != t2[i].getGene(GeneType.Y1))
+      {
+        hammingDist++;
+      }
+      if (t1[i].getGene(GeneType.X2) != t2[i].getGene(GeneType.X2))
+      {
+        hammingDist++;
+      }
+      if (t1[i].getGene(GeneType.Y2) != t2[i].getGene(GeneType.Y2))
+      {
+        hammingDist++;
+      }
+      if (t1[i].getGene(GeneType.X3) != t2[i].getGene(GeneType.X3))
+      {
+        hammingDist++;
+      }
+      if (t1[i].getGene(GeneType.Y3) != t2[i].getGene(GeneType.Y3))
+      {
+        hammingDist++;
+      }
     }
     return hammingDist;
   }
@@ -189,13 +196,13 @@ public class GenomeTests
   {
     for (int i = 0; i < crossover; i++)
     {
-      child1.getTriangles()[i] = parent1.getTriangles()[i];
-      child2.getTriangles()[i] = parent2.getTriangles()[i];
+      child1.triangles[i] = parent1.triangles[i];
+      child2.triangles[i] = parent2.triangles[i];
     }
     for (int i = crossover; i < Constants.GENOME_SIZE; i++)
     {
-      child1.getTriangles()[i] = parent2.getTriangles()[i];
-      child2.getTriangles()[i] = parent1.getTriangles()[i];
+      child1.triangles[i] = parent2.triangles[i];
+      child2.triangles[i] = parent1.triangles[i];
     }
   }
 

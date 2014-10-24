@@ -9,10 +9,16 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.util.Random;
-
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+/****************************************************************************************
+ * The wrapper container for the Genome object, also controls the hill climbing for each 
+ * genome this is done internally with in the object when it's created
+ * 
+ * @author Jordan Medlock
+ *
+ ****************************************************************************************/
 public class Genome
 {
   public Triangle triangles[] = new Triangle[Constants.GENOME_SIZE];
@@ -28,6 +34,10 @@ public class Genome
   
   private MutationMethod method = MutationMethod.values()[random.nextInt(3)];
   
+  /****************************************************************************************
+   * Constructor takes a buffered image the current picture 
+   * @param currentImage
+   ****************************************************************************************/
   public Genome(BufferedImage currentImage)
   {
     Genome.currentImage = currentImage;
@@ -43,6 +53,11 @@ public class Genome
     }
   }
   
+  /****************************************************************************************
+   * Returns the triangle drawn to a buffered image that make up the genomes picture
+   * @param count the amount of triangles drawn 
+   * @return
+   ****************************************************************************************/
   public BufferedImage getPhenome(int count)
   {
     if (reset)
@@ -65,6 +80,12 @@ public class Genome
     return phenome;
   }
   
+  /****************************************************************************************
+   * Draws the given genome to the triangle panel 
+   * 
+   * @param g genome 
+   * @param count number of triangles to draw
+   ****************************************************************************************/
   public void drawToGraphics(Graphics g, int count)
   {
     int i=0; 
@@ -76,6 +97,10 @@ public class Genome
     }
   }
   
+  /****************************************************************************************
+   * Returns the fitness either raster version of normal getRGB version
+   * @return
+   ***************************************************************************************/
   public double getFitness()
   {
     if (reset)
@@ -97,12 +122,26 @@ public class Genome
     }
   }
   
+  /****************************************************************************************
+   * Makes a change to the given triangle and the given GeneType to the value given
+   * @param triangle
+   * @param gene
+   * @param value
+   * @return
+   ***************************************************************************************/
   public boolean makeChange(int triangle, GeneType gene, short value)
   {
     reset = true;
     return triangles[triangle].setGene(gene, value);
   }
   
+  /*****************************************************************************************
+   * Makes a change to the given triangle and the given GeneType according to the delta given
+   * @param triangle
+   * @param gene
+   * @param delta
+   * @return
+   ****************************************************************************************/
   public boolean changeWithDelta(int triangle, GeneType gene, short delta)
   {
     reset = true;
@@ -110,6 +149,11 @@ public class Genome
     return t.setGene(gene, (short) (t.getGene(gene) + delta));
   }
   
+  /*****************************************************************************************
+   * hillClimbOnce does one hillclimbing iteration 
+   * @param method
+   * @return
+   ****************************************************************************************/
   public boolean hillClimbOnce(MutationMethod method)
   {
     double fitBefore = getFitness();
@@ -144,6 +188,9 @@ public class Genome
     return success;
   }
   
+  /*****************************************************************************************
+   * 
+   ****************************************************************************************/
   public void hillClimbing()
   {
     for (int i=0; i < 1000; i++)
@@ -156,8 +203,15 @@ public class Genome
     }
     method = MutationMethod.values()[(method.ordinal() + 1)%3];
   }
-  // 200 
   
+  /*****************************************************************************************
+   * Preforms the cross over single point crossover. A son and daughter genome are added to 
+   * the back of the population.
+   * 
+   * @param father Genome
+   * @param son Genome
+   * @param daughter Genome
+   ****************************************************************************************/
   public void mateWith(Genome father, Genome son, Genome daughter)
   {
     int crossover = (int) ((random.nextGaussian() * 15.0) + 100.0);
@@ -177,11 +231,20 @@ public class Genome
     }
   }
   
+  /****************************************************************************************************
+   * The MutationMethod method enums GAUSSIAN: a Gaussian distributed change, 
+   * RANDOM: a randomly distributed change, INCREMENT: a incremental change
+   *****************************************************************************************************/
   private static enum MutationMethod
   {
     GAUSSIAN, RANDOM, INCREMENT
   }
   
+  /*
+   * Main for testing only
+   * @param args
+   */
+  @SuppressWarnings("serial")
   public static void main(String[] args)
   {
     BufferedImage monaLisa = LoadPictures.bImage1;
@@ -196,11 +259,10 @@ public class Genome
         genome.drawToGraphics(g,Constants.GENOME_SIZE);
       }
     };
-    
     frame.add(panel);
     frame.setSize(new Dimension(width + 50, height + 50));
     frame.setVisible(true);
-    for (int i=0; true; i++)
+    for (;true;)
     {
       genome.hillClimbing();
       panel.repaint();

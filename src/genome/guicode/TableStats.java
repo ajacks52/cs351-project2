@@ -14,10 +14,11 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
 /*****************************************************************************************************
- * @author Adam
+ * @author Adam Mitchell
  *
  *Simple class that creates a stat table representing the current best genome
  ****************************************************************************************************/
+@SuppressWarnings("serial")
 public class TableStats extends JFrame
 {
   private JPanel topPanel;
@@ -30,7 +31,7 @@ public class TableStats extends JFrame
 
   /*****************************************************************************************************
    * Creates the stats table of the current genome.
-   * 
+   * form "x1", "y1", "x2", "y2", "x3", "y3", "red", "green", "blue", "alpha"
    * @param genome
    ****************************************************************************************************/
   public void showTableData(Genome g)

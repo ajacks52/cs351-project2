@@ -1,6 +1,5 @@
 package genome.guicode;
 
-
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -9,11 +8,11 @@ import java.util.TreeMap;
 
 import javax.imageio.ImageIO;
 
-
-
 /************************************************************************************
  * 
  * @author Adam
+ * 
+ * Utility to load all the files into memory
  *
  ************************************************************************************/
 public class LoadPictures
@@ -27,7 +26,6 @@ public class LoadPictures
   public static File f6 = new File("images/Gummi_Bears-299x339.png");
   public static File f7 = new File("images/Old_House-300x331.png");
   public static File f8 = new File("images/Hot_Air_Balloon-400x300.png");
-  public static File f9 = new File("images/triangles.png");
 
   public static BufferedImage bImage1;
   public static BufferedImage bImage2;
@@ -37,15 +35,12 @@ public class LoadPictures
   public static BufferedImage bImage5;
   public static BufferedImage bImage7;
   public static BufferedImage bImage8;
-  public static BufferedImage bImage9;
+  @SuppressWarnings("unused")
   private static BufferedImage cPicture;
 
-  
-  
-  
-  public static Map<String,BufferedImage> picturesMap = new TreeMap<String,BufferedImage>();
-  
-  static 
+  public static Map<String, BufferedImage> picturesMap = new TreeMap<String, BufferedImage>();
+
+  static
   {
     try
     {
@@ -57,14 +52,11 @@ public class LoadPictures
       bImage6 = ImageIO.read(f6);
       bImage7 = ImageIO.read(f7);
       bImage8 = ImageIO.read(f8);
-      bImage9 = ImageIO.read(f9);
     }
     catch (IOException e)
     {
       e.printStackTrace();
     }
-
-
     picturesMap.put(f1.getName(), bImage1);
     picturesMap.put(f2.getName(), bImage2);
     picturesMap.put(f3.getName(), bImage3);
@@ -73,22 +65,10 @@ public class LoadPictures
     picturesMap.put(f6.getName(), bImage6);
     picturesMap.put(f7.getName(), bImage7);
     picturesMap.put(f8.getName(), bImage8);
-    picturesMap.put(f9.getName(), bImage9);
   }
-  
- 
+
   public static void currentPicture(BufferedImage image)
   {
-    cPicture = image; 
+    cPicture = image;
   }
-
-
-  
-  /************************************************************************************
-   * main for unit testing 
-   ************************************************************************************/
-  public static void main(String[] args)
-  {
-  }
-
 }

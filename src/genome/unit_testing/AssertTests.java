@@ -16,6 +16,9 @@ import java.util.ArrayList;
  */
 public class AssertTests
 {
+  public AssertTests()
+  {
+  }
 
   /************************************************************************************
    * Creates some fake triangles lists and adds them to a genome then does the testing on these fake genomes 
@@ -35,15 +38,13 @@ public class AssertTests
 //      triangles2.add(Triangle.randomTriangleIn(200, 200));     
     }
 
-    Genome testGenomeP1 = new Genome(triangles1, 300, 300);
-    Genome testGenomeP2 = new Genome(triangles2, 200, 200);
-    Genome testGenomeP5 = testGenomeP1;
-    
-    Genome testGenomeC1 = new Genome(triangles1, 300, 300);
-    Genome testGenomeC2 = new Genome(triangles2, 200, 200);
+    Genome testGenomeP1 = null; 
+    Genome testGenomeP2 = null;
+    Genome testGenomeP5 = null;
+    Genome testGenomeC1 = null; 
+    Genome testGenomeC2 = null; 
 
     
-    testGenomeC1.getTriangles()[1] = new Triangle(1,2,3,4,5,6,7);
     
     assert GenomeTests.ValidGenome(testGenomeP1);
     assert GenomeTests.ValidGenome(testGenomeP1);

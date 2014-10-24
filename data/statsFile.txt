@@ -16,3 +16,24 @@ Overall Best fitness
 0
 average fitness of tribes 0
 ----------------------------------------------------------------
+<<<<<<< HEAD
+=======
+----------------------Statistics 0--------------------------------
+Total Time Running
+m:s 0:0
+Total Generations
+0
+Hill Climbing Generations
+0
+Genetic Algorithm Generations
+0
+Generations per Second
+0
+Tribe/Population Diversity
+# of tribes 0
+# of genomes 0
+Overall Best fitness
+0
+average fitness of tribes 0
+----------------------------------------------------------------
+>>>>>>> 815f879cd1a3ffbd19c264f8df0343a049f332b2
