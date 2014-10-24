@@ -8,8 +8,6 @@ import genome.types.Triangle.GeneType;
 
 import java.awt.Dimension;
 
-import org.w3c.dom.Element;
-
 /**********************************************************************************
  * @author Adam Mitchell
  * 
@@ -80,12 +78,6 @@ public class GenomeTests
 
   /********************************************************************************
    * 
-   * You just have set of unit tests that calls a method accepting two input genomes. The tests must pass the method
-   * preconstructed gemomes with known Hamming distance and pass if and only if the method returns the correct Hamming
-   * distance between the genomes (see http://en.wikipedia.org/wiki/Hamming_distance). A good test set should include
-   * tests for genomes with different addresses yet identical genes, a pair with 1 difference, 2 adjacent difference and
-   * many scattered differences. Note: for the purpose of this lab, it is not necessary that your method actually works
-   * (calculates the correct hamming distance) just that the tests pass if and only if the method works.
    * 
    * @param g2
    * @param g1
@@ -147,9 +139,6 @@ public class GenomeTests
 
   /********************************************************************************
    * 
-   * You just have set of unit tests that call a method (or dummy method) accepting four input genomes: two parents and
-   * two children along with a crossover point. The crossover point may be specified as a gene number or percentage or
-   * Hamming distance or however makes most sense in your project design. The test set must test the following cases
    * 
    * @param parent1
    * @param parent2
@@ -188,8 +177,7 @@ public class GenomeTests
   }
 
   /***********************************************************************************
-   * Does a naive version of singlepoint crossover
-   * 
+   * Does a naive version of singlepoint crossover 
    ***********************************************************************************/
   private static void TestSinglePointCrossOver(Genome parent1, Genome parent2, Genome child1, Genome child2,
       int crossover)

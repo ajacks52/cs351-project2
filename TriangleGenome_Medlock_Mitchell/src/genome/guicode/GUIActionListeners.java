@@ -183,7 +183,7 @@ public class GUIActionListeners
             // TODO need make a new genome with the arraylist xmlArrayListTriangle and add it to a tribe..
             Genome g = new Genome(Genome.currentImage);
             g.triangles = (Triangle[])xmlArrayListTriangle.toArray();
-            Tribe t = new Tribe("new tribe", Genome.currentImage);
+            Tribe t = new Tribe(Genome.currentImage);
             t.genomes[0] = g;
             MainFrameController.threads.add(t);
           }

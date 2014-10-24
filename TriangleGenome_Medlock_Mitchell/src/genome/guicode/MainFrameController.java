@@ -3,6 +3,7 @@ package genome.guicode;
 import genome.Constants;
 import genome.types.Genome;
 import genome.types.Tribe;
+import genome.unit_testing.AssertTests;
 
 import java.awt.image.BufferedImage;
 import java.io.IOException;
@@ -50,6 +51,10 @@ public class MainFrameController
    ******************************************************************************************************/
   public MainFrameController()
   {
+    if(Constants.ASSERT)
+    {
+      new AssertTests();
+    }
     frame = new MainFrame();
     frame.start();
     startTime = System.currentTimeMillis();
@@ -226,7 +231,7 @@ public class MainFrameController
     BufferedImage bImage = bi;
     System.out.println("picture size " + bImage.getWidth());
 
-    Tribe tribe = new Tribe("Tribe", bImage);
+    Tribe tribe = new Tribe(bImage);
     
     tribe.start();
     tribe.setName("Tribe " + (new Integer(++thribesAmount).toString()));
@@ -236,6 +241,7 @@ public class MainFrameController
 
   }
 
+  
   /*******************************************************************************************************
    * Kills a tribe removes it from the tribe combo box
    *******************************************************************************************************/
@@ -254,9 +260,10 @@ public class MainFrameController
   static void killTribeRestart()
   {
     threads.get(threads.size() - 1).interrupt();
-    threads.remove(threads.size() - 1);
-    thribesAmount--;
-    totalgenomes -= Constants.TRIBE_SIZE;
+    threads.get(threads.size() - 1).updateTribesMembers(bi);
+    //threads.remove(threads.size() - 1);
+    //thribesAmount--;
+    //totalgenomes -= Constants.TRIBE_SIZE;
   }
 
   /*******************************************************************************************************

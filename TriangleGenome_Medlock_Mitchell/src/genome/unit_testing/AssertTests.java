@@ -1,73 +1,81 @@
 package genome.unit_testing;
 
-
+import genome.guicode.LoadPictures;
+import genome.guicode.WriteXMLFile;
+import genome.types.Fitness;
 import genome.types.Genome;
-import genome.types.Triangle;
 
-import java.util.List;
-import java.util.ArrayList;
+import java.awt.image.BufferedImage;
 
 /**
  * @author Adam Mitchell
  * 
- * Controller for the Assert Tests tests ValidGenome, HammingDistance, SinglePointCrossover, ValidInput,
- * CorrectCrossover, ValidOutput
+ * Call the static methods that can be tested if they fail 
+ * we'll know what we need to fix. The non static method we are testing
+ * we just call a fake method in the Genome tests to be sure the fake one 
+ * is working.
  *
  */
 public class AssertTests
 {
   public AssertTests()
   {
+    BufferedImage a = LoadPictures.bImage1;
+    BufferedImage b = LoadPictures.bImage2;
+    Genome g1 = new Genome(a);
+    Genome g2 = new Genome(b);
+    Genome g3 = new Genome(a);
+    Genome g4 = new Genome(a);
+    
+    crossOverTests( g1,  g2,  g3,  g4, 5);
+    hammingDistanceTests( g1,  g2);
+    validGenomeTests( g1,  g2,  g3);
+    validGenomeTests( g1,  g2,  g3);
+    fitnessTests( a,  b,  1);
+    fitnessTests( a,  a,  2);
+    fitnessTests( b,  b,  5);
   }
-
-  /************************************************************************************
-   * Creates some fake triangles lists and adds them to a genome then does the testing on these fake genomes 
-   * @param args
-   ************************************************************************************/
-  public static void main(String[] args)
+  
+  
+  public void xmlTests(Genome g)
   {
-
-    List<Triangle> triangles1 = new ArrayList<Triangle>(200);
-    List<Triangle> triangles2 = new ArrayList<Triangle>(200);
-
-
-    // Initialize the triangles
-    for (int i = 0; i < 200; i++)
-    {
-//      triangles1.add(Triangle.randomTriangleIn(300, 300));
-//      triangles2.add(Triangle.randomTriangleIn(200, 200));     
-    }
-
-    Genome testGenomeP1 = null; 
-    Genome testGenomeP2 = null;
-    Genome testGenomeP5 = null;
-    Genome testGenomeC1 = null; 
-    Genome testGenomeC2 = null; 
-
-    
-    
-    assert GenomeTests.ValidGenome(testGenomeP1);
-    assert GenomeTests.ValidGenome(testGenomeP1);
-    assert GenomeTests.ValidGenome(testGenomeP1);
-
-    //System.out.println("ham dist " + GenomeTests.HammingDistance(testGenomeP1, testGenomeP2));
-
-    assert (GenomeTests.HammingDistance(testGenomeP1, testGenomeP1) == 0);/* the same */
-    assert GenomeTests.HammingDistance(testGenomeP1, testGenomeP5) == 0; /* different addresses yet identical */
-    assert GenomeTests.HammingDistance(testGenomeP1, testGenomeP2) > 1000;/* many scattered differences */
-
-    /*
-     * of the form: 
-     * SinglePointCrossover(Genome parent1, Genome parent2, Genome child1, Genome child2, int crossover)
-     */
-    assert GenomeTests.SinglePointCrossover(testGenomeP1, testGenomeP2, testGenomeC1, testGenomeC2, 40);
-    assert GenomeTests.SinglePointCrossover(testGenomeP1, testGenomeP2, testGenomeC1, testGenomeC2, 55);
-    assert GenomeTests.SinglePointCrossover(testGenomeP1, testGenomeP2, testGenomeC1, testGenomeC2, 7);
-    assert GenomeTests.SinglePointCrossover(testGenomeP1, testGenomeP2, testGenomeC1, testGenomeC2, 100);
-    assert GenomeTests.SinglePointCrossover(testGenomeP1, testGenomeP2, testGenomeC1, testGenomeC2, 160);
-    assert GenomeTests.SinglePointCrossover(testGenomeP1, testGenomeP2, testGenomeC1, testGenomeC2, 77);
-
-    System.out.println("Finished no assert errors!");
+    assert (new WriteXMLFile().generate(g));
   }
-
+  
+  public void fitnessTests(BufferedImage a, BufferedImage b, int scaledBy)
+  {
+    if(a.equals(b))
+    {
+      assert (Fitness.getFitnessRaster( a, b, scaledBy) == Fitness.getFitness( a,  b,  scaledBy));
+    }
+    else
+    {
+      assert (Fitness.getFitnessRaster( a, b, scaledBy) != Fitness.getFitness( a,  b,  scaledBy));
+    }
+  }
+  
+  public void crossOverTests(Genome g1, Genome g2, Genome g3, Genome g4, int cr)
+  {
+    assert GenomeTests.SinglePointCrossover(g1, g2, g3, g4, cr);
+    assert GenomeTests.SinglePointCrossover(g1, g2, g3, g4, cr);
+    assert GenomeTests.SinglePointCrossover(g1, g2, g3, g4, cr);
+    assert GenomeTests.SinglePointCrossover(g1, g2, g3, g4, cr);
+    assert GenomeTests.SinglePointCrossover(g1, g2, g3, g4, cr);
+    assert GenomeTests.SinglePointCrossover(g1, g2, g3, g4, cr);
+  }
+  
+  public void hammingDistanceTests(Genome g1, Genome g2)
+  {
+    assert GenomeTests.HammingDistance(g1, g2) > 1000;
+    assert (GenomeTests.HammingDistance(g1, g1) == 0);
+    assert GenomeTests.HammingDistance(g2, g2) == 0; 
+  }
+  
+  public void validGenomeTests(Genome g1, Genome g2, Genome g3)
+  {
+    assert GenomeTests.ValidGenome(g1);
+    assert GenomeTests.ValidGenome(g2);
+    assert GenomeTests.ValidGenome(g3);
+  }
+  
 }

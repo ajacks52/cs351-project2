@@ -99,7 +99,7 @@ public class Fitness
     for (int pixel = 0; pixel < pixelsA.length; pixel += scaledBy)
     {
       int aargb  = pixelsA[pixel];
-      int bargb = pixelsB[pixel];   
+      int bargb =  pixelsB[pixel];   
       int alpha = ((aargb >> 24) & 0xFF) - ((bargb >> 24) & 0xFF);
       int red   = ((aargb >> 16) & 0xFF) - ((bargb >> 16) & 0xFF);
       int green = ((aargb >>  8) & 0xFF) - ((bargb >>  8) & 0xFF);

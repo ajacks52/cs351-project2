@@ -20,7 +20,8 @@ public class Constants
    ********************************************************************************/
   public static final Random random = new Random();
   public static final int GENOME_SIZE = 200;
-  public static boolean DEBUG = true;
+  public static boolean DEBUG = false;
+  public static boolean ASSERT = false;
   public static boolean RASTER = true;
   public static final int TRIBE_SIZE = 8;
 
