@@ -1,5 +1,6 @@
 package genome.types;
 
+import genome.Constants;
 import genome.guicode.LoadPictures;
 
 import java.awt.Dimension;
@@ -103,7 +104,7 @@ public class Tribe extends Thread
     {
       public void paintComponent(Graphics g)
       {
-        tribe.genomes[0].drawToGraphics(g);
+        tribe.genomes[0].drawToGraphics(g, Constants.GENOME_SIZE);
       }
     };
     tribe.start();

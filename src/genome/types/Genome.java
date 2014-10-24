@@ -60,15 +60,17 @@ public class Genome
       }
     }
     
-    drawToGraphics(phenome.getGraphics());
+    drawToGraphics(phenome.getGraphics(), count);
     
     return phenome;
   }
   
-  public void drawToGraphics(Graphics g)
+  public void drawToGraphics(Graphics g, int count)
   {
+    int i=0; 
     for (Triangle t : triangles)
     {
+      if (i++ >= count) break;
       g.setColor(t.getColor());
       g.fillPolygon(t.getXs(), t.getYs(), 3);
     }
@@ -191,7 +193,7 @@ public class Genome
     {
       public void paintComponent(Graphics g)
       {
-        genome.drawToGraphics(g);
+        genome.drawToGraphics(g,Constants.GENOME_SIZE);
       }
     };
     
