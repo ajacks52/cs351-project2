@@ -53,6 +53,7 @@ public class GUIActionListeners
         }
         else
         {
+          Tribe.unpause();
           frame.buttonPanel.disableButtons();
           frame.disableMenu();
         }
@@ -72,11 +73,8 @@ public class GUIActionListeners
         String pictName = (String) cb.getSelectedItem();
         frame.picturePanel.setPicture(pictName);
         MainFrameController.bi = frame.picturePanel.getCurrentPicture();
-
-        ArrayList<Integer> colorList = frame.picturePanel.pictureColorValues(MainFrameController.smallBi);
-        // frame.picturePanel.setColorList(colorList);
+        ArrayList<Integer> colorList = frame.picturePanel.pictureColorValues(MainFrameController.bi);
         LoadPictures.currentPicture(MainFrameController.bi);
-
         MainFrameController.restart(MainFrameController.bi, colorList);
         if (Constants.DEBUG)
         {
@@ -127,10 +125,7 @@ public class GUIActionListeners
       @Override
       public void actionPerformed(ActionEvent e)
       {
-        // Genome g = Genome.randomGenome(frame.picturePanel.getCurrentPicture().getWidth(), frame.picturePanel
-        // .getCurrentPicture().getHeight());
-        // frame.trianglePanel.displayGenome(g);
-        // frame.buttonPanel.setFitness(g.getFitness(frame.picturePanel.getCurrentPicture(), 5));
+        Tribe.next();
       }
     });
 

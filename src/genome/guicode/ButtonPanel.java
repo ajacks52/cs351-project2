@@ -101,6 +101,9 @@ public class ButtonPanel extends JPanel
     size = pauseB.getPreferredSize();
     pauseB.setBounds(col0, row0, size.width, size.height);
     nextB.setBounds(col, row0, size.width, size.height);
+    
+    pauseB.setText("Start");
+    pauseB.setBackground(pauseButtonColor);
 
     size = pictureComboBox.getPreferredSize();
     pictureComboBox.setBounds(col * 2, row0, size.width - 5, size.height);

@@ -4,14 +4,20 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 
-/***************************************************************************************************
- * 
- **************************************************************************************************/
+/******************************************************************************************************
+ * @author Adam Mitchell
+ * A utility class that prints the stats from the program gets called in main frame controller every 
+ * 6 minutes.
+ *****************************************************************************************************/
 public class PrintStatsFile
 {
   String address = "data/statsFile.txt";
   File outfile = new File(address);
 
+  /****************************************************************************************************
+   * The name of the file to be printed 
+   * @param address
+  *****************************************************************************************************/
   public PrintStatsFile(String address)
   {
     if (address.contains(".txt"))
@@ -25,7 +31,12 @@ public class PrintStatsFile
   }
 
   /***************************************************************************************************
+   * Writes the stats file 
+   * void writeToFile(boolean append,int[] stats) throws IOException
    * 
+   * @param append
+   * @param stats
+   * @throws IOException
    **************************************************************************************************/
   public void writeToFile(boolean append,int[] stats) throws IOException
   {
@@ -35,7 +46,6 @@ public class PrintStatsFile
         + System.getProperty("line.separator"));
     writer.write("Total Time Running" + System.getProperty("line.separator"));
     writer.write("m:s "+stats[0]+":"+stats[1] + System.getProperty("line.separator"));
-    //writer.write( System.getProperty("line.separator"));
     writer.write("Total Generations" + System.getProperty("line.separator") );
     writer.write(stats[2] + System.getProperty("line.separator"));
     writer.write("Hill Climbing Generations" + System.getProperty("line.separator"));
@@ -56,16 +66,4 @@ public class PrintStatsFile
     writer.close();
     System.out.println("Wrote file");
   }
-
-
-  /***************************************************************************************************
-   *   main for testing
-   *   @param args
-   * 
-   **************************************************************************************************/
-  public static void main(String[] args)
-  {
-    
-  }
-
 }

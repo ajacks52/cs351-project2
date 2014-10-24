@@ -1,7 +1,5 @@
 package genome.guicode;
 
-import genome.types.Triangle;
-
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.awt.image.ColorModel;
@@ -10,47 +8,32 @@ import java.util.ArrayList;
 import javax.swing.*;
 
 
-/********************************************************************************
+/********************************************************************************************************
  * 
  * @author Adam Mitchell
  * 
- *         Displays the pictures that our algorithms will try to emulate
- ********************************************************************************/
+ * Displays the pictures that our algorithms will try to emulate
+ ********************************************************************************************************/
+@SuppressWarnings("serial")
 public class PicturePanel extends JPanel
 {
   private final int PANEL_H = 550;
   private final int PANEL_W = 550;
-
-  // private static Graphics2D canvas;
   private BufferedImage currentImage;
   private ArrayList<Integer> colorList = new ArrayList<Integer>();
 
   public PicturePanel(int x, int y, BufferedImage bImage)
   {
     this.currentImage = bImage;
-
     this.setPreferredSize(new Dimension(PANEL_W, PANEL_H));
     this.setVisible(true);
-
   }
 
- /********************************************************************************
-  *  
-  ********************************************************************************/
-  public void paint(Graphics g)
-  {
-    Graphics2D canvas = (Graphics2D) g;
-    //this.setBorder(new CompoundBorder(new EtchedBorder(), new LineBorder(Color.BLACK)));
-    super.paintComponent(canvas);
-    canvas.drawImage(currentImage, 30, 25, currentImage.getWidth(), currentImage.getHeight(), this);
-    
-  }
-
-  /********************************************************************************
+  /********************************************************************************************************
    * Controls what picture will be drawn next
    * 
    * @param imageName
-   ********************************************************************************/
+   ********************************************************************************************************/
   public void setPicture(String imageName)
   {
     this.currentImage = LoadPictures.picturesMap.get(imageName);
@@ -76,11 +59,23 @@ public class PicturePanel extends JPanel
     }
   }
   
-  /**
-   * 
+  
+  /********************************************************************************************************
+   *  Paints the picture starts it 25 by 25 off from the boarder
+   ********************************************************************************************************/
+   public void paint(Graphics g)
+   {
+     Graphics2D canvas = (Graphics2D) g;
+     super.paintComponent(canvas);
+     canvas.drawImage(currentImage, 30, 25, currentImage.getWidth(), currentImage.getHeight(), this); 
+   }
+  
+  /********************************************************************************************************
+   * ArrayList<Integer> pictureColorValues(BufferedImage bImage)
+   * Returns an array of the colors in the picture
    * @param bImage
    * @return ArrayList<Integer> of colors
-   */
+   ********************************************************************************************************/
   public ArrayList<Integer> pictureColorValues(BufferedImage bImage)
   {
     colorList = new ArrayList<Integer>();
@@ -92,50 +87,41 @@ public class PicturePanel extends JPanel
       }
     }
     return colorList;
-  }
+  } 
   
-  
-  /**
-   * 
+  /********************************************************************************************************
+   *  Returns an array of the colors in the picture
    * @return ArrayList<Integer> of colors
-   */
+   ********************************************************************************************************/
   public ArrayList<Integer> pictureColorValues()
   {
     return colorList;
   }
-  
   
   public ColorModel getColorModelCurrentImage()
   {
     return currentImage.getColorModel();
   }
   
-  
-  /********************************************************************************
-   * 
+  /********************************************************************************************************
+   * Returns the current picture
+   * getCurrentPicture()
    * @return
-   ********************************************************************************/
+   *******************************************************************************************************/
   public BufferedImage getCurrentPicture()
   {
-    return currentImage;
-    
+    return currentImage;  
   }
 
-  /********************************************************************************
+  /********************************************************************************************************
+   * Returns a point of with dimension the size of the current picture
+   * getCurrentPictureSize()
    * 
    * @return
-   ********************************************************************************/
+   ********************************************************************************************************/
   public Point getCurrentPictureSize()
   {
     Point p = new Point(currentImage.getWidth(), currentImage.getHeight());
-    return p;
-    
-  }
-  
-  /********************************************************************************
-   * 
-   ********************************************************************************/
-  public static void main(String[] args)
-  {
+    return p; 
   }
 }

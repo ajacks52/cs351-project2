@@ -51,8 +51,6 @@ public class WriteXMLFile
         // triangle element
         Element triangle = doc.createElement("triangle");
         rootElement.appendChild(triangle);
-
-        // set attribute to staff element
         triangle.setAttribute("id", Integer.toString(i));
 
         for (GeneType t : GeneType.values())
@@ -62,8 +60,6 @@ public class WriteXMLFile
           triangle.appendChild(x1);
         }
       }
-
-      // write the content into xml file
       TransformerFactory transformerFactory = TransformerFactory.newInstance();
       Transformer transformer = transformerFactory.newTransformer();
       transformer.setOutputProperty(OutputKeys.INDENT, "yes");
@@ -71,9 +67,7 @@ public class WriteXMLFile
       DOMSource source = new DOMSource(doc);
       StreamResult result = new StreamResult(new File("data/file.xml"));      
       transformer.transform(source, result);
-
       System.out.println("File saved!");
-
     }
     catch (ParserConfigurationException pce)
     {

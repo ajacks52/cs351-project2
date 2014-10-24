@@ -14,14 +14,29 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
+/*****************************************************************************************************
+ * The tribe object. Holds and created the genomes, gets be paused when mainframe is paused
+ * @author Jordan Medlock
+ *
+ *****************************************************************************************************/
 public class Tribe extends Thread
 {
   public static final int TRIBE_SIZE = 8;
   public Genome[] genomes = new Genome[TRIBE_SIZE];
   public static BufferedImage currentImage;
   
-  private static volatile boolean isPaused = false;
+  private static volatile boolean isPaused = true;
   
+  private static volatile boolean next = false;
+  
+  public boolean fullyPaused = false;
+  
+  /*****************************************************************************************************
+    * Tribe constructor takes a name and a buffered image to makes new genomes from
+    * @param name
+    * @param currentImage
+   *****************************************************************************************************/
+  @SuppressWarnings("static-access")
   public Tribe(String name, BufferedImage currentImage)
   {
     super(name);
@@ -32,7 +47,9 @@ public class Tribe extends Thread
       genomes[i] = new Genome(currentImage);
     }
   }
-  
+/******************************************************************************************************
+ * Sort the genomes in the tribe lowest fitness to highest 
+ ******************************************************************************************************/
   public void sortGenomes()
   {
     Arrays.sort(genomes, new Comparator<Genome>()
@@ -47,6 +64,9 @@ public class Tribe extends Thread
     });
   }
   
+  /******************************************************************************************************
+   * Breads a subset of genomes into the back of the tribes population
+   ******************************************************************************************************/
   public void breedGenomes()
   {
     int div4 = TRIBE_SIZE/4;
@@ -64,19 +84,37 @@ public class Tribe extends Thread
   public void run()
   {
     System.out.println("Running tribe: " + getName());
-    for (int step=0; true; step++)
+    for (; true; )
     {
+      fullyPaused = false;
+      if (next)
+      {
+        System.out.println("next");
+        step();
+        fullyPaused = true;
+        next = false;
+      }
       if (isPaused) continue;
       step();
+      if (isPaused) fullyPaused = true;
     }
   }
-  
+  /******************************************************************************************************
+   * public void step()
+   ******************************************************************************************************/
   public void step()
   {
+    System.out.println("step");
     sortGenomes();
     breedGenomes();
   }
   
+  
+  /******************************************************************************************************
+   * For testing only
+   * @param args
+   ******************************************************************************************************/
+  @SuppressWarnings("serial")
   public static void main(String args[])
   {
     BufferedImage monaLisa = LoadPictures.bImage1;
@@ -97,6 +135,7 @@ public class Tribe extends Thread
     frame.setSize(new Dimension(width + 50, height + 50));
     frame.setVisible(true);
     
+    @SuppressWarnings("unused")
     Timer t = new Timer(1000, new ActionListener()
     {
       @Override
@@ -107,13 +146,26 @@ public class Tribe extends Thread
     });
   }
 
+  /******************************************************************************************************
+   * public static void pause()
+   ******************************************************************************************************/
   public static void pause()
   {
     isPaused = true;
   }
   
+  /******************************************************************************************************
+   * public static void unpause()
+   ******************************************************************************************************/
   public static void unpause()
   {
     isPaused = false;
+  }
+  /******************************************************************************************************
+   *  public static void next()
+   *****************************************************************************************************/
+  public static void next()
+  {
+    next = true;
   }
 }

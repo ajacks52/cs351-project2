@@ -6,62 +6,64 @@ import genome.types.Triangle.GeneType;
 
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.DocumentBuilder;
-
 import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
 import org.w3c.dom.Node;
 import org.w3c.dom.Element;
-
-import java.awt.Point;
 import java.io.File;
 import java.util.ArrayList;
 
 /***************************************************************************************************
- * 
  * @author Adam
  * 
+ * Class to Parses the given xml file and returns an arraylist of the triangles formed
+ * 
  * used http://www.mkyong.com/java/how-to-read-xml-file-in-java-dom-parser/,
- * http://www.java-samples.com/showtutorial.php?tutorialid=152, and
- * http://www.mkyong.com/java/how-to-create-xml-file-in-java-dom/ to get an idea on how to parse xml
+ * 
  **************************************************************************************************/
 public class XMLParser
 {
   private ArrayList<Triangle> triList = new ArrayList<Triangle>();
 
   /***************************************************************************************************
-   * Parses the given xml file and returns an arraylist of the triangles formed 
+   * Parses the given xml file and returns an arraylist of the triangles formed
+   * 
    * @param fXmlFile
    * @return Arraylist of triangles
    **************************************************************************************************/
-  public  ArrayList<Triangle> parser(File fXmlFile)
+  public ArrayList<Triangle> parser(File fXmlFile)
   {
     try
     {
       DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
       DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
       Document doc = dBuilder.parse(fXmlFile);
-
       doc.getDocumentElement().normalize();
-
-      System.out.println("Root element :" + doc.getDocumentElement().getNodeName());
-
+      
+      if (Constants.DEBUG)
+      {
+        System.out.println("Root element :" + doc.getDocumentElement().getNodeName());
+      }
+      
       NodeList nList = doc.getElementsByTagName("triangle");
       if (doc.getElementsByTagName("triangle") == null)
       {
         return null;
       }
 
-
-      System.out.println("----------------------------");
+      if (Constants.DEBUG)
+      {
+        System.out.println("----------------------------");
+      }
 
       for (int temp = 0; temp < nList.getLength(); temp++)
       {
-
         Node nNode = nList.item(temp);
+        if (Constants.DEBUG)
+        {
+          System.out.println(nNode.getNodeName());
+        }
 
-        System.out.println(nNode.getNodeName());
-
-   
         if (nNode.getNodeType() == Node.ELEMENT_NODE)
         {
           Triangle t = new Triangle();
@@ -83,7 +85,8 @@ public class XMLParser
             System.out.println("index : " + data.getAttribute("id"));
             for (GeneType type : GeneType.values())
             {
-              System.out.println(type.toString() + " : " + data.getElementsByTagName(type.toString()).item(0).getTextContent());
+              System.out.println(type.toString() + " : "
+                  + data.getElementsByTagName(type.toString()).item(0).getTextContent());
             }
           }
         }
