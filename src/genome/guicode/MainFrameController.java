@@ -139,7 +139,7 @@ public class MainFrameController
           statsArray[9] = generationspersec;
           generationspersec = 0;
         }
-
+// Start
         try
         {
           new PrintStatsFile(statsfileName).writeToFile(append, statsArray);
