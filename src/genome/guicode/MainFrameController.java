@@ -224,6 +224,9 @@ public class MainFrameController
   {
     BufferedImage bImage = frame.picturePanel.getCurrentPicture();
     Tribe tribe = new Tribe("Tribe", bImage);
+    
+    System.out.println("picture size" + bImage.getWidth());
+    
     tribe.start();
     tribe.setName("Tribe " + (new Integer(++thribesAmount).toString()));
     threads.add(tribe);
@@ -233,7 +236,7 @@ public class MainFrameController
   }
 
   /*******************************************************************************************************
-   * killTribe() Kills a tribe removes it from the tribe combo box
+   * Kills a tribe removes it from the tribe combo box
    *******************************************************************************************************/
   static void killTribe()
   {
@@ -243,6 +246,18 @@ public class MainFrameController
     thribesAmount--;
     totalgenomes -= Constants.TRIBE_SIZE;
   }
+  
+  /*******************************************************************************************************
+   *  Kills a tribe 
+   *******************************************************************************************************/
+  static void killTribeRestart()
+  {
+    threads.get(threads.size() - 1).interrupt();
+    threads.remove(threads.size() - 1);
+    thribesAmount--;
+    totalgenomes -= Constants.TRIBE_SIZE;
+  }
+
 
   /*******************************************************************************************************
    * restart(BufferedImage bImage, ArrayList<Integer> clist) Sets up a new picture in the triangle panel restarts all
@@ -254,11 +269,16 @@ public class MainFrameController
   static void restart(BufferedImage bImage, ArrayList<Integer> clist)
   {
     System.out.println("Restarting GA / HC with new picture");
-
+  
+    frame.buttonPanel.deleteComboxTribeAll();
+    System.out.println("hi");
+    
     for (int i = 0; i < threads.size(); i++)
     {
-      killTribe();
+      killTribeRestart();
     }
+    
+    System.out.println("made it!!!!!!");
     System.out.println("Number of tribes to be made " + numberOfTribes);
     for (int i = 0; i < numberOfTribes; i++)
     {

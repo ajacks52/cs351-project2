@@ -82,6 +82,11 @@ public class Genome
     return phenome;
   }
   
+  public void updateCurrentImage(BufferedImage cI)
+  {
+    Genome.currentImage = cI; 
+  }
+  
   /****************************************************************************************
    * Draws the given genome to the triangle panel 
    * 
@@ -192,9 +197,7 @@ public class Genome
     return success;
   }
   
-  /*****************************************************************************************
-   * 
-   ****************************************************************************************/
+
   public void hillClimbing()
   {
     for (int i=0; i < 1000; i++)

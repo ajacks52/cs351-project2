@@ -214,10 +214,23 @@ public class ButtonPanel extends JPanel
       System.out.println("*******" + index + "********");
     }
 
-    modeltribes.removeElementAt(index);;
+    modeltribes.removeElementAt(index);
     deleteComboxGenomes();
   }
 
+  
+  /*********************************************************************************************************
+   * deletes all the tribes in the tribe combo box 
+   * 
+   * deleteComboxTribe(int index)
+   * 
+   * @param int index
+   ********************************************************************************************************/
+  public void deleteComboxTribeAll()
+  {
+    modeltribes.removeAllElements();
+    deleteComboxGenomes();
+  }
   /*********************************************************************************************************
    * public void deleteComboxGenomes()
    * 

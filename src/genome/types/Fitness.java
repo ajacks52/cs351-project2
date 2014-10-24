@@ -82,6 +82,9 @@ public class Fitness
      
     long sum = 0;
 
+    System.out.println("A: " + pixelsA.length); 
+    System.out.println("B: " + pixelsB.length); 
+
     for (int pixel = 0; pixel < pixelsA.length; pixel += scaledBy)
     {
       int aargb  = pixelsA[pixel];
