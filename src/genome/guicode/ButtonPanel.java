@@ -90,7 +90,7 @@ public class ButtonPanel extends JPanel
     pauseB.setBackground(pauseButtonColor);
     pauseB.setContentAreaFilled(false);
     pauseB.setOpaque(true);
-    statsFileTextField.setText("name_of_stats_file.txt");
+    statsFileTextField.setText("newStatsFile.txt");
 
     // Layout the components
     int row0 = 5;

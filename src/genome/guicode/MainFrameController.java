@@ -1,13 +1,12 @@
 package genome.guicode;
 
+import genome.Constants;
 import genome.types.Genome;
 import genome.types.Tribe;
 
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.*;
-import java.util.Timer;
-import java.util.TimerTask;
 
 /*******************************************************************************************************
  * MainFrameController
@@ -23,10 +22,11 @@ public class MainFrameController
   public static BufferedImage bi = null;
 
   static String statsfileName = "statsFile";
-  public volatile int totalgenerations = 0;
-  public volatile static int generationspersec = 0;
+  public static int totalgenerations = 0;
+  public static int generationspersec = 0;
   public volatile static int totalmutations = 0;
   public volatile static int totalcrossovers = 0;
+  volatile static int totalgenomes = 0;
   public static ArrayList<Tribe> threads = new ArrayList<Tribe>();
   volatile static boolean paused = true; // Run unless told to pause
   int minutes;
@@ -41,7 +41,6 @@ public class MainFrameController
   static Tribe displayedTribe;
   static int thribesAmount = 0;
   public static int numberOfTribes = 1;
-  volatile static int totalgenomes = 0;
   static int[] statsArray = new int[10];
 
 
@@ -80,12 +79,15 @@ public class MainFrameController
           int minutes = (int) ((deltaTime) / 60000);
           int seconds = (int) ((deltaTime) * 0.001);
           seconds %= 60;
+          statsArray[0] = minutes;
+          statsArray[1] = seconds;
           frame.buttonPanel.setTime(minutes, seconds);
         }
       }
     }, 0, 500L);
 
-    timer.scheduleAtFixedRate(new TimerTask() {
+    Timer timer2 = new Timer();
+    timer2.scheduleAtFixedRate(new TimerTask() {
       @Override
       public void run()
       {
@@ -96,7 +98,8 @@ public class MainFrameController
       }
     }, 0, 1000L);
 
-    timer.scheduleAtFixedRate(new TimerTask() {
+    Timer timer3 = new Timer();
+    timer3.scheduleAtFixedRate(new TimerTask() {
       @Override
       public void run()
       {
@@ -110,31 +113,19 @@ public class MainFrameController
               Tribe t1 = threads.get(i);
               Tribe t2 = threads.get(i + 1);
               while (!t1.fullyPaused || !t1.fullyPaused);
-              int div2 = Tribe.TRIBE_SIZE / 2;
+              int div2 = Constants.TRIBE_SIZE / 2;
               for (int j = 0; j < div2; j++)
               {
                 t1.genomes[j].mateWith(t2.genomes[j], t1.genomes[j + div2], t2.genomes[j + div2]);
+                totalcrossovers++;
+                generationspersec++;
               }
             }
           }
-        }
-      }
-    }, 0, 1000);
-
-    Timer statsFileTimer = new Timer();
-    statsFileTimer.scheduleAtFixedRate(new TimerTask() {
-      @Override
-      public void run()
-      {
-        if (!paused)
-        {
-          synchronized (threads)
-          {
             totalgenerations = totalmutations + totalcrossovers;
             frame.buttonPanel.updateGUIStats(totalgenerations, totalmutations, totalcrossovers, totalgenomes,
-                generationspersec);
-            statsArray[0] = minutes;
-            statsArray[1] = seconds;
+                generationspersec);       
+         
             statsArray[2] = totalgenerations;
             statsArray[3] = totalmutations;
             statsArray[4] = totalcrossovers;
@@ -142,8 +133,18 @@ public class MainFrameController
             statsArray[6] = totalgenomes; 
             statsArray[9] = generationspersec;
             generationspersec = 0;
-          }
+        }
+      }
+    }, 0, 1000);
 
+    Timer statsFileTimer = new Timer();
+    // prints every 6 minutes
+    statsFileTimer.scheduleAtFixedRate(new TimerTask() {
+      @Override
+      public void run()
+      {
+        if (!paused)
+        {    
           try
           {
             new PrintStatsFile(statsfileName).writeToFile(append, statsArray);
@@ -155,7 +156,7 @@ public class MainFrameController
           }
         }
       }
-    }, 0, 360000L);
+    }, 360000L, 360000L);
   }
 
   /*******************************************************************************************************
@@ -172,6 +173,7 @@ public class MainFrameController
     frame.buttonPanel.setTime(0, 0);
     frame.buttonPanel.setFitnessGenome(0, 0);
     frame.buttonPanel.setFitnessTotal(0, 0);
+    frame.buttonPanel.updateGUIStats(0, 0, 0, 0, 0);
   }
 
   /*******************************************************************************************************
@@ -221,13 +223,13 @@ public class MainFrameController
   static void birthTribe()
   {
     BufferedImage bImage = frame.picturePanel.getCurrentPicture();
-    System.out.println("in tribe's picture is " + bImage.getHeight());
-    Tribe tribe = new Tribe("Tribe 1", bImage);
+    Tribe tribe = new Tribe("Tribe", bImage);
     tribe.start();
     tribe.setName("Tribe " + (new Integer(++thribesAmount).toString()));
-    totalgenomes += tribe.genomes.length;
     threads.add(tribe);
     frame.buttonPanel.setComboxTribe(tribe);
+    totalgenomes += Constants.TRIBE_SIZE;
+
   }
 
   /*******************************************************************************************************
@@ -235,12 +237,11 @@ public class MainFrameController
    *******************************************************************************************************/
   static void killTribe()
   {
-    totalgenomes -= threads.get(threads.size() - 1).genomes.length;
     threads.get(threads.size() - 1).interrupt();
-
     frame.buttonPanel.deleteComboxTribe(thribesAmount - 1);
     threads.remove(threads.size() - 1);
     thribesAmount--;
+    totalgenomes -= Constants.TRIBE_SIZE;
   }
 
   /*******************************************************************************************************
@@ -266,13 +267,23 @@ public class MainFrameController
   }
 
   /*******************************************************************************************************
-   * getCurrentPict() ges the current picture
+   * getCurrentPict() gets the current picture
    * 
    * @return BufferedImage
    *******************************************************************************************************/
   public static BufferedImage getCurrentPict()
   {
     return bi;
+  }
+  
+  /*******************************************************************************************************
+   * getCurrentPict() gets the current genome on display
+   * 
+   * @return BufferedImage
+   *******************************************************************************************************/
+  public static Genome getCurrentGenome()
+  {
+    return displayedGenome;
   }
 
   /*******************************************************************************************************

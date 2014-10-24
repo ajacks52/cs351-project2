@@ -2,6 +2,7 @@ package genome.types;
 
 import genome.Constants;
 import genome.guicode.LoadPictures;
+import genome.guicode.MainFrameController;
 import genome.types.Triangle.GeneType;
 
 import java.awt.Color;
@@ -9,6 +10,7 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.util.Random;
+
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
@@ -75,7 +77,7 @@ public class Genome
       }
     }
     
-    drawToGraphics(phenome.getGraphics());
+    drawToGraphics(phenome.getGraphics(), count);
     
     return phenome;
   }
@@ -84,11 +86,14 @@ public class Genome
    * Draws the given genome to the triangle panel 
    * 
    * @param g genome 
+   * @param count number of triangles to draw
    ****************************************************************************************/
-  public void drawToGraphics(Graphics g)
+  public void drawToGraphics(Graphics g, int count)
   {
+    int i=0; 
     for (Triangle t : triangles)
     {
+      if (i++ >= count) break;
       g.setColor(t.getColor());
       g.fillPolygon(t.getXs(), t.getYs(), 3);
     }
@@ -182,6 +187,8 @@ public class Genome
         changeWithDelta(t,type,(short) -delta);
       }
     }
+    MainFrameController.totalmutations++;
+    MainFrameController.generationspersec++;
     return success;
   }
   
@@ -253,7 +260,7 @@ public class Genome
     {
       public void paintComponent(Graphics g)
       {
-        genome.drawToGraphics(g);
+        genome.drawToGraphics(g,Constants.GENOME_SIZE);
       }
     };
     frame.add(panel);

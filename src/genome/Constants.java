@@ -22,4 +22,6 @@ public class Constants
   public static final int GENOME_SIZE = 200;
   public static boolean DEBUG = false;
   public static boolean RASTER = true;
+  public static final int TRIBE_SIZE = 8;
+
 }

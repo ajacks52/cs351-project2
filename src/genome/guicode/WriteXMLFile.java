@@ -65,7 +65,7 @@ public class WriteXMLFile
       transformer.setOutputProperty(OutputKeys.INDENT, "yes");
       transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "2");
       DOMSource source = new DOMSource(doc);
-      StreamResult result = new StreamResult(new File("data/file.xml"));      
+      StreamResult result = new StreamResult(new File("data/genomeFile.xml"));      
       transformer.transform(source, result);
       System.out.println("File saved!");
     }

@@ -1,6 +1,8 @@
 package genome.types;
 
+import genome.Constants;
 import genome.guicode.LoadPictures;
+import genome.guicode.MainFrameController;
 
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -21,8 +23,7 @@ import javax.swing.Timer;
  *****************************************************************************************************/
 public class Tribe extends Thread
 {
-  public static final int TRIBE_SIZE = 8;
-  public Genome[] genomes = new Genome[TRIBE_SIZE];
+  public Genome[] genomes = new Genome[Constants.TRIBE_SIZE];
   public static BufferedImage currentImage;
   
   private static volatile boolean isPaused = true;
@@ -42,7 +43,7 @@ public class Tribe extends Thread
     super(name);
     
     this.currentImage = currentImage;
-    for (int i=0; i < TRIBE_SIZE; i++)
+    for (int i=0; i < Constants.TRIBE_SIZE; i++)
     {
       genomes[i] = new Genome(currentImage);
     }
@@ -69,7 +70,7 @@ public class Tribe extends Thread
    ******************************************************************************************************/
   public void breedGenomes()
   {
-    int div4 = TRIBE_SIZE/4;
+    int div4 = Constants.TRIBE_SIZE/4;
     for (int i=0; i < div4; i++)
     {
       Genome[] subset = new Genome[] {genomes[i], genomes[i+div4], genomes[i+2*div4], genomes[i+3*div4]};
@@ -77,7 +78,8 @@ public class Tribe extends Thread
       subset[1].hillClimbing();
       
       subset[0].mateWith(subset[1], subset[2], subset[3]);
-      
+      MainFrameController.totalcrossovers++;
+      MainFrameController.generationspersec++;
     }
   }
   
@@ -127,7 +129,7 @@ public class Tribe extends Thread
     {
       public void paintComponent(Graphics g)
       {
-        tribe.genomes[0].drawToGraphics(g);
+        tribe.genomes[0].drawToGraphics(g, Constants.GENOME_SIZE);
       }
     };
     tribe.start();

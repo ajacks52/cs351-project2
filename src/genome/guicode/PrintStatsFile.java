@@ -59,7 +59,6 @@ public class PrintStatsFile
     writer.write("# of genomes "+stats[6] + System.getProperty("line.separator"));
     writer.write("Overall Best fitness" + System.getProperty("line.separator"));
     writer.write(stats[7] + System.getProperty("line.separator"));
-    writer.write("average fitness of tribes " +stats[8]+ System.getProperty("line.separator"));
     writer.write("----------------------------------------------------------------"
         + System.getProperty("line.separator"));
     writer.flush();

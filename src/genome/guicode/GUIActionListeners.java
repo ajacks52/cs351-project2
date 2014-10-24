@@ -99,9 +99,7 @@ public class GUIActionListeners
         {
           MainFrameController.killTribe();
         }
-        MainFrameController.numberOfTribes = value;
-
-        // frame.trianglePanel.displayTriangles( add stuff to display the current tribes triangels);
+        MainFrameController.numberOfTribes = value;        
       }
     });
 
@@ -136,8 +134,7 @@ public class GUIActionListeners
       @Override
       public void actionPerformed(ActionEvent e)
       {
-        // TODO needs to be the current genome
-        // new WriteXMLFile().generate();
+         new WriteXMLFile().generate(MainFrameController.getCurrentGenome());
       }
     });
 
@@ -183,6 +180,8 @@ public class GUIActionListeners
           else
           {
             // TODO need make a new genome with the arraylist xmlArrayListTriangle and add it to a tribe..
+            ///   xmlArrayListTriangle
+            
           }
         }
       }
@@ -195,9 +194,7 @@ public class GUIActionListeners
       @Override
       public void actionPerformed(ActionEvent e)
       {
-        // TODO need to pass in the current genome not just a random one
-        // new TableStats().showTableData(new Genome(Triangle.randomGenome(200, 200, 200,
-        // frame.picturePanel.pictureColorValues(frame.picturePanel.getCurrentPicture())), 200, 200));
+         new TableStats().showTableData(MainFrameController.getCurrentGenome());        
       }
     });
 
@@ -208,7 +205,6 @@ public class GUIActionListeners
       @Override
       public void actionPerformed(ActionEvent e)
       {
-        // TODO need to pass in the current genome not just a random one
         JOptionPane.showMessageDialog(null, "Message", "File saved", JOptionPane.INFORMATION_MESSAGE);
         try
         {
