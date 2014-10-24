@@ -60,6 +60,7 @@ public class GUIActionListeners
         }
         else
         {
+          Tribe.unpause();
           frame.buttonPanel.disableButtons();
           frame.disableMenu();
         }
@@ -136,10 +137,7 @@ public class GUIActionListeners
       @Override
       public void actionPerformed(ActionEvent e)
       {
-        // Genome g = Genome.randomGenome(frame.picturePanel.getCurrentPicture().getWidth(), frame.picturePanel
-        // .getCurrentPicture().getHeight());
-        // frame.trianglePanel.displayGenome(g);
-        // frame.buttonPanel.setFitness(g.getFitness(frame.picturePanel.getCurrentPicture(), 5));
+        Tribe.next();
       }
     });
 

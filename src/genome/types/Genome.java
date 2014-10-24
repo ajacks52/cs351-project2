@@ -133,7 +133,6 @@ public class Genome
     if (success)
     {
       success = getFitness() < fitBefore;
-      if (success) System.out.println(fitBefore - getFitness());
       
       if (!success)
       {
@@ -147,7 +146,6 @@ public class Genome
   {
     for (int i=0; i < 1000; i++)
     {
-      System.out.print(i + " - ");
       hillClimbOnce(method);
       if (i%100==0)
       {
@@ -155,7 +153,6 @@ public class Genome
       }
     }
     method = MutationMethod.values()[(method.ordinal() + 1)%3];
-    System.out.println(method);
   }
   // 200 
   
@@ -189,7 +186,6 @@ public class Genome
     int width = monaLisa.getWidth();
     int height = monaLisa.getHeight();
     final Genome genome = new Genome(monaLisa);
-    System.out.println(genome.getFitness());
     JFrame frame = new JFrame();
     JPanel panel = new JPanel()
     {

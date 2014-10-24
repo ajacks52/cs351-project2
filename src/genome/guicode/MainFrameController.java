@@ -108,6 +108,30 @@ public class MainFrameController
         }
       }
     }, 0, 1000L);
+    
+    timer.scheduleAtFixedRate(new TimerTask()
+    {
+      @Override
+      public void run()
+      {
+        if (threads.size() > 1)
+        {
+          Tribe.pause();
+          for (int i=0; i < threads.size()-1; i+=2)
+          {
+            
+            Tribe t1 = threads.get(i);
+            Tribe t2 = threads.get(i+1);
+            while (!t1.fullyPaused || !t1.fullyPaused);
+            int div2 = Tribe.TRIBE_SIZE/2;
+            for (int j=0; j < div2; j++)
+            {
+              t1.genomes[j].mateWith(t2.genomes[j], t1.genomes[j+div2], t2.genomes[j+div2]);
+            }
+          }
+        }
+      }
+    }, 0, 5000);
 
     Timer statsFileTimer = new Timer();
     statsFileTimer.scheduleAtFixedRate(new TimerTask() {
@@ -152,8 +176,8 @@ public class MainFrameController
   private void startGA_HC()
   {
 
-    frame.buttonPanel.disableButtons();
-    frame.disableMenu();
+    frame.buttonPanel.enableButtons();
+    frame.enableMenu();
     frame.picturePanel.setPicture("triangles.png");
     bi = frame.picturePanel.getCurrentPicture();
 

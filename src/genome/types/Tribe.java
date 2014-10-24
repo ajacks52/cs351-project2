@@ -20,7 +20,11 @@ public class Tribe extends Thread
   public Genome[] genomes = new Genome[TRIBE_SIZE];
   public static BufferedImage currentImage;
   
-  private static volatile boolean isPaused = false;
+  private static volatile boolean isPaused = true;
+  
+  private static volatile boolean next = false;
+  
+  public boolean fullyPaused = false;
   
   public Tribe(String name, BufferedImage currentImage)
   {
@@ -66,13 +70,23 @@ public class Tribe extends Thread
     System.out.println("Running tribe: " + getName());
     for (int step=0; true; step++)
     {
+      fullyPaused = false;
+      if (next)
+      {
+        System.out.println("next");
+        step();
+        fullyPaused = true;
+        next = false;
+      }
       if (isPaused) continue;
       step();
+      if (isPaused) fullyPaused = true;
     }
   }
   
   public void step()
   {
+    System.out.println("step");
     sortGenomes();
     breedGenomes();
   }
@@ -115,5 +129,10 @@ public class Tribe extends Thread
   public static void unpause()
   {
     isPaused = false;
+  }
+  
+  public static void next()
+  {
+    next = true;
   }
 }
