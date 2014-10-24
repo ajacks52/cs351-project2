@@ -9,6 +9,7 @@ import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
 
@@ -31,7 +32,7 @@ public class Tribe extends Thread
   private static volatile boolean next = false;
   
   public boolean fullyPaused = false;
-  
+
   /*****************************************************************************************************
     * Tribe constructor takes a name and a buffered image to makes new genomes from
     * @param name
@@ -48,6 +49,21 @@ public class Tribe extends Thread
       genomes[i] = new Genome(currentImage);
     }
   }
+  
+  /*****************************************************************************************************
+   * Tribe constructor takes a name and a buffered image to makes new genomes from
+   * @param name
+   * @param currentImage
+   * @param list
+  *****************************************************************************************************/
+ @SuppressWarnings("static-access")
+ public Tribe(String name, BufferedImage currentImage, ArrayList<Genome> list)
+ {
+   super(name);
+   
+   this.currentImage = currentImage;
+   genomes = (Genome[])list.toArray();
+ }
 /******************************************************************************************************
  * Sort the genomes in the tribe lowest fitness to highest 
  ******************************************************************************************************/
