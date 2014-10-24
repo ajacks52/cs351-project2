@@ -4,6 +4,7 @@ import genome.Constants;
 import genome.logic.PictureResize;
 import genome.types.Genome;
 import genome.types.Triangle;
+import genome.types.Tribe;
 
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
@@ -53,6 +54,7 @@ public class GUIActionListeners
       {
         if (frame.buttonPanel.setPause())
         {
+          Tribe.pause();
           frame.buttonPanel.enableButtons();
           frame.enableMenu();
         }

@@ -20,6 +20,8 @@ public class Tribe extends Thread
   public Genome[] genomes = new Genome[TRIBE_SIZE];
   public static BufferedImage currentImage;
   
+  private static volatile boolean isPaused = false;
+  
   public Tribe(String name, BufferedImage currentImage)
   {
     super(name);
@@ -64,9 +66,15 @@ public class Tribe extends Thread
     System.out.println("Running tribe: " + getName());
     for (int step=0; true; step++)
     {
-      sortGenomes();
-      breedGenomes();
+      if (isPaused) continue;
+      step();
     }
+  }
+  
+  public void step()
+  {
+    sortGenomes();
+    breedGenomes();
   }
   
   public static void main(String args[])
@@ -97,5 +105,15 @@ public class Tribe extends Thread
         panel.repaint();
       }
     });
+  }
+
+  public static void pause()
+  {
+    isPaused = true;
+  }
+  
+  public static void unpause()
+  {
+    isPaused = false;
   }
 }

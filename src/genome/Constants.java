@@ -16,8 +16,8 @@ public class Constants
    * Random variable for the whole project
    ********************************************************************************/
   public static final Random random = new Random();
-  public static final int GENOME_SIZE = 6;
+  public static final int GENOME_SIZE = 200;
   public static final int RESIZED_PICTURE_SIZE = 100;
   public static boolean DEBUG = false;
-
+  public static boolean RASTER = true;
 }

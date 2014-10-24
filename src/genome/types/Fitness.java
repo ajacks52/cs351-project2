@@ -1,6 +1,7 @@
 package genome.types;
 
 import java.awt.image.BufferedImage;
+import java.awt.image.DataBufferInt;
 
 public class Fitness
 {
@@ -35,5 +36,43 @@ public class Fitness
       sum += alpha*alpha  +  red*red  +  green*green  +  blue*blue;
     }
     return (double) sum / (double) area * (double) skip;
+  }
+  
+  public static double getFitnessRaster(BufferedImage a, BufferedImage b, int scaledBy)
+  {
+    BufferedImage a2 = new BufferedImage(a.getWidth(), a.getHeight(),
+        BufferedImage.TYPE_INT_RGB);
+    a2.getGraphics().drawImage(a, 0, 0, null);
+    
+    BufferedImage b2 = new BufferedImage(b.getWidth(), b.getHeight(),
+        BufferedImage.TYPE_INT_RGB);
+    b2.getGraphics().drawImage(b, 0, 0, null);
+    
+    
+    final int[] pixelsB = ((DataBufferInt) b2.getRaster().getDataBuffer()).getData();
+    final int[] pixelsA = ((DataBufferInt) a2.getRaster().getDataBuffer()).getData();
+
+    final int width = a.getWidth();
+    final int height = a.getHeight();
+    
+    
+    long sum = 0;
+
+    for (int pixel = 0; pixel < pixelsA.length; pixel += scaledBy)
+    {
+      int aargb  = pixelsA[pixel];
+      int bargb = pixelsB[pixel];
+      
+      int alpha = ((aargb >> 24) & 0xFF) - ((bargb >> 24) & 0xFF);
+      int red   = ((aargb >> 16) & 0xFF) - ((bargb >> 16) & 0xFF);
+      int green = ((aargb >>  8) & 0xFF) - ((bargb >>  8) & 0xFF);
+      int blue  = ((aargb >>  0) & 0xFF) - ((bargb >>  0) & 0xFF);
+      
+ 
+      sum += alpha*alpha  +  red*red  +  green*green  +  blue*blue;
+    }
+    double fitness = ((double) sum * (double) scaledBy / (double) height / (double) width);
+//    System.out.print(fitness + " - ");
+    return fitness;
   }
 }

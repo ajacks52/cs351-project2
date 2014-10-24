@@ -69,7 +69,6 @@ public class MainFrameController
       {
 
 
-        System.out.println("1****\n****\n****\n");
         // if (!tribe.isInterrupted())
         timeNow = System.currentTimeMillis();
 
@@ -80,13 +79,11 @@ public class MainFrameController
         else if (!paused)
         {
           deltaTime = (timeNow - startTime);
-          System.out.println("2****\n****\n****\n");
           int minutes = (int) ((deltaTime) / 60000);
           int seconds = (int) ((deltaTime) * 0.001);
           seconds %= 60;
 
           frame.buttonPanel.setTime(minutes, seconds);
-          System.out.println("3****\n****\n****\n");
         }
 
       }

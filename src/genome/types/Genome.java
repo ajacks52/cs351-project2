@@ -78,7 +78,14 @@ public class Genome
   {
     if (reset)
     {
-      fitness = Fitness.getFitness(getPhenome(Constants.GENOME_SIZE), currentImage, 5);
+      if (Constants.RASTER)
+      {
+        fitness = Fitness.getFitnessRaster(getPhenome(Constants.GENOME_SIZE), currentImage, 1);
+      } 
+      else 
+      {
+        fitness = Fitness.getFitness(getPhenome(Constants.GENOME_SIZE), currentImage, 1);
+      }
       reset = false;
       return fitness;
     }

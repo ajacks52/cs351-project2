@@ -98,7 +98,8 @@ public class TrianglePanel extends JPanel
     if (genome != null)
     {
       canvas.clearRect(25, 25, Genome.currentImage.getWidth(), Genome.currentImage.getHeight());
-      canvas.drawImage(genome.getPhenome(count), 25, 25, null);
+      canvas.translate(25, 25);
+      genome.drawToGraphics(canvas);
     }
   }
 
