@@ -32,6 +32,8 @@ public class Tribe extends Thread
   private static volatile boolean next = false;
   
   public boolean fullyPaused = false;
+  
+  private int numGenomes = 0;
 
   /*****************************************************************************************************
     * Tribe constructor takes a name and a buffered image to makes new genomes from
@@ -62,8 +64,30 @@ public class Tribe extends Thread
    super(name);
    
    this.currentImage = currentImage;
+   numGenomes += list.size();
    genomes = (Genome[])list.toArray();
  }
+ 
+
+ /*****************************************************************************************************
+  * Tribe constructor takes a name and a buffered image to makes new genomes from
+  * @param name
+  * @param currentImage
+  * @param list
+ *****************************************************************************************************/
+ public void addGenome(Genome g)
+ {
+   if (genomes.length > numGenomes)
+   {
+     genomes[numGenomes++] = g;
+   }
+   else 
+   {
+     genomes = Arrays.copyOf(genomes, genomes.length * 2);
+     genomes[numGenomes++] = g;
+   }
+ }
+ 
 /******************************************************************************************************
  * Sort the genomes in the tribe lowest fitness to highest 
  ******************************************************************************************************/
