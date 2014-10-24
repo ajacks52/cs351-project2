@@ -28,7 +28,7 @@ public class MainFrameController
   public volatile static int totalcrossovers = 0;
   volatile static int totalgenomes = 0;
   public static ArrayList<Tribe> threads = new ArrayList<Tribe>();
-  volatile static boolean paused = true; // Run unless told to pause
+  volatile static boolean paused = false; // Run unless told to pause
   int minutes;
   int seconds;
   double bestfit;

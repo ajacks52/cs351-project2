@@ -117,6 +117,7 @@ Tribe/Population Diversity
 Overall Best fitness
 27547
 ----------------------------------------------------------------
+<<<<<<< HEAD
 ----------------------Statistics---------------------------------
 Total Time Running
 m:s 0:33
@@ -202,3 +203,5 @@ Tribe/Population Diversity
 Overall Best fitness
 28350
 ----------------------------------------------------------------
+=======
+>>>>>>> c9b4c32f910776f6faf97f733d590b09a25afb53
