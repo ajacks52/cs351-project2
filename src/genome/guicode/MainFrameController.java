@@ -3,6 +3,7 @@ package genome.guicode;
 import genome.Constants;
 import genome.types.Genome;
 import genome.types.Tribe;
+import genome.unit_testing.AssertTests;
 
 import java.awt.image.BufferedImage;
 import java.io.IOException;
@@ -42,6 +43,7 @@ public class MainFrameController
   static int thribesAmount = 0;
   public static int numberOfTribes = 1;
   static int[] statsArray = new int[10];
+  public static boolean stop = false;
 
 
   /*******************************************************************************************************
@@ -49,6 +51,10 @@ public class MainFrameController
    ******************************************************************************************************/
   public MainFrameController()
   {
+    if(Constants.ASSERT)
+    {
+      new AssertTests();
+    }
     frame = new MainFrame();
     frame.start();
     startTime = System.currentTimeMillis();
@@ -166,7 +172,7 @@ public class MainFrameController
   {
     frame.buttonPanel.disableButtons();
     frame.disableMenu();
-    frame.picturePanel.setPicture("Leonardo_da_Vinci-Mona-Lisa-460x363.png");
+    frame.picturePanel.setPicture("Hokusai-Great_Wave_Off_Kanagawa-450x309.png");
     bi = frame.picturePanel.getCurrentPicture();
     LoadPictures.currentPicture(frame.picturePanel.getCurrentPicture());
     birthTribe();
@@ -179,7 +185,7 @@ public class MainFrameController
   /*******************************************************************************************************
    * displayGenome() Gets called every .5 second and shows the currently selected genome in the triangle panel
    * 
-   * @param g
+   * @param 
    *******************************************************************************************************/
   public void displayGenome()
   {
@@ -222,8 +228,11 @@ public class MainFrameController
    *******************************************************************************************************/
   static void birthTribe()
   {
-    BufferedImage bImage = frame.picturePanel.getCurrentPicture();
-    Tribe tribe = new Tribe("Tribe", bImage);
+    BufferedImage bImage = bi;
+    System.out.println("picture size " + bImage.getWidth());
+
+    Tribe tribe = new Tribe(bImage);
+    
     tribe.start();
     tribe.setName("Tribe " + (new Integer(++thribesAmount).toString()));
     threads.add(tribe);
@@ -232,8 +241,9 @@ public class MainFrameController
 
   }
 
+  
   /*******************************************************************************************************
-   * killTribe() Kills a tribe removes it from the tribe combo box
+   * Kills a tribe removes it from the tribe combo box
    *******************************************************************************************************/
   static void killTribe()
   {
@@ -242,6 +252,18 @@ public class MainFrameController
     threads.remove(threads.size() - 1);
     thribesAmount--;
     totalgenomes -= Constants.TRIBE_SIZE;
+  }
+  
+  /*******************************************************************************************************
+   *  Kills a tribe 
+   *******************************************************************************************************/
+  static void killTribeRestart()
+  {
+    threads.get(threads.size() - 1).interrupt();
+    threads.get(threads.size() - 1).updateTribesMembers(bi);
+    //threads.remove(threads.size() - 1);
+    //thribesAmount--;
+    //totalgenomes -= Constants.TRIBE_SIZE;
   }
 
   /*******************************************************************************************************
@@ -253,17 +275,36 @@ public class MainFrameController
    *******************************************************************************************************/
   static void restart(BufferedImage bImage, ArrayList<Integer> clist)
   {
-    System.out.println("Restarting GA / HC with new picture");
-
+    if(Constants.DEBUG)
+    {
+      System.out.println("Restarting GA / HC with new picture");
+    }
+    
+    if(bImage.getWidth() != bi.getWidth() || bImage.getHeight() != bi.getHeight())
+    {
+      try
+      {
+        Thread.sleep(100);
+      }
+      catch (InterruptedException e)
+      {
+        e.printStackTrace();
+      }
+    }
+    stop = true;
+    frame.buttonPanel.deleteComboxTribeAll();
+    
     for (int i = 0; i < threads.size(); i++)
     {
-      killTribe();
+      killTribeRestart();
     }
-    System.out.println("Number of tribes to be made " + numberOfTribes);
+    
     for (int i = 0; i < numberOfTribes; i++)
     {
       birthTribe();
     }
+    stop = false;
+
   }
 
   /*******************************************************************************************************

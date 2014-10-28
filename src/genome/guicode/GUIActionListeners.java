@@ -100,7 +100,7 @@ public class GUIActionListeners
         {
           MainFrameController.killTribe();
         }
-        MainFrameController.numberOfTribes = value;        
+        MainFrameController.numberOfTribes = value;
       }
     });
 
@@ -135,7 +135,7 @@ public class GUIActionListeners
       @Override
       public void actionPerformed(ActionEvent e)
       {
-         new WriteXMLFile().generate(MainFrameController.getCurrentGenome());
+        new WriteXMLFile().generate(MainFrameController.getCurrentGenome());
       }
     });
 
@@ -181,10 +181,10 @@ public class GUIActionListeners
           else
           {
             // TODO need make a new genome with the arraylist xmlArrayListTriangle and add it to a tribe..
-            ///   xmlArrayListTriangle
             Genome g = new Genome(Genome.currentImage);
-            g.triangles = (Triangle[]) xmlArrayListTriangle.toArray();
-            Tribe t = new Tribe("new tribe", Genome.currentImage);
+
+            g.triangles = (Triangle[])xmlArrayListTriangle.toArray();
+            Tribe t = new Tribe(Genome.currentImage);
             t.genomes[0] = g;
             MainFrameController.threads.add(t);
           }
@@ -199,7 +199,7 @@ public class GUIActionListeners
       @Override
       public void actionPerformed(ActionEvent e)
       {
-         new TableStats().showTableData(MainFrameController.getCurrentGenome());        
+        new TableStats().showTableData(MainFrameController.getCurrentGenome());
       }
     });
 
@@ -234,13 +234,17 @@ public class GUIActionListeners
         JComboBox<String> cb = (JComboBox<String>) e.getSource();
 
         String currentTribe = (String) cb.getSelectedItem();
-        String subString = currentTribe.substring(5);
-        int index = Integer.parseInt(subString.trim());
-        frame.buttonPanel.setComboxGenomes(MainFrameController.threads.get(index - 1).genomes, (index - 1));
-        MainFrameController.displayedTribe = MainFrameController.threads.get(index - 1);
-        if (Constants.DEBUG)
+        if (currentTribe != null)
         {
-          System.out.println("Selected tribe: " + currentTribe);
+          currentTribe = (String) cb.getSelectedItem();
+          String subString = currentTribe.substring(5);
+          int index = Integer.parseInt(subString.trim());
+          frame.buttonPanel.setComboxGenomes(MainFrameController.threads.get(index - 1).genomes, (index - 1));
+          MainFrameController.displayedTribe = MainFrameController.threads.get(index - 1);
+          if (Constants.DEBUG)
+          {
+            System.out.println("Selected tribe: " + currentTribe);
+          }
         }
       }
     });
