@@ -172,7 +172,7 @@ public class MainFrameController
   {
     frame.buttonPanel.disableButtons();
     frame.disableMenu();
-    frame.picturePanel.setPicture("Leonardo_da_Vinci-Mona-Lisa-460x363.png");
+    frame.picturePanel.setPicture("Hokusai-Great_Wave_Off_Kanagawa-450x309.png");
     bi = frame.picturePanel.getCurrentPicture();
     LoadPictures.currentPicture(frame.picturePanel.getCurrentPicture());
     birthTribe();
@@ -185,7 +185,7 @@ public class MainFrameController
   /*******************************************************************************************************
    * displayGenome() Gets called every .5 second and shows the currently selected genome in the triangle panel
    * 
-   * @param g
+   * @param 
    *******************************************************************************************************/
   public void displayGenome()
   {
