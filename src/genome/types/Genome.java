@@ -9,6 +9,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
+import java.util.Arrays;
 import java.util.Random;
 
 import javax.swing.JFrame;
@@ -33,6 +34,11 @@ public class Genome
   public boolean reset = true;
   
   private static Random random = new Random();
+  
+  private GeneType previousType;
+  
+  private int[] bestTypes = new int[10];
+  private int[] worstTypes = new int[10];
   
   private MutationMethod method = MutationMethod.values()[random.nextInt(3)];
   
@@ -165,6 +171,10 @@ public class Genome
   {
     double fitBefore = getFitness();
     int t = random.nextInt(Constants.GENOME_SIZE);
+    if (triangles[t].getGene(GeneType.ALPHA) == 0)
+    {
+      triangles[t] = new Triangle();
+    }
     GeneType type = GeneType.values()[random.nextInt(10)];
     short delta = 0;
     boolean success = false;
@@ -175,8 +185,8 @@ public class Genome
       success = changeWithDelta(t, type, delta);
       break;
     case RANDOM:
-      delta = (short) random.nextInt(type.upper);
-      success = makeChange(t, type, delta);
+      delta = (short) (random.nextInt(60) - 30);
+      success = changeWithDelta(t, type, delta);
       break;
     case INCREMENT:
       delta = (short) (random.nextInt(2)==0?-20:20);
@@ -192,6 +202,15 @@ public class Genome
         changeWithDelta(t,type,(short) -delta);
       }
     }
+    if (success)
+    {
+      bestTypes[type.ordinal()]++;
+    }
+    else
+    {
+      worstTypes[type.ordinal()]++;
+    }
+//    if (success) System.out.println(fitBefore - getFitness());
     MainFrameController.totalmutations++;
     MainFrameController.generationspersec++;
     return success;
@@ -202,6 +221,7 @@ public class Genome
   {
     for (int i=0; i < 1000; i++)
     {
+//      System.out.print(i + " - ");
       if(MainFrameController.stop)
       {
         break;
@@ -210,6 +230,8 @@ public class Genome
       if (i%100==0)
       {
         method = MutationMethod.values()[(method.ordinal() + 1)%3];
+        System.out.println(method);
+        System.out.println(bestToString() + "\n\n\n");
       }
 
     }
@@ -242,6 +264,28 @@ public class Genome
       daughter.triangles[i] = this.triangles[i];
     }
   }
+  
+  private String bestToString()
+  {
+    String s = "";
+    
+    
+    for (int i=0; i < 10; i++)
+    {
+      s += GeneType.values()[i].toString().substring(0, 2) + " ";
+      for (int j=0; j < bestTypes[i]; j++)
+      {
+        s += "#";
+      }
+      for (int j=0; j < worstTypes[i]; j++)
+      {
+        s += "-";
+      }
+      s += "\n";
+    }
+    return s;
+  }
+  
   
   /****************************************************************************************************
    * The MutationMethod method enums GAUSSIAN: a Gaussian distributed change, 

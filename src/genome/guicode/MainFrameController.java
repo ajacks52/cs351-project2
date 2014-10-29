@@ -59,6 +59,9 @@ public class MainFrameController
     frame.start();
     startTime = System.currentTimeMillis();
     new GUIActionListeners().setListeners(frame);
+    Tribe.pause();
+    frame.buttonPanel.enableButtons();
+    frame.enableMenu();
     startGA_HC();
     setTimers();
 

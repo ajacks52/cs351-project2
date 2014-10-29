@@ -164,8 +164,9 @@ public class Tribe extends Thread
   public void step()
   {
     System.out.println("step");
-    sortGenomes();
-    breedGenomes();
+    genomes[0].hillClimbing();
+//    sortGenomes();
+//    breedGenomes();
   }
 
   /******************************************************************************************************

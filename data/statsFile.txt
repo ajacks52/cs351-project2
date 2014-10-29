@@ -1,119 +1,102 @@
 ----------------------Statistics---------------------------------
 Total Time Running
-m:s 6:4
+m:s 5:55
 Total Generations
-898
+2914
 Hill Climbing Generations
-898
-Genetic Algorithm Generations
-0
-Generations per Second
-3
-Tribe/Population Diversity
-# of tribes 1
-# of genomes 8
-Overall Best fitness
-25805
-----------------------------------------------------------------
-----------------------Statistics---------------------------------
-Total Time Running
-m:s 12:4
-Total Generations
-1901
-Hill Climbing Generations
-1901
-Genetic Algorithm Generations
-0
-Generations per Second
-2
-Tribe/Population Diversity
-# of tribes 1
-# of genomes 8
-Overall Best fitness
-25420
-----------------------------------------------------------------
-----------------------Statistics---------------------------------
-Total Time Running
-m:s 18:4
-Total Generations
-2897
-Hill Climbing Generations
-2896
+2913
 Genetic Algorithm Generations
 1
 Generations per Second
-3
+8
 Tribe/Population Diversity
 # of tribes 1
 # of genomes 8
 Overall Best fitness
-25420
+23931
 ----------------------------------------------------------------
 ----------------------Statistics---------------------------------
 Total Time Running
-m:s 24:4
+m:s 11:55
 Total Generations
-3838
+5772
 Hill Climbing Generations
-3837
+5770
 Genetic Algorithm Generations
-1
+2
 Generations per Second
-3
+9
 Tribe/Population Diversity
 # of tribes 1
 # of genomes 8
 Overall Best fitness
-25420
+23962
 ----------------------------------------------------------------
 ----------------------Statistics---------------------------------
 Total Time Running
-m:s 30:3
+m:s 17:55
 Total Generations
-4764
+8701
 Hill Climbing Generations
-4762
+8697
 Genetic Algorithm Generations
-2
-Generations per Second
-2
-Tribe/Population Diversity
-# of tribes 1
-# of genomes 8
-Overall Best fitness
-28830
-----------------------------------------------------------------
-----------------------Statistics---------------------------------
-Total Time Running
-m:s 36:3
-Total Generations
-5653
-Hill Climbing Generations
-5651
-Genetic Algorithm Generations
-2
-Generations per Second
-2
-Tribe/Population Diversity
-# of tribes 1
-# of genomes 8
-Overall Best fitness
-27074
-----------------------------------------------------------------
-----------------------Statistics---------------------------------
-Total Time Running
-m:s 42:3
-Total Generations
-6559
-Hill Climbing Generations
-6556
-Genetic Algorithm Generations
-3
-Generations per Second
 4
+Generations per Second
+5
 Tribe/Population Diversity
 # of tribes 1
 # of genomes 8
 Overall Best fitness
-27074
+25410
+----------------------------------------------------------------
+----------------------Statistics---------------------------------
+Total Time Running
+m:s 23:55
+Total Generations
+11597
+Hill Climbing Generations
+11592
+Genetic Algorithm Generations
+5
+Generations per Second
+8
+Tribe/Population Diversity
+# of tribes 1
+# of genomes 8
+Overall Best fitness
+21629
+----------------------------------------------------------------
+----------------------Statistics---------------------------------
+Total Time Running
+m:s 29:55
+Total Generations
+14588
+Hill Climbing Generations
+14581
+Genetic Algorithm Generations
+7
+Generations per Second
+8
+Tribe/Population Diversity
+# of tribes 1
+# of genomes 8
+Overall Best fitness
+21041
+----------------------------------------------------------------
+----------------------Statistics---------------------------------
+Total Time Running
+m:s 35:55
+Total Generations
+18227
+Hill Climbing Generations
+18218
+Genetic Algorithm Generations
+9
+Generations per Second
+8
+Tribe/Population Diversity
+# of tribes 1
+# of genomes 8
+Overall Best fitness
+21554
 ----------------------------------------------------------------
